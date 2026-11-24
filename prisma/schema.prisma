@@ -7,7 +7,7 @@ datasource db {
 }
 
 model client {
-  id_client  Int        @id @default(autoincrement())
+  id_client  String        @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   first_name String     @db.VarChar(20)
   last_name  String     @db.VarChar(25)
   company    String     @db.VarChar(40)
@@ -21,7 +21,7 @@ model client {
 }
 
 model project {
-  id_project   Int        @id @default(autoincrement())
+  id_project   String        @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   name_project String     @unique @db.VarChar(40)
   id_client    Int?
   description  String?    @db.VarChar(255)
@@ -35,7 +35,7 @@ model project {
 }
 
 model rol {
-  id_rol      Int      @id @default(autoincrement())
+  id_rol      String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   rol         String   @db.VarChar(10)
   intern_key  String   @db.VarChar(50)
   description String?  @db.VarChar(255)
@@ -44,7 +44,7 @@ model rol {
 }
 
 model services {
-  id_services     Int      @id @default(autoincrement())
+  id_services     String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   name_services   String   @db.VarChar(100)
   id_client       Int?
   id_project      Int?
@@ -57,7 +57,7 @@ model services {
 }
 
 model tickets {
-  id_ticket    Int      @id @default(autoincrement())
+  id_ticket    String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   name_ticket  String   @db.VarChar(20)
   id_project   Int?
   assignee_id  Int?
@@ -68,7 +68,7 @@ model tickets {
 }
 
 model users {
-  id_user    Int       @id @default(autoincrement())
+  id_user    String       @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   first_name String    @db.VarChar(20)
   last_name  String    @db.VarChar(25)
   user_name  String    @unique @db.VarChar(20)
