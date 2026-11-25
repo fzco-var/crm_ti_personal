@@ -60,13 +60,16 @@ function getErrors(
   return errors;
 }
 
-/** `bfcacheId` reinicia el alta al entrar por un enlace, no con atrás. */
-export function TicketCreateForm() {
+/**
+ * `bfcacheId` reinicia el alta al entrar por un enlace, no con atrás.
+ * `clientId` llega de `?client=` y ya está validado.
+ */
+export function TicketCreateForm({ clientId }: { clientId?: string }) {
   const { bfcacheId } = useRouter();
-  return <CreateForm key={bfcacheId} />;
+  return <CreateForm key={bfcacheId} clientId={clientId} />;
 }
 
-function CreateForm() {
+function CreateForm({ clientId }: { clientId?: string }) {
   // Se calcula en el navegador desde el paso 15 del SPEC 04.
   const today: string | null = null;
   const [values, setValues] = useState(EMPTY_VALUES);
@@ -174,7 +177,12 @@ function CreateForm() {
             errors={errors}
             onChange={change}
           />
-          <ProjectFields values={values} errors={errors} onChange={change} />
+          <ProjectFields
+            values={values}
+            errors={errors}
+            clientId={clientId}
+            onChange={change}
+          />
           <StatusFields
             values={values}
             errors={errors}
