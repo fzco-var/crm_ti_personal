@@ -1,10 +1,8 @@
 "use client";
 
 import { useId } from "react";
-import {
-  FieldError,
-  type ClientFieldsProps,
-} from "@/features/clients/components/form-field";
+import { FieldError } from "@/components/form-field";
+import type { ClientFieldsProps } from "@/features/clients/components/form-field";
 import { RoleBadge } from "@/features/clients/components/role-badge";
 import { CLIENT_ROLES } from "@/features/clients/constants";
 
