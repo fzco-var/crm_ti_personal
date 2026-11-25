@@ -13,6 +13,7 @@ import { PillRadioGroup } from "@/features/tickets/components/pill-radio-group";
 import { ProjectFields } from "@/features/tickets/components/project-fields";
 import { StatusFields } from "@/features/tickets/components/status-fields";
 import { TicketPreview } from "@/features/tickets/components/ticket-preview";
+import { useToday } from "@/features/tickets/components/use-today";
 import { TICKET_TYPES } from "@/features/tickets/constants";
 import type {
   TicketFormErrors,
@@ -70,8 +71,7 @@ export function TicketCreateForm({ clientId }: { clientId?: string }) {
 }
 
 function CreateForm({ clientId }: { clientId?: string }) {
-  // Se calcula en el navegador desde el paso 15 del SPEC 04.
-  const today: string | null = null;
+  const today = useToday();
   const [values, setValues] = useState(EMPTY_VALUES);
   const [tried, setTried] = useState(false);
   const [savedText, setSavedText] = useState("");
