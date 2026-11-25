@@ -43,21 +43,35 @@ function getProjectNotice({ status, endInDays }: Project) {
   return "";
 }
 
+interface ProjectFieldsProps {
+  values: TicketFormValues;
+  errors: TicketFormErrors;
+  onChange: (changes: Partial<TicketFormValues>) => void;
+  /** Solo en el alta: el cliente de `?client=`. */
+  clientId?: string;
+  /** Valores guardados. Solo en la edición: marca los cambios. */
+  original?: TicketFormValues;
+}
+
 /**
- * Proyecto y solicitante del alta. Con `clientId`, desde un cliente, los
- * proyectos de su empresa van primero y él pasa a ser el solicitante.
+ * Proyecto y solicitante. En el alta, con `clientId`, los proyectos de su
+ * empresa van primero y él pasa a ser el solicitante. En la edición solo hay
+ * dos campos, dentro de la sección "Detalle".
  */
-export function ProjectFields({
+export function ProjectFields(props: ProjectFieldsProps) {
+  return props.original ? (
+    <EditProjectFields {...props} original={props.original} />
+  ) : (
+    <NewProjectFields {...props} />
+  );
+}
+
+function NewProjectFields({
   values,
   errors,
   clientId,
   onChange,
-}: {
-  values: TicketFormValues;
-  errors: TicketFormErrors;
-  clientId?: string;
-  onChange: (changes: Partial<TicketFormValues>) => void;
-}) {
+}: ProjectFieldsProps) {
   const id = useId();
   const project = findProjectById(values.projectId);
   const client = clients.find(({ id: other }) => other === clientId);
@@ -121,6 +135,76 @@ export function ProjectFields({
         />
       )}
     </section>
+  );
+}
+
+/** Un solicitante ajeno a la empresa del nuevo proyecto pasa al principal; "Yo" se conserva. */
+function EditProjectFields({
+  values,
+  original,
+  onChange,
+}: ProjectFieldsProps & { original: TicketFormValues }) {
+  const id = useId();
+  const project = findProjectById(values.projectId);
+  const originalProject = findProjectById(original.projectId);
+  const moved = values.projectId !== original.projectId;
+
+  function changeProject(projectId: string) {
+    const newProject = findProjectById(projectId);
+    if (!newProject) return;
+    const keepsRequester =
+      values.requesterId === null ||
+      getProjectContacts(newProject).some(
+        ({ id: contactId }) => contactId === values.requesterId,
+      );
+    onChange({
+      projectId,
+      requesterId: keepsRequester ? values.requesterId : newProject.clientId,
+    });
+  }
+
+  function getMoveText() {
+    if (!project || !originalProject) return "";
+    const from = getProjectCompany(originalProject);
+    const to = getProjectCompany(project);
+    const companyText =
+      from === to ? "" : ` (cambia de cliente: ${from} → ${to})`;
+    return `Se moverá de ${originalProject.code} a ${project.code}${companyText}.`;
+  }
+
+  return (
+    <div className="grid grid-cols-[repeat(auto-fit,minmax(min(240px,100%),1fr))] gap-5">
+      <div className="flex flex-col gap-1.5">
+        <FieldLabel htmlFor={`${id}-project`} modified={moved}>
+          Proyecto
+        </FieldLabel>
+        <select
+          id={`${id}-project`}
+          className="crm-field px-3 text-sm"
+          value={values.projectId}
+          aria-describedby={moved ? `${id}-move` : undefined}
+          onChange={(event) => changeProject(event.target.value)}
+        >
+          <ProjectOptions projects={PROJECT_OPTIONS} />
+        </select>
+        {moved && (
+          <span
+            id={`${id}-move`}
+            className="text-compact leading-[1.45] text-tone-amber-fg"
+          >
+            {getMoveText()}
+          </span>
+        )}
+      </div>
+      {project && (
+        <RequesterField
+          project={project}
+          requesterId={values.requesterId}
+          modified={values.requesterId !== original.requesterId}
+          onChange={(requesterId) => onChange({ requesterId })}
+        />
+      )}
+    </div>
   );
 }
 
@@ -216,17 +300,21 @@ function DuplicateNotice({
 function RequesterField({
   project,
   requesterId,
+  modified,
   onChange,
 }: {
   project: Project;
   requesterId: string | null;
+  modified?: boolean;
   onChange: (requesterId: string | null) => void;
 }) {
   const id = useId();
 
   return (
     <div className="flex flex-col gap-1.5">
-      <FieldLabel htmlFor={id}>Solicitado por</FieldLabel>
+      <FieldLabel htmlFor={id} modified={modified}>
+        Solicitado por
+      </FieldLabel>
       <select
         id={id}
         className="crm-field px-3"
