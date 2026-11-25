@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { clients } from "@/data/clients";
+import { ClientEditForm } from "@/features/clients/components/client-edit-form";
 import { findClientById } from "@/features/clients/utils";
 
 export function generateStaticParams() {
@@ -23,12 +24,5 @@ export default async function EditClientPage({
   const client = findClientById(id);
   if (!client) notFound();
 
-  return (
-    <div className="crm-content">
-      <h1 className="crm-title">Editar cliente</h1>
-      <p className="text-sm text-ink-muted">
-        {client.firstName} {client.lastName} · {client.company}
-      </p>
-    </div>
-  );
+  return <ClientEditForm client={client} />;
 }
