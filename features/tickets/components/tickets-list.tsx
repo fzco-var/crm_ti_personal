@@ -11,13 +11,17 @@ import {
   SearchIcon,
   TicketsIcon,
 } from "@/components/icons";
+import { TONE_DOT_CLASSES } from "@/components/tone";
 import { projects } from "@/data/projects";
 import {
   TicketsTable,
   type TicketsSort,
   type TicketsView,
 } from "@/features/tickets/components/tickets-table";
-import { TICKET_STATUSES } from "@/features/tickets/constants";
+import {
+  TICKET_STATUSES,
+  TICKET_STATUS_TONES,
+} from "@/features/tickets/constants";
 import type { Ticket, TicketStatus } from "@/features/tickets/types/ticket";
 import { normalizeText } from "@/lib/text";
 
@@ -29,11 +33,11 @@ const STATUS_FILTERS: StatusFilter[] = [
   "Todos",
 ];
 
-const SUMMARY_TILES: { label: string; status: TicketStatus; dot: string }[] = [
-  { label: "Abiertos", status: "Abierto", dot: "bg-tone-orange-dot" },
-  { label: "En curso", status: "En curso", dot: "bg-tone-blue-dot" },
-  { label: "En espera", status: "En espera", dot: "bg-tone-amber-dot" },
-  { label: "Cerrados", status: "Cerrado", dot: "bg-tone-gray-dot" },
+const SUMMARY_TILES: { label: string; status: TicketStatus }[] = [
+  { label: "Abiertos", status: "Abierto" },
+  { label: "En curso", status: "En curso" },
+  { label: "En espera", status: "En espera" },
+  { label: "Cerrados", status: "Cerrado" },
 ];
 
 const PROJECT_OPTIONS = [...projects].sort((a, b) =>
@@ -147,10 +151,12 @@ export function TicketsList({ tickets }: { tickets: Ticket[] }) {
       </div>
 
       <div className="grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] gap-3">
-        {SUMMARY_TILES.map(({ label, status, dot }) => (
+        {SUMMARY_TILES.map(({ label, status }) => (
           <div key={status} className="crm-tile">
             <span className="flex items-center gap-2 text-compact font-semibold text-ink-soft">
-              <span className={`size-2 rounded-full ${dot}`} />
+              <span
+                className={`size-2 rounded-full ${TONE_DOT_CLASSES[TICKET_STATUS_TONES[status]]}`}
+              />
               {label}
             </span>
             <span className="font-mono text-[28px] leading-none font-medium">

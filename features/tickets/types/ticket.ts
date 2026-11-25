@@ -39,3 +39,5 @@ export interface TicketFormValues {
   waitingFor: string;
   resolution: string;
 }
+
+export type TicketFormErrors = Partial<Record<keyof TicketFormValues, string>>;
