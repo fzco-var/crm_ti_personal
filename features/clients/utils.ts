@@ -1,6 +1,6 @@
 import { clients } from "@/data/clients";
 import { PHONE_PREFIXES } from "@/features/clients/constants";
-import type { Client } from "@/features/clients/types/client";
+import type { Client, ClientFormValues } from "@/features/clients/types/client";
 
 export type Company = Pick<Client, "street" | "unit" | "city" | "region"> & {
   name: string;
@@ -54,6 +54,29 @@ export function formatPhone(prefix: string, phone: string) {
 
 export function isValidEmail(email: string) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email);
+}
+
+/** Campos obligatorios vacíos o con un formato no válido. */
+export function getInvalidFields(values: ClientFormValues) {
+  const isValid = {
+    firstName: Boolean(values.firstName.trim()),
+    lastName: Boolean(values.lastName.trim()),
+    company: Boolean(values.company.trim()),
+    phone: isValidPhone(values.phonePrefix, values.phone),
+    email: isValidEmail(values.email),
+    street: Boolean(values.street.trim()),
+    city: Boolean(values.city.trim()),
+    region: Boolean(values.region),
+    role: Boolean(values.role),
+  };
+  return (Object.keys(isValid) as (keyof typeof isValid)[]).filter(
+    (field) => !isValid[field],
+  );
+}
+
+export function getPhoneLengthError(prefix: string, phone: string) {
+  const { label, digits } = getPhonePrefix(prefix);
+  return `Para ${label} el número debe tener ${digits} dígitos (tiene ${getPhoneDigits(phone).length}).`;
 }
 
 /** `excludeId` evita que el correo del propio cliente cuente como duplicado. */
