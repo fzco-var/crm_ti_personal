@@ -1,6 +1,6 @@
 # SPEC 02 — Estilos globales del CRM
 
-> **Estado:** Aprobado
+> **Estado:** Implementado
 > **Depende de:** ninguno
 > **Fecha:** 2026-11-25
 > **Objetivo:** Que `app/globals.css` ofrezca los tokens, estilos base y clases compartidas del diseño del CRM.
@@ -145,19 +145,19 @@ Los pasos 5 a 10 amplían con `.crm-hit`, o con sus mismas reglas, los controles
 
 ## Criterios de aceptación
 
-- [ ] `npm run build`, `npm run lint` y `npx tsc --noEmit` terminan sin errores.
-- [ ] `npx prettier --check app/globals.css app/layout.tsx` termina sin errores.
-- [ ] `app/globals.css` no contiene `prefers-color-scheme` y declara `color-scheme: light`.
-- [ ] `app/layout.tsx` no menciona Geist, usa `lang="es"` y carga Manrope y JetBrains Mono con `next/font/google`.
-- [ ] `app/globals.css` no contiene `@import` de Google Fonts.
-- [ ] Todos los tokens de este spec aparecen en el CSS compilado con el valor indicado.
-- [ ] Todas las clases de la sección Clases existen en `app/globals.css`, dentro de `@layer components`.
-- [ ] Los selectores `[data-accent]` están en `@layer base` y definen los cuatro valores.
-- [ ] Ninguna regla `.crm-*` contiene un color hexadecimal: todas usan tokens.
-- [ ] Toda regla de foco que quita el `outline` define borde y `--shadow-focus`.
-- [ ] `.crm-chip`, `.crm-pill`, `.crm-icon-btn`, `.crm-nav-item`, `.crm-segment`, `.crm-sort`, `.crm-btn-sm` y `.crm-btn-md` amplían su zona de clic a 44 px.
-- [ ] `.crm-nav-group` separa sus elementos 4 px o más.
-- [ ] `app/page.tsx` no cambia.
+- [x] `npm run build`, `npm run lint` y `npx tsc --noEmit` terminan sin errores.
+- [x] `npx prettier --check app/globals.css app/layout.tsx` termina sin errores.
+- [x] `app/globals.css` no contiene `prefers-color-scheme` y declara `color-scheme: light`.
+- [x] `app/layout.tsx` no menciona Geist, usa `lang="es"` y carga Manrope y JetBrains Mono con `next/font/google`.
+- [x] `app/globals.css` no contiene `@import` de Google Fonts.
+- [x] Todos los tokens de este spec aparecen en el CSS compilado con el valor indicado.
+- [x] Todas las clases de la sección Clases existen en `app/globals.css`, dentro de `@layer components`.
+- [x] Los selectores `[data-accent]` están en `@layer base` y definen los cuatro valores.
+- [x] Ninguna regla `.crm-*` contiene un color hexadecimal: todas usan tokens.
+- [x] Toda regla de foco que quita el `outline` define borde y `--shadow-focus`.
+- [x] `.crm-chip`, `.crm-pill`, `.crm-icon-btn`, `.crm-nav-item`, `.crm-segment`, `.crm-sort`, `.crm-btn-sm` y `.crm-btn-md` amplían su zona de clic a 44 px.
+- [x] `.crm-nav-group` separa sus elementos 4 px o más.
+- [x] `app/page.tsx` no cambia.
 
 ## Decisiones
 
