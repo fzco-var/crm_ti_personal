@@ -594,10 +594,17 @@
 
   /* Después del hover: un control activo conserva su fondo. */
   .crm-chip[aria-pressed="true"],
-  .crm-pill[aria-pressed="true"] {
+  .crm-pill[aria-pressed="true"],
+  .crm-pill:has(input:checked) {
     border-color: var(--color-ink);
     background: var(--color-ink);
     color: var(--color-white);
+  }
+
+  /* El radio nativo está oculto: la pill muestra su foco. */
+  .crm-pill:has(input:focus-visible) {
+    outline: 2px solid var(--color-ink);
+    outline-offset: 2px;
   }
 
   .crm-segmented {

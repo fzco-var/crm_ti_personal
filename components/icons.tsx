@@ -165,6 +165,29 @@ export function ErrorIcon(props: IconProps) {
   );
 }
 
+export function WarningIcon(props: IconProps) {
+  return (
+    <Icon size={18} {...props}>
+      <path d="M12 3l9.5 17h-19z" />
+      <path d="M12 10v4" />
+      <path d="M12 17h.01" />
+    </Icon>
+  );
+}
+
+export function ListIcon(props: IconProps) {
+  return (
+    <Icon size={14} strokeWidth={2.2} {...props}>
+      <path d="M8 6h13" />
+      <path d="M8 12h13" />
+      <path d="M8 18h13" />
+      <path d="M3 6h.01" />
+      <path d="M3 12h.01" />
+      <path d="M3 18h.01" />
+    </Icon>
+  );
+}
+
 export function CloseIcon(props: IconProps) {
   return (
     <Icon {...props}>
