@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useId, useState } from "react";
 import { Alert } from "@/components/alert";
@@ -17,6 +18,7 @@ import {
   TicketActivity,
   type TicketChange,
 } from "@/features/tickets/components/ticket-activity";
+import { TicketDangerZone } from "@/features/tickets/components/ticket-danger-zone";
 import { TicketSidebar } from "@/features/tickets/components/ticket-sidebar";
 import { useToday } from "@/features/tickets/components/use-today";
 import {
@@ -136,6 +138,7 @@ function EditForm({ ticket, today }: { ticket: Ticket; today: string }) {
   const [tried, setTried] = useState(false);
   const [notice, setNotice] = useState("");
   const [activity, setActivity] = useState(ticket.activity);
+  const [deleted, setDeleted] = useState(false);
 
   const changes = getChanges(values, original);
   const missingResolution = isMissingResolution(values, original.status);
@@ -175,6 +178,11 @@ function EditForm({ ticket, today }: { ticket: Ticket; today: string }) {
     );
   }
 
+  function deleteTicket() {
+    setDeleted(true);
+    setNotice(`${ticket.code} eliminado.`);
+  }
+
   function discard() {
     setValues(original);
     setTried(false);
@@ -193,7 +201,8 @@ function EditForm({ ticket, today }: { ticket: Ticket; today: string }) {
         ticket={ticket}
         original={original}
         status={values.status}
-        canSave={changes.length > 0}
+        canSave={changes.length > 0 && !deleted}
+        disabled={deleted}
         onStatusChange={(status) => change({ status })}
       />
 
@@ -212,6 +221,7 @@ function EditForm({ ticket, today }: { ticket: Ticket; today: string }) {
           <button
             type="button"
             className="crm-btn crm-btn-sm crm-btn-secondary"
+            disabled={deleted}
             onClick={discard}
           >
             Descartar
@@ -220,7 +230,20 @@ function EditForm({ ticket, today }: { ticket: Ticket; today: string }) {
       )}
 
       {notice && (
-        <Alert variant="success" onClose={() => setNotice("")}>
+        <Alert
+          variant="success"
+          action={
+            deleted && (
+              <Link
+                href="/tickets"
+                className="crm-hit font-bold text-tone-green-fg underline"
+              >
+                Ver listado
+              </Link>
+            )
+          }
+          onClose={deleted ? undefined : () => setNotice("")}
+        >
           {notice}
         </Alert>
       )}
@@ -235,21 +258,32 @@ function EditForm({ ticket, today }: { ticket: Ticket; today: string }) {
 
       <div className="flex flex-wrap items-start gap-6">
         <div className="flex min-w-0 flex-[999_1_560px] flex-col gap-6">
-          <StatusFields
-            values={values}
-            errors={errors}
-            original={original}
-            waitingModified={isWaitingModified(values, original)}
-            today={today}
-            onChange={change}
+          <fieldset
+            role="presentation"
+            disabled={deleted}
+            className="flex min-w-0 flex-col gap-6"
+          >
+            <StatusFields
+              values={values}
+              errors={errors}
+              original={original}
+              waitingModified={isWaitingModified(values, original)}
+              today={today}
+              onChange={change}
+            />
+            <DetailSection
+              values={values}
+              errors={errors}
+              original={original}
+              onChange={change}
+            />
+          </fieldset>
+          <TicketActivity
+            activity={activity}
+            disabled={deleted}
+            onChange={setActivity}
           />
-          <DetailSection
-            values={values}
-            errors={errors}
-            original={original}
-            onChange={change}
-          />
-          <TicketActivity activity={activity} onChange={setActivity} />
+          <TicketDangerZone disabled={deleted} onDelete={deleteTicket} />
         </div>
         <TicketSidebar
           ticket={ticket}
@@ -267,12 +301,14 @@ function EditHeader({
   original,
   status,
   canSave,
+  disabled,
   onStatusChange,
 }: {
   ticket: Ticket;
   original: TicketFormValues;
   status: TicketStatus;
   canSave: boolean;
+  disabled: boolean;
   onStatusChange: (status: TicketStatus) => void;
 }) {
   const opening = ticket.activity[ticket.activity.length - 1];
@@ -326,6 +362,7 @@ function EditHeader({
               key={target}
               type="button"
               className="crm-btn crm-btn-secondary"
+              disabled={disabled}
               onClick={() => onStatusChange(target)}
             >
               <span

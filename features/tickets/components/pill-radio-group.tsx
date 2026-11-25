@@ -34,7 +34,10 @@ export function PillRadioGroup<T extends string>({
       </legend>
       <div className="flex flex-wrap gap-1.5">
         {options.map((option) => (
-          <label key={option.value} className="crm-pill">
+          <label
+            key={option.value}
+            className="crm-pill has-[input:disabled]:cursor-not-allowed has-[input:disabled]:opacity-45"
+          >
             <input
               type="radio"
               name={name}
