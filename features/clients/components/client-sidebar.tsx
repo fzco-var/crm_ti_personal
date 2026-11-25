@@ -6,7 +6,8 @@ import { ChevronRightIcon, PlusIcon } from "@/components/icons";
 import { TONE_CLASSES } from "@/features/clients/components/role-badge";
 import { TICKET_STATUS_TONES } from "@/features/clients/constants";
 import type { Client } from "@/features/clients/types/client";
-import { getInitials, getOtherContacts } from "@/features/clients/utils";
+import { getOtherContacts } from "@/features/clients/utils";
+import { getInitials } from "@/lib/text";
 
 /** `company` es la guardada: cambia al guardar la edición. */
 export function ClientSidebar({

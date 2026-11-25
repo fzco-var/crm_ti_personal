@@ -1,21 +1,12 @@
 import { clients } from "@/data/clients";
 import { PHONE_PREFIXES } from "@/features/clients/constants";
 import type { Client, ClientFormValues } from "@/features/clients/types/client";
+import { normalizeText } from "@/lib/text";
 
 export type Company = Pick<Client, "street" | "unit" | "city" | "region"> & {
   name: string;
   contactCount: number;
 };
-
-/** Minúsculas, sin tildes ni espacios en los extremos. */
-export function normalizeText(text: string) {
-  return text.toLowerCase().normalize("NFD").replace(/\p{M}/gu, "").trim();
-}
-
-export function getInitials(firstName: string, lastName: string) {
-  const initials = firstName.trim().charAt(0) + lastName.trim().charAt(0);
-  return initials.toUpperCase() || "··";
-}
 
 /** Iniciales de las dos primeras palabras de más de dos letras. */
 export function getCompanyInitials(name: string) {

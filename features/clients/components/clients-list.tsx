@@ -16,7 +16,8 @@ import {
 } from "@/features/clients/components/clients-table";
 import { CLIENT_ROLES } from "@/features/clients/constants";
 import type { Client, ClientRole } from "@/features/clients/types/client";
-import { formatPhone, normalizeText } from "@/features/clients/utils";
+import { formatPhone } from "@/features/clients/utils";
+import { normalizeText } from "@/lib/text";
 
 type RoleFilter = ClientRole | "Todos";
 

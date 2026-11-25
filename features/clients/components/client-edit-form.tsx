@@ -20,11 +20,11 @@ import { RoleFields } from "@/features/clients/components/role-fields";
 import type { Client, ClientFormValues } from "@/features/clients/types/client";
 import {
   formatPhone,
-  getInitials,
   getInvalidFields,
   getPhoneDigits,
   getPhoneLengthError,
 } from "@/features/clients/utils";
+import { getInitials } from "@/lib/text";
 
 function getErrors(values: ClientFormValues): ClientFormErrors {
   const messages: ClientFormErrors = {
