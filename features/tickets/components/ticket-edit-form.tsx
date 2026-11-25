@@ -12,6 +12,11 @@ import { PillRadioGroup } from "@/features/tickets/components/pill-radio-group";
 import { ProjectFields } from "@/features/tickets/components/project-fields";
 import { StatusFields } from "@/features/tickets/components/status-fields";
 import { TicketStatusBadge } from "@/features/tickets/components/ticket-status-badge";
+import {
+  getSaveEntries,
+  TicketActivity,
+  type TicketChange,
+} from "@/features/tickets/components/ticket-activity";
 import { useToday } from "@/features/tickets/components/use-today";
 import {
   TICKET_PRIORITIES,
@@ -86,15 +91,22 @@ function isWaitingModified(
   );
 }
 
-function getChanges(values: TicketFormValues, original: TicketFormValues) {
+function getChanges(
+  values: TicketFormValues,
+  original: TicketFormValues,
+): TicketChange[] {
   const changes = CHANGE_LABELS.filter(
     ([field]) => values[field] !== original[field],
-  ).map(([field, label]) =>
-    field === "status"
-      ? `estado (${original.status} → ${values.status})`
-      : label,
-  );
-  return isWaitingModified(values, original) ? [...changes, "espera"] : changes;
+  ).map(([field, label]) => ({
+    field,
+    label:
+      field === "status"
+        ? `estado (${original.status} → ${values.status})`
+        : label,
+  }));
+  return isWaitingModified(values, original)
+    ? [...changes, { field: "waitingFor", label: "espera" }]
+    : changes;
 }
 
 /**
@@ -122,6 +134,7 @@ function EditForm({ ticket, today }: { ticket: Ticket; today: string }) {
   const [values, setValues] = useState(original);
   const [tried, setTried] = useState(false);
   const [notice, setNotice] = useState("");
+  const [activity, setActivity] = useState(ticket.activity);
 
   const changes = getChanges(values, original);
   const missingResolution = isMissingResolution(values, original.status);
@@ -150,6 +163,7 @@ function EditForm({ ticket, today }: { ticket: Ticket; today: string }) {
       resolution: "",
       waitingFor: values.status === "En espera" ? values.waitingFor : "",
     };
+    setActivity([...getSaveEntries(values, original, changes), ...activity]);
     setOriginal(saved);
     setValues(saved);
     setTried(false);
@@ -192,7 +206,7 @@ function EditForm({ ticket, today }: { ticket: Ticket; today: string }) {
             <strong>
               {changes.length === 1 ? "1 cambio" : `${changes.length} cambios`}
             </strong>{" "}
-            sin guardar: {changes.join(", ")}
+            sin guardar: {changes.map(({ label }) => label).join(", ")}
           </span>
           <button
             type="button"
@@ -234,6 +248,7 @@ function EditForm({ ticket, today }: { ticket: Ticket; today: string }) {
             original={original}
             onChange={change}
           />
+          <TicketActivity activity={activity} onChange={setActivity} />
         </div>
       </div>
     </form>
