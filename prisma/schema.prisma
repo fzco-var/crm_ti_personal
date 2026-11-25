@@ -7,23 +7,28 @@ datasource db {
 }
 
 model client {
-  id_client  String        @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  first_name String     @db.VarChar(20)
-  last_name  String     @db.VarChar(25)
-  company    String     @db.VarChar(40)
-  number     String?    @db.VarChar(20)
-  email      String     @db.VarChar(50)
-  address    String?    @db.VarChar(255)
-  id_rol     String? @db.Uuid
-  rol        rol?       @relation(fields: [id_rol], references: [id_rol], onDelete: NoAction, onUpdate: NoAction)
-  project    project[]
-  services   services[]
+  id_client     String     @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  first_name    String     @db.VarChar(20)
+  last_name     String     @db.VarChar(25)
+  company       String     @db.VarChar(40)
+  number        String?    @db.VarChar(20)
+  prefix_number String?    @db.VarChar(5)
+  email         String     @db.VarChar(50)
+  address       String?    @db.VarChar(255)
+  office        String?    @db.VarChar(20)
+  city          String?    @db.VarChar(50)
+  region        String?    @db.VarChar(50)
+  id_rol        String?    @db.Uuid
+  rol           rol?       @relation(fields: [id_rol], references: [id_rol], onDelete: NoAction, onUpdate: NoAction)
+  notes         String?    @db.VarChar(255)
+  project       project[]
+  services      services[]
 }
 
 model project {
-  id_project   String        @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  id_project   String     @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   name_project String     @unique @db.VarChar(40)
-  id_client    String? @db.Uuid
+  id_client    String?    @db.Uuid
   description  String?    @db.VarChar(255)
   state        String?    @db.VarChar(20)
   initial_date DateTime   @db.Date
@@ -35,8 +40,8 @@ model project {
 }
 
 model rol {
-  id_rol      String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  rol         String   @db.VarChar(10)
+  id_rol      String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  rol         String   @db.VarChar(20)
   intern_key  String   @db.VarChar(50)
   description String?  @db.VarChar(255)
   client      client[]
@@ -44,10 +49,10 @@ model rol {
 }
 
 model services {
-  id_services     String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  id_services     String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   name_services   String   @db.VarChar(100)
-  id_client       String? @db.Uuid
-  id_project      String? @db.Uuid
+  id_client       String?  @db.Uuid
+  id_project      String?  @db.Uuid
   charge_client   Int
   cost            Int
   date_renovation DateTime @db.Date
@@ -57,10 +62,10 @@ model services {
 }
 
 model tickets {
-  id_ticket    String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  id_ticket    String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   name_ticket  String   @db.VarChar(20)
-  id_project   String? @db.Uuid
-  assignee_id  String? @db.Uuid
+  id_project   String?  @db.Uuid
+  assignee_id  String?  @db.Uuid
   priority     String?  @db.VarChar(20)
   state_ticket String?  @db.VarChar(20)
   users        users?   @relation(fields: [assignee_id], references: [id_user], onDelete: NoAction, onUpdate: NoAction)
@@ -68,13 +73,13 @@ model tickets {
 }
 
 model users {
-  id_user    String       @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  id_user    String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   first_name String    @db.VarChar(20)
   last_name  String    @db.VarChar(25)
   user_name  String    @unique @db.VarChar(20)
   email      String    @db.VarChar(50)
   password   String    @db.VarChar(255)
-  id_rol     String? @db.Uuid
+  id_rol     String?   @db.Uuid
   created_at DateTime? @db.Timestamp(6)
   tickets    tickets[]
   rol        rol?      @relation(fields: [id_rol], references: [id_rol], onDelete: NoAction, onUpdate: NoAction)
