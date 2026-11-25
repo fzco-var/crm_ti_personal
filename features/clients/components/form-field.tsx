@@ -51,7 +51,7 @@ export function TextField({
   children,
   ...inputProps
 }: Omit<ComponentProps<"input">, "id"> & {
-  label: string;
+  label: ReactNode;
   error?: string;
   modified?: boolean;
   /** Ayuda debajo del campo. */
