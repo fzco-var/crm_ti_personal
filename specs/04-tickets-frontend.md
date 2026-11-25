@@ -1,6 +1,6 @@
 # SPEC 04 — Frontend de tickets
 
-> **Estado:** Aprobado
+> **Estado:** Implementado
 > **Depende de:** SPEC 02, SPEC 03
 > **Fecha:** 2026-11-25
 > **Objetivo:** Que el listado, el alta y la edición de tickets se puedan usar en `/tickets` y desde la edición de cliente, con datos de ejemplo y sin backend.
@@ -278,48 +278,48 @@ Los pasos 4, 5, 9, 10, 11, 12 y 16 superan 50 líneas por los datos o el marcado
 
 ## Criterios de aceptación
 
-- [ ] `npm run build`, `npm run lint` y `npx tsc --noEmit` terminan sin errores.
-- [ ] `npx prettier --check app components data features lib` termina sin errores.
-- [ ] Ningún archivo de `app`, `components`, `data` o `features` importa `lib/db` o `@prisma/client`, ni contiene `"use server"`.
-- [ ] `prisma/` no cambia.
-- [ ] Ningún archivo `.tsx` nuevo contiene colores hexadecimales ni estilos `dark:`.
-- [ ] Ningún archivo de `features/tickets` o `features/projects` importa de `features/clients`, salvo tipos.
-- [ ] Todos los correos de ejemplo usan `@example.com`.
-- [ ] Los títulos son "Tickets — CRM TI", "Nuevo ticket — CRM TI", "Editar ticket — CRM TI" y, en un ID inexistente, "Ticket no encontrado — CRM TI".
-- [ ] El menú muestra 8 elementos y solo "Clientes" y "Tickets" tienen `href`.
-- [ ] `/tickets` muestra 9 filas, "9 sin cerrar en 6 proyectos · 11 en total" y los totales 4, 3, 2 y 2.
-- [ ] El pie inicial dice "Mostrando 9 de 11 tickets".
-- [ ] Buscar "causas" deja 2 filas; buscar "webpay" muestra "Sin resultados" con "Sin cerrar" y 1 fila con "Todos".
-- [ ] El proyecto PRJ-021 con "Todos" deja 3 filas.
-- [ ] "Por proyecto" muestra 6 grupos con "Sin cerrar" y ninguna columna ordenada; pulsar "Proyecto" vuelve a "Lista".
-- [ ] Cerrar #T-1050 en el listado lo quita de "Sin cerrar" y muestra "#T-1050 pasó de Abierto a Cerrado."; "Deshacer" lo restaura.
-- [ ] Con `tickets` vacío temporalmente se muestra "Aún no hay tickets".
-- [ ] "⋯" tiene `disabled` y ningún proyecto tiene enlace.
-- [ ] Crear el alta vacía muestra 2 errores y "Revisa los campos marcados antes de crear el ticket.".
-- [ ] Una fecha límite de ayer muestra "La fecha límite no puede ser anterior a hoy." sin intentar crear.
-- [ ] Elegir PRJ-021 muestra "Andes Logística SpA", "En curso" y 2 tickets sin cerrar, y selecciona a Andrea Valdés.
-- [ ] Elegir PRJ-015, PRJ-019 o PRJ-018 muestra el aviso de completado, en pausa o atrasado 3 días.
-- [ ] Con PRJ-021, el nombre "Descargar factura falla" advierte de #T-1048 y no impide crear.
-- [ ] Crear un ticket completo muestra el aviso con #T-1052; `/tickets` sigue mostrando 11 en total.
-- [ ] "Crear y abrir otro" conserva proyecto, solicitante y tipo, y muestra #T-1053.
-- [ ] Desde Rodrigo Paredes, "Nuevo ticket para este contacto" agrupa PRJ-021 y PRJ-024, y al elegir PRJ-021 el solicitante es Rodrigo.
-- [ ] `/tickets/new?client=x` muestra el alta normal.
-- [ ] Los 11 tickets abren su edición; `/tickets/not-found` muestra la página de ticket no encontrado.
-- [ ] #T-1048 muestra "Abierto hace 1 día y 2 horas por Andrea Valdés", "Vence mañana", 3 entradas de actividad y 2 tickets relacionados.
-- [ ] "Tomar" muestra "1 cambio sin guardar: estado (Abierto → En curso)"; "Descartar" lo revierte.
-- [ ] Cerrar sin resolución muestra el error; con 10 caracteres muestra "#T-1048 cerrado. La resolución quedó en la actividad." y añade la entrada.
-- [ ] En #T-1049, escribir qué se espera activa "Guardar cambios" y el texto sigue tras guardar.
-- [ ] Mover #T-1048 a PRJ-022 muestra el cambio de cliente y selecciona a Catalina Morales.
-- [ ] "Agregar nota" está `disabled` sin texto y añade la nota sin guardar el formulario.
-- [ ] Eliminar requiere dos pulsaciones; después todo queda deshabilitado y el aviso enlaza a `/tickets`.
-- [ ] La edición de Andrea Valdés muestra #T-1048, #T-1044 y #T-1037 con enlace; la de Ignacio Sepúlveda, "Sin tickets.".
-- [ ] "Ver todos" abre `/tickets` sin filtro de cliente.
-- [ ] Un borrador de alta desaparece al volver por un enlace y se conserva al volver con atrás.
-- [ ] El listado conserva búsqueda, filtros, vista y estados cambiados al volver; el aviso no.
-- [ ] Las flechas del teclado cambian tipo y prioridad.
-- [ ] Los campos con error tienen `aria-invalid="true"` y `aria-describedby` apunta a su mensaje.
-- [ ] Con Playwright, las pantallas de `/tickets` y `/clients` no tienen errores en consola ni desbordan en horizontal a 1440 px y 390 px.
-- [ ] Buscar, guardar, archivar y eliminar en `/clients` funcionan como en el SPEC 03.
+- [x] `npm run build`, `npm run lint` y `npx tsc --noEmit` terminan sin errores.
+- [x] `npx prettier --check app components data features lib` termina sin errores.
+- [x] Ningún archivo de `app`, `components`, `data` o `features` importa `lib/db` o `@prisma/client`, ni contiene `"use server"`.
+- [x] `prisma/` no cambia.
+- [x] Ningún archivo `.tsx` nuevo contiene colores hexadecimales ni estilos `dark:`.
+- [x] Ningún archivo de `features/tickets` o `features/projects` importa de `features/clients`, salvo tipos.
+- [x] Todos los correos de ejemplo usan `@example.com`.
+- [x] Los títulos son "Tickets — CRM TI", "Nuevo ticket — CRM TI", "Editar ticket — CRM TI" y, en un ID inexistente, "Ticket no encontrado — CRM TI".
+- [x] El menú muestra 8 elementos y solo "Clientes" y "Tickets" tienen `href`.
+- [x] `/tickets` muestra 9 filas, "9 sin cerrar en 6 proyectos · 11 en total" y los totales 4, 3, 2 y 2.
+- [x] El pie inicial dice "Mostrando 9 de 11 tickets".
+- [x] Buscar "causas" deja 2 filas; buscar "webpay" muestra "Sin resultados" con "Sin cerrar" y 1 fila con "Todos".
+- [x] El proyecto PRJ-021 con "Todos" deja 3 filas.
+- [x] "Por proyecto" muestra 6 grupos con "Sin cerrar" y ninguna columna ordenada; pulsar "Proyecto" vuelve a "Lista".
+- [x] Cerrar #T-1050 en el listado lo quita de "Sin cerrar" y muestra "#T-1050 pasó de Abierto a Cerrado."; "Deshacer" lo restaura.
+- [x] Con `tickets` vacío temporalmente se muestra "Aún no hay tickets".
+- [x] "⋯" tiene `disabled` y ningún proyecto tiene enlace.
+- [x] Crear el alta vacía muestra 2 errores y "Revisa los campos marcados antes de crear el ticket.".
+- [x] Una fecha límite de ayer muestra "La fecha límite no puede ser anterior a hoy." sin intentar crear.
+- [x] Elegir PRJ-021 muestra "Andes Logística SpA", "En curso" y 2 tickets sin cerrar, y selecciona a Andrea Valdés.
+- [x] Elegir PRJ-015, PRJ-019 o PRJ-018 muestra el aviso de completado, en pausa o atrasado 3 días.
+- [x] Con PRJ-021, el nombre "Descargar factura falla" advierte de #T-1048 y no impide crear.
+- [x] Crear un ticket completo muestra el aviso con #T-1052; `/tickets` sigue mostrando 11 en total.
+- [x] "Crear y abrir otro" conserva proyecto, solicitante y tipo, y muestra #T-1053.
+- [x] Desde Rodrigo Paredes, "Nuevo ticket para este contacto" agrupa PRJ-021 y PRJ-024, y al elegir PRJ-021 el solicitante es Rodrigo.
+- [x] `/tickets/new?client=x` muestra el alta normal.
+- [x] Los 11 tickets abren su edición; `/tickets/not-found` muestra la página de ticket no encontrado.
+- [x] #T-1048 muestra "Abierto hace 1 día y 2 horas por Andrea Valdés", "Vence mañana", 3 entradas de actividad y 2 tickets relacionados.
+- [x] "Tomar" muestra "1 cambio sin guardar: estado (Abierto → En curso)"; "Descartar" lo revierte.
+- [x] Cerrar sin resolución muestra el error; con 10 caracteres muestra "#T-1048 cerrado. La resolución quedó en la actividad." y añade la entrada.
+- [x] En #T-1049, escribir qué se espera activa "Guardar cambios" y el texto sigue tras guardar.
+- [x] Mover #T-1048 a PRJ-022 muestra el cambio de cliente y selecciona a Catalina Morales.
+- [x] "Agregar nota" está `disabled` sin texto y añade la nota sin guardar el formulario.
+- [x] Eliminar requiere dos pulsaciones; después todo queda deshabilitado y el aviso enlaza a `/tickets`.
+- [x] La edición de Andrea Valdés muestra #T-1048, #T-1044 y #T-1037 con enlace; la de Ignacio Sepúlveda, "Sin tickets.".
+- [x] "Ver todos" abre `/tickets` sin filtro de cliente.
+- [x] Un borrador de alta desaparece al volver por un enlace y se conserva al volver con atrás.
+- [x] El listado conserva búsqueda, filtros, vista y estados cambiados al volver; el aviso no.
+- [x] Las flechas del teclado cambian tipo y prioridad.
+- [x] Los campos con error tienen `aria-invalid="true"` y `aria-describedby` apunta a su mensaje.
+- [x] Con Playwright, las pantallas de `/tickets` y `/clients` no tienen errores en consola ni desbordan en horizontal a 1440 px y 390 px.
+- [x] Buscar, guardar, archivar y eliminar en `/clients` funcionan como en el SPEC 03.
 
 ## Decisiones
 
@@ -346,6 +346,7 @@ Los pasos 4, 5, 9, 10, 11, 12 y 16 superan 50 líneas por los datos o el marcado
 - **Sí:** "Cargando ticket…" en la edición. La fecha inicial del campo depende del día del navegador.
 - **Sí:** fondo de resolución y grupos con `--color-surface-muted`. Evita un token para `#FBFBF8`.
 - **Sí:** radios nativos en las pills. Los botones de la plantilla no respondían a las flechas.
+- **Sí:** `<title>` propio en `app/tickets/[id]/not-found.tsx` y `app/clients/[id]/not-found.tsx`. Desde la segunda visita, el 404 se sirve desde la caché sin el título de `generateMetadata` y quedaba "CRM TI". Un `not-found` de segmento no admite `metadata`. Se detectó al verificar los criterios y también corrige clientes.
 
 Este spec reemplaza tres puntos del SPEC 03: el menú con un solo enlace, los tickets propios de cada cliente y el texto "Sin tickets." de Paula Navarro.
 
