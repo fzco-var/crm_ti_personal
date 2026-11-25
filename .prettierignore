@@ -1,0 +1,12 @@
+.next
+node_modules
+app/generated
+package-lock.json
+next-env.d.ts
+references
+specs
+.claude
+.agents
+.windsurf
+.impeccable
+*.md
