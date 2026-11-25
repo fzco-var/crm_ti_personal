@@ -141,6 +141,7 @@
   .crm-chip,
   .crm-pill,
   .crm-segment,
+  .crm-sort,
   .crm-nav-item {
     position: relative;
   }
@@ -153,6 +154,7 @@
   .crm-chip::after,
   .crm-pill::after,
   .crm-segment::after,
+  .crm-sort::after,
   .crm-nav-item::after {
     content: "";
     position: absolute;
@@ -680,5 +682,103 @@
   .crm-option:has(input:checked) {
     border-color: var(--color-ink);
     background: var(--color-surface-muted);
+  }
+
+  /* Tablas */
+  .crm-table-wrap {
+    overflow-x: auto;
+  }
+
+  .crm-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: var(--text-sm);
+  }
+
+  .crm-table th,
+  .crm-table td {
+    padding: 14px 16px;
+    border-bottom: 1px solid var(--color-line-soft);
+    text-align: left;
+  }
+
+  .crm-table tbody th {
+    font-weight: 500;
+  }
+
+  .crm-table thead th {
+    padding: 12px 16px;
+    background: var(--color-surface-muted);
+    color: var(--color-ink-muted);
+    font-size: var(--text-xs);
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  /* 34 px del botón y 12 px de relleno dejan sitio a su zona de clic. */
+  .crm-table thead th:has(> .crm-sort) {
+    padding: 6px 8px;
+  }
+
+  .crm-table tbody tr:last-child > * {
+    border-bottom: 0;
+  }
+
+  .crm-table tbody tr:hover > * {
+    background: var(--color-row-hover);
+  }
+
+  .crm-sort {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    height: 34px;
+    padding: 0 8px;
+    border-radius: 6px;
+    color: var(--color-ink-muted);
+    font-size: var(--text-xs);
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    cursor: pointer;
+  }
+
+  .crm-sort:hover {
+    background: var(--color-surface-hover);
+  }
+
+  /* Texto y utilidades */
+  .crm-title {
+    font-size: var(--text-3xl);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+
+  .crm-heading {
+    font-size: var(--text-lg);
+    font-weight: 700;
+  }
+
+  .crm-link {
+    font-weight: 600;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .crm-code {
+    font-family: var(--font-mono);
+    font-size: var(--text-compact);
+  }
+
+  .crm-spinner {
+    flex: none;
+    animation: crm-spin 0.8s linear infinite;
+  }
+
+  @keyframes crm-spin {
+    to {
+      transform: rotate(360deg);
+    }
   }
 }
