@@ -1,6 +1,6 @@
 # SPEC 03 — Frontend de clientes
 
-> **Estado:** Aprobado
+> **Estado:** Implementado
 > **Depende de:** SPEC 01, SPEC 02
 > **Fecha:** 2026-11-25
 > **Objetivo:** Que el listado, el alta y la edición de clientes se puedan usar en `/clients` con el armazón del CRM y datos de ejemplo, sin backend.
@@ -182,38 +182,38 @@ Los pasos 8, 9, 12 y 14 superan 50 líneas por el marcado; se aceptan porque div
 
 ## Criterios de aceptación
 
-- [ ] `npm run build`, `npm run lint` y `npx tsc --noEmit` terminan sin errores.
-- [ ] `npx prettier --check app components data features` termina sin errores.
-- [ ] Ningún archivo de `app`, `components`, `data` o `features` importa `lib/db` o `@prisma/client`, ni contiene `"use server"`.
-- [ ] `prisma/` no cambia.
-- [ ] Ningún archivo nuevo `.tsx` contiene colores hexadecimales ni estilos `dark:`.
-- [ ] `/` redirige a `/clients`.
-- [ ] El título de `/clients` es "Clientes — CRM TI"; el de `/clients/new`, "Nuevo cliente — CRM TI"; el de `/clients/<id>`, "Editar cliente — CRM TI".
-- [ ] El menú muestra 8 elementos y solo "Clientes" tiene `href`.
-- [ ] `/clients` muestra 8 filas, ordenadas por apellido, y "8 contactos · 5 empresas".
-- [ ] Buscar "valdes" deja solo a Andrea Valdés; buscar "955550105" deja solo a Paula Navarro.
-- [ ] El filtro "Decisor" deja 3 filas y tiene `aria-pressed="true"`.
-- [ ] Buscar "zzz" muestra "Sin resultados". Con `clients` vacío temporalmente se muestra "Aún no tienes clientes".
-- [ ] Pulsar "Apellido" invierte el orden y `aria-sort` pasa a `descending`.
-- [ ] "Exportar CSV" muestra "Se exportaron 8 contactos a clientes.csv." y no descarga nada.
-- [ ] "⋯", "Anterior" y "Siguiente" tienen `disabled`.
-- [ ] Guardar el alta vacía muestra 9 errores y "Faltan 9 campos por revisar.".
-- [ ] Escribir "Andes" en la empresa sugiere "Andes Logística SpA"; al elegirla aparece "Usar la dirección de la empresa", que rellena la dirección.
-- [ ] Guardar un alta completa muestra el aviso y 8/8 campos; `/clients` sigue mostrando 8 filas.
-- [ ] "Guardar y crear otro" con un alta completa conserva empresa, dirección y prefijo, y vacía los demás campos.
-- [ ] El correo `andrea.valdes@example.com` advierte del duplicado en el alta y no en la edición de Andrea.
-- [ ] Los 8 iconos de lápiz abren la edición con los datos de su cliente.
-- [ ] `/clients/not-found` (un ID inexistente) muestra la página de cliente no encontrado.
-- [ ] Cambiar el nombre activa "Guardar cambios" y muestra "1 cambio sin guardar: nombre"; "Descartar" lo revierte.
-- [ ] Guardar una edición muestra "Cambios guardados (1)." y vuelve a deshabilitar el botón.
-- [ ] Archivar muestra la etiqueta "Archivado" y restaurar la quita.
-- [ ] Eliminar requiere dos pulsaciones; después el formulario queda deshabilitado y el aviso enlaza a `/clients`.
-- [ ] La edición de Paula Navarro muestra "Sin tickets.", "Sin historial." y "Sin otros contactos.".
-- [ ] Un borrador de alta desaparece al salir y volver por un enlace, y se conserva al volver con atrás.
-- [ ] La búsqueda, el filtro y el orden del listado se conservan al volver; el aviso de exportación no.
-- [ ] Los campos con error tienen `aria-invalid="true"` y `aria-describedby` apunta a su mensaje.
-- [ ] Con Playwright, las tres pantallas no tienen errores en consola ni desbordan la página en horizontal a 1440 px y 390 px.
-- [ ] Con Playwright, botones, campos, chips, enlaces del menú y filas muestran su hover o foco del SPEC 02.
+- [x] `npm run build`, `npm run lint` y `npx tsc --noEmit` terminan sin errores.
+- [x] `npx prettier --check app components data features` termina sin errores.
+- [x] Ningún archivo de `app`, `components`, `data` o `features` importa `lib/db` o `@prisma/client`, ni contiene `"use server"`.
+- [x] `prisma/` no cambia.
+- [x] Ningún archivo nuevo `.tsx` contiene colores hexadecimales ni estilos `dark:`.
+- [x] `/` redirige a `/clients`.
+- [x] El título de `/clients` es "Clientes — CRM TI"; el de `/clients/new`, "Nuevo cliente — CRM TI"; el de `/clients/<id>`, "Editar cliente — CRM TI".
+- [x] El menú muestra 8 elementos y solo "Clientes" tiene `href`.
+- [x] `/clients` muestra 8 filas, ordenadas por apellido, y "8 contactos · 5 empresas".
+- [x] Buscar "valdes" deja solo a Andrea Valdés; buscar "955550105" deja solo a Paula Navarro.
+- [x] El filtro "Decisor" deja 3 filas y tiene `aria-pressed="true"`.
+- [x] Buscar "zzz" muestra "Sin resultados". Con `clients` vacío temporalmente se muestra "Aún no tienes clientes".
+- [x] Pulsar "Apellido" invierte el orden y `aria-sort` pasa a `descending`.
+- [x] "Exportar CSV" muestra "Se exportaron 8 contactos a clientes.csv." y no descarga nada.
+- [x] "⋯", "Anterior" y "Siguiente" tienen `disabled`.
+- [x] Guardar el alta vacía muestra 9 errores y "Faltan 9 campos por revisar.".
+- [x] Escribir "Andes" en la empresa sugiere "Andes Logística SpA"; al elegirla aparece "Usar la dirección de la empresa", que rellena la dirección.
+- [x] Guardar un alta completa muestra el aviso y 8/8 campos; `/clients` sigue mostrando 8 filas.
+- [x] "Guardar y crear otro" con un alta completa conserva empresa, dirección y prefijo, y vacía los demás campos.
+- [x] El correo `andrea.valdes@example.com` advierte del duplicado en el alta y no en la edición de Andrea.
+- [x] Los 8 iconos de lápiz abren la edición con los datos de su cliente.
+- [x] `/clients/not-found` (un ID inexistente) muestra la página de cliente no encontrado.
+- [x] Cambiar el nombre activa "Guardar cambios" y muestra "1 cambio sin guardar: nombre"; "Descartar" lo revierte.
+- [x] Guardar una edición muestra "Cambios guardados (1)." y vuelve a deshabilitar el botón.
+- [x] Archivar muestra la etiqueta "Archivado" y restaurar la quita.
+- [x] Eliminar requiere dos pulsaciones; después el formulario queda deshabilitado y el aviso enlaza a `/clients`.
+- [x] La edición de Paula Navarro muestra "Sin tickets.", "Sin historial." y "Sin otros contactos.".
+- [x] Un borrador de alta desaparece al salir y volver por un enlace, y se conserva al volver con atrás.
+- [x] La búsqueda, el filtro y el orden del listado se conservan al volver; el aviso de exportación no.
+- [x] Los campos con error tienen `aria-invalid="true"` y `aria-describedby` apunta a su mensaje.
+- [x] Con Playwright, las tres pantallas no tienen errores en consola ni desbordan la página en horizontal a 1440 px y 390 px.
+- [x] Con Playwright, botones, campos, chips, enlaces del menú y filas muestran su hover o foco del SPEC 02.
 
 ## Decisiones
 
