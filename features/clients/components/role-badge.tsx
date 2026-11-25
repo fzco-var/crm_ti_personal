@@ -1,12 +1,6 @@
-import { CLIENT_ROLES, type Tone } from "@/features/clients/constants";
+import { TONE_CLASSES } from "@/components/tone";
+import { CLIENT_ROLES } from "@/features/clients/constants";
 import type { ClientRole } from "@/features/clients/types/client";
-
-export const TONE_CLASSES: Record<Tone, string> = {
-  orange: "crm-badge-orange",
-  blue: "crm-badge-blue",
-  green: "crm-badge-green",
-  gray: "crm-badge-gray",
-};
 
 export function RoleBadge({ role }: { role: ClientRole }) {
   const tone = CLIENT_ROLES.find(({ value }) => value === role)?.tone ?? "gray";

@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useId, type ReactNode } from "react";
 import { ChevronRightIcon, PlusIcon } from "@/components/icons";
-import { TONE_CLASSES } from "@/features/clients/components/role-badge";
+import { TONE_CLASSES } from "@/components/tone";
 import { TICKET_STATUS_TONES } from "@/features/clients/constants";
 import type { Client } from "@/features/clients/types/client";
 import { getOtherContacts } from "@/features/clients/utils";
