@@ -3,23 +3,28 @@
 import Link from "next/link";
 import { useId, type ReactNode } from "react";
 import { ChevronRightIcon, PlusIcon } from "@/components/icons";
-import { TONE_CLASSES } from "@/components/tone";
-import { TICKET_STATUS_TONES } from "@/features/clients/constants";
 import type { Client } from "@/features/clients/types/client";
 import { getOtherContacts } from "@/features/clients/utils";
+import { TicketStatusBadge } from "@/features/tickets/components/ticket-status-badge";
+import { getTicketsByRequester } from "@/features/tickets/utils";
 import { getInitials } from "@/lib/text";
 
-/** `company` es la guardada: cambia al guardar la edición. */
+/**
+ * `company` es la guardada: cambia al guardar la edición. Tras eliminar el
+ * cliente, `deleted` deshabilita "Nuevo ticket para este contacto".
+ */
 export function ClientSidebar({
   client,
   company,
+  deleted,
 }: {
   client: Client;
   company: string;
+  deleted: boolean;
 }) {
   return (
     <aside className="flex min-w-0 flex-[1_1_280px] flex-col gap-4">
-      <TicketsPanel tickets={client.tickets} />
+      <TicketsPanel clientId={client.id} deleted={deleted} />
       <OtherContactsPanel id={client.id} company={company} />
       <HistoryPanel history={client.history} />
     </aside>
@@ -54,50 +59,70 @@ function EmptyText({ children }: { children: string }) {
   return <p className="text-compact text-ink-muted">{children}</p>;
 }
 
-function TicketsPanel({ tickets }: Pick<Client, "tickets">) {
+/** Los tickets que el cliente solicitó, en el orden de `data/tickets.ts`. */
+function TicketsPanel({
+  clientId,
+  deleted,
+}: {
+  clientId: string;
+  deleted: boolean;
+}) {
+  const tickets = getTicketsByRequester(clientId);
+  const newTicketClassName =
+    "crm-btn crm-btn-sm crm-btn-secondary gap-1.5 px-0 whitespace-nowrap";
+  const newTicketContent = (
+    <>
+      <PlusIcon size={14} />
+      Nuevo ticket para este contacto
+    </>
+  );
+
   return (
     <Panel
       title="Tickets"
       action={
-        <a
-          role="link"
-          aria-disabled="true"
-          className="flex-none cursor-not-allowed text-compact font-bold opacity-45"
+        <Link
+          href="/tickets"
+          className="crm-hit flex-none text-compact font-bold"
         >
           Ver todos
-        </a>
+        </Link>
       }
     >
       {tickets.length > 0 ? (
         <ul className="flex flex-col gap-2">
-          {tickets.map(({ id, title, status }) => (
-            <li
-              key={id}
-              className="flex flex-col gap-1 rounded-control bg-surface-muted px-3 py-2.5"
-            >
-              <span className="flex items-center justify-between gap-2">
-                <span className="font-mono text-xs text-ink-muted">{id}</span>
-                <span
-                  className={`crm-badge ${TONE_CLASSES[TICKET_STATUS_TONES[status]]}`}
-                >
-                  {status}
+          {tickets.map(({ id, code, title, status }) => (
+            <li key={id}>
+              <Link
+                href={`/tickets/${id}`}
+                className="flex flex-col gap-1 rounded-control bg-surface-muted px-3 py-2.5 text-ink hover:bg-surface-hover"
+              >
+                <span className="flex items-center justify-between gap-2">
+                  <span className="font-mono text-xs text-ink-muted">
+                    {code}
+                  </span>
+                  <TicketStatusBadge status={status} />
                 </span>
-              </span>
-              <span className="text-compact font-semibold">{title}</span>
+                <span className="text-compact font-semibold">{title}</span>
+              </Link>
             </li>
           ))}
         </ul>
       ) : (
         <EmptyText>Sin tickets.</EmptyText>
       )}
-      <button
-        type="button"
-        className="crm-btn crm-btn-sm crm-btn-secondary gap-1.5 px-0 whitespace-nowrap"
-        disabled
-      >
-        <PlusIcon size={14} />
-        Nuevo ticket para este contacto
-      </button>
+      {deleted ? (
+        <button type="button" className={newTicketClassName} disabled>
+          {newTicketContent}
+        </button>
+      ) : (
+        <Link
+          href={`/tickets/new?client=${clientId}`}
+          className={newTicketClassName}
+        >
+          {newTicketContent}
+        </Link>
+      )}
     </Panel>
   );
 }
