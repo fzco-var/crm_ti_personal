@@ -346,4 +346,110 @@
     opacity: 0.45;
     cursor: not-allowed;
   }
+
+  /* Campos */
+  .crm-label {
+    font-size: var(--text-sm);
+    font-weight: 600;
+  }
+
+  .crm-field,
+  .crm-textarea,
+  .crm-field-group {
+    width: 100%;
+    min-width: 0;
+    border: 1px solid var(--color-line-field);
+    border-radius: var(--radius-control);
+    background: var(--color-surface);
+    color: var(--color-ink);
+    font-size: var(--text-field);
+  }
+
+  .crm-field {
+    height: 46px;
+    padding: 0 14px;
+  }
+
+  .crm-field-sm {
+    height: 44px;
+    font-size: var(--text-sm);
+  }
+
+  .crm-textarea {
+    padding: 12px 14px;
+    line-height: 1.5;
+    resize: vertical;
+  }
+
+  /* Campo con prefijo o sufijo: el contenedor lleva el borde y el foco. */
+  .crm-field-group {
+    display: flex;
+    align-items: center;
+    height: 46px;
+    overflow: hidden;
+  }
+
+  .crm-field-group > input {
+    flex: 1;
+    min-width: 0;
+    height: 100%;
+    padding: 0 12px;
+    outline: none;
+  }
+
+  .crm-field::placeholder,
+  .crm-textarea::placeholder,
+  .crm-field-group > input::placeholder {
+    color: var(--color-ink-muted);
+  }
+
+  .crm-field[aria-invalid="true"],
+  .crm-textarea[aria-invalid="true"],
+  .crm-field-group:has([aria-invalid="true"]) {
+    border-color: var(--color-danger);
+  }
+
+  /* Después del error: con foco, el borde es siempre `ink`. */
+  .crm-field:focus,
+  .crm-textarea:focus,
+  .crm-field-group:focus-within {
+    border-color: var(--color-ink);
+    outline: none;
+    box-shadow: var(--shadow-focus);
+  }
+
+  .crm-field:disabled,
+  .crm-textarea:disabled,
+  .crm-field-group:has(:disabled) {
+    background: var(--color-surface-muted);
+    cursor: not-allowed;
+  }
+
+  .crm-field-error {
+    color: var(--color-danger);
+    font-size: var(--text-compact);
+  }
+
+  .crm-checkbox {
+    flex: none;
+    width: 18px;
+    height: 18px;
+    accent-color: var(--color-ink);
+    cursor: pointer;
+  }
+
+  .crm-checkbox:disabled {
+    cursor: not-allowed;
+  }
+
+  /* Un `input` no admite pseudoelementos: la etiqueta da la zona de clic. */
+  label:has(> .crm-checkbox) {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-width: 44px;
+    min-height: 44px;
+    font-size: var(--text-sm);
+    cursor: pointer;
+  }
 }
