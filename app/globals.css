@@ -135,12 +135,18 @@
 @layer components {
   /* Zona de clic de 44 px. No usar en `input` ni `select`: no admiten pseudoelementos. */
   .crm-hit,
+  .crm-btn-sm,
+  .crm-btn-md,
+  .crm-icon-btn,
   .crm-nav-item {
     position: relative;
   }
 
   /* Los porcentajes se miden por eje, y `min` evita reducir una dimensión que ya llega a 44 px. */
   .crm-hit::after,
+  .crm-btn-sm::after,
+  .crm-btn-md::after,
+  .crm-icon-btn::after,
   .crm-nav-item::after {
     content: "";
     position: absolute;
@@ -246,5 +252,98 @@
     border-radius: var(--radius-tile);
     background: var(--color-surface);
     color: var(--color-ink);
+  }
+
+  /* Botones */
+  .crm-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    height: 44px;
+    padding: 0 18px;
+    border: 1px solid transparent;
+    border-radius: var(--radius-control);
+    font-size: var(--text-sm);
+    font-weight: 700;
+    cursor: pointer;
+  }
+
+  .crm-btn-sm {
+    height: 36px;
+    padding: 0 12px;
+    border-radius: var(--radius-lg);
+    font-size: var(--text-compact);
+  }
+
+  .crm-btn-md {
+    height: 40px;
+    padding: 0 14px;
+    font-size: var(--text-compact);
+  }
+
+  .crm-btn-lg {
+    height: 50px;
+    font-size: var(--text-field);
+  }
+
+  .crm-btn-primary {
+    background: var(--color-accent);
+    color: var(--color-white);
+  }
+
+  .crm-btn-primary:hover:not(:disabled) {
+    filter: brightness(0.92);
+  }
+
+  .crm-btn-secondary {
+    border-color: var(--color-line-strong);
+    background: var(--color-surface);
+    color: var(--color-ink);
+  }
+
+  .crm-btn-secondary:hover:not(:disabled) {
+    background: var(--color-surface-hover);
+  }
+
+  .crm-btn-danger {
+    border-color: var(--color-danger-line);
+    background: var(--color-surface);
+    color: var(--color-tone-red-fg);
+  }
+
+  .crm-btn-danger:hover:not(:disabled) {
+    background: var(--color-tone-red-bg);
+  }
+
+  .crm-btn-danger-solid {
+    background: var(--color-danger);
+    color: var(--color-white);
+  }
+
+  .crm-btn-danger-solid:hover:not(:disabled) {
+    background: var(--color-tone-red-fg);
+  }
+
+  .crm-icon-btn {
+    display: inline-flex;
+    flex: none;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: var(--radius-lg);
+    color: var(--color-ink-soft);
+    cursor: pointer;
+  }
+
+  .crm-icon-btn:hover:not(:disabled) {
+    background: var(--color-surface-hover);
+  }
+
+  .crm-btn:disabled,
+  .crm-icon-btn:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
   }
 }
