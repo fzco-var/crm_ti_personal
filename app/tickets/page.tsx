@@ -1,15 +1,9 @@
 import type { Metadata } from "next";
-import { Breadcrumb } from "@/components/breadcrumb";
+import { tickets } from "@/data/tickets";
+import { TicketsList } from "@/features/tickets/components/tickets-list";
 
 export const metadata: Metadata = { title: "Tickets" };
 
 export default function TicketsPage() {
-  return (
-    <div className="crm-content">
-      <div className="flex flex-col gap-2">
-        <Breadcrumb items={[{ label: "Operación" }, { label: "Tickets" }]} />
-        <h1 className="crm-title">Tickets</h1>
-      </div>
-    </div>
-  );
+  return <TicketsList tickets={tickets} />;
 }
