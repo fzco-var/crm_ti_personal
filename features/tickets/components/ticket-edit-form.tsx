@@ -17,6 +17,7 @@ import {
   TicketActivity,
   type TicketChange,
 } from "@/features/tickets/components/ticket-activity";
+import { TicketSidebar } from "@/features/tickets/components/ticket-sidebar";
 import { useToday } from "@/features/tickets/components/use-today";
 import {
   TICKET_PRIORITIES,
@@ -250,6 +251,12 @@ function EditForm({ ticket, today }: { ticket: Ticket; today: string }) {
           />
           <TicketActivity activity={activity} onChange={setActivity} />
         </div>
+        <TicketSidebar
+          ticket={ticket}
+          values={values}
+          savedStatus={original.status}
+          activity={activity}
+        />
       </div>
     </form>
   );
