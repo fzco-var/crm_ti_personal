@@ -452,4 +452,98 @@
     font-size: var(--text-sm);
     cursor: pointer;
   }
+
+  /* Etiquetas */
+  .crm-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    height: 24px;
+    padding: 0 10px;
+    border-radius: 9999px;
+    font-size: var(--text-xs);
+    font-weight: 700;
+  }
+
+  .crm-badge-orange {
+    background: var(--color-tone-orange-bg);
+    color: var(--color-tone-orange-fg);
+  }
+
+  .crm-badge-blue {
+    background: var(--color-tone-blue-bg);
+    color: var(--color-tone-blue-fg);
+  }
+
+  .crm-badge-amber {
+    background: var(--color-tone-amber-bg);
+    color: var(--color-tone-amber-fg);
+  }
+
+  .crm-badge-green {
+    background: var(--color-tone-green-bg);
+    color: var(--color-tone-green-fg);
+  }
+
+  .crm-badge-gray {
+    background: var(--color-tone-gray-bg);
+    color: var(--color-tone-gray-fg);
+  }
+
+  .crm-badge-red {
+    background: var(--color-tone-red-bg);
+    color: var(--color-tone-red-fg);
+  }
+
+  .crm-badge-purple {
+    background: var(--color-tone-purple-bg);
+    color: var(--color-tone-purple-fg);
+  }
+
+  /* Avisos */
+  .crm-alert {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 12px 16px;
+    border: 1px solid transparent;
+    border-radius: var(--radius-control);
+    font-size: var(--text-sm);
+    line-height: 1.45;
+  }
+
+  .crm-alert > svg {
+    flex: none;
+    margin-top: 1px;
+  }
+
+  .crm-alert-success {
+    border-color: var(--color-tone-green-line);
+    background: var(--color-tone-green-bg);
+    color: var(--color-tone-green-fg);
+  }
+
+  .crm-alert-success > svg {
+    color: var(--color-tone-green-dot);
+  }
+
+  .crm-alert-warning {
+    border-color: var(--color-tone-amber-line);
+    background: var(--color-tone-amber-bg);
+    color: var(--color-tone-amber-fg);
+  }
+
+  .crm-alert-warning > svg {
+    color: var(--color-tone-amber-dot);
+  }
+
+  .crm-alert-danger {
+    border-color: var(--color-tone-red-line);
+    background: var(--color-tone-red-bg);
+    color: var(--color-tone-red-fg);
+  }
+
+  .crm-alert-danger > svg {
+    color: var(--color-tone-red-dot);
+  }
 }
