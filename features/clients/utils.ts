@@ -132,8 +132,12 @@ export function formatContactCount(count: number) {
   return count === 1 ? "1 contacto" : `${count} contactos`;
 }
 
-export function getOtherContacts(client: Client) {
+export function getOtherContacts({
+  id,
+  company,
+}: Pick<Client, "id" | "company">) {
+  const query = normalizeText(company);
   return clients.filter(
-    (other) => other.id !== client.id && other.company === client.company,
+    (other) => other.id !== id && normalizeText(other.company) === query,
   );
 }

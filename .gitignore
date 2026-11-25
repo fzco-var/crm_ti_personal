@@ -61,3 +61,10 @@ next-env.d.ts
 
 # templates
 references/
+
+#mcp playwright
+.playwright-mcp/
+.playwright-screenshots/
+
+#impeccable
+.impeccable/

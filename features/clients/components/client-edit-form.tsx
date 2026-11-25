@@ -6,6 +6,7 @@ import { Alert } from "@/components/alert";
 import { Breadcrumb } from "@/components/breadcrumb";
 import { CheckIcon, MailIcon, PhoneIcon } from "@/components/icons";
 import { AddressFields } from "@/features/clients/components/address-fields";
+import { ClientSidebar } from "@/features/clients/components/client-sidebar";
 import { ContactFields } from "@/features/clients/components/contact-fields";
 import type {
   ClientFieldsProps,
@@ -153,6 +154,7 @@ function EditForm({ client }: { client: Client }) {
           <RoleFields {...fieldsProps} />
           <NotesField {...fieldsProps} />
         </div>
+        <ClientSidebar client={client} company={original.company} />
       </div>
     </form>
   );

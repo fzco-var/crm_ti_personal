@@ -1,7 +1,7 @@
 import { CLIENT_ROLES, type Tone } from "@/features/clients/constants";
 import type { ClientRole } from "@/features/clients/types/client";
 
-const TONE_CLASSES: Record<Tone, string> = {
+export const TONE_CLASSES: Record<Tone, string> = {
   orange: "crm-badge-orange",
   blue: "crm-badge-blue",
   green: "crm-badge-green",
