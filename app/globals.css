@@ -218,8 +218,13 @@
     color: var(--color-accent);
   }
 
-  .crm-nav-item:hover {
+  .crm-nav-item:hover:not([aria-disabled="true"]) {
     background: var(--color-nav-hover);
+  }
+
+  .crm-nav-item[aria-disabled="true"] {
+    opacity: 0.45;
+    cursor: not-allowed;
   }
 
   .crm-main {
