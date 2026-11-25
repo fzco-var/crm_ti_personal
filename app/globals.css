@@ -90,8 +90,44 @@
   --font-mono: var(--font-jetbrains-mono), monospace;
 }
 
-body {
-  background: var(--color-background);
-  color: var(--color-foreground);
-  font-family: var(--font-sans);
+@layer base {
+  :root {
+    color-scheme: light;
+  }
+
+  /* Misma especificidad que `:root`; ganan porque `base` va después de `theme`. */
+  [data-accent="orange"] {
+    --color-accent: #c2410c;
+  }
+
+  [data-accent="blue"] {
+    --color-accent: #1d4ed8;
+  }
+
+  [data-accent="green"] {
+    --color-accent: #047857;
+  }
+
+  [data-accent="purple"] {
+    --color-accent: #6d28d9;
+  }
+
+  body {
+    background: var(--color-canvas);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+  }
+
+  a {
+    color: var(--color-ink-soft);
+  }
+
+  a:hover {
+    color: var(--color-ink);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-ink);
+    outline-offset: 2px;
+  }
 }
