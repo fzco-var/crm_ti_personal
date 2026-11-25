@@ -1,6 +1,6 @@
 # SPEC 01 — ID en UUID y migración a Neon
 
-> **Estado:** Aprobado
+> **Estado:** Implementado
 > **Depende de:** ninguno
 > **Fecha:** 2026-11-24
 > **Objetivo:** Que las 6 tablas de Neon usen UUID en todos sus ID y relaciones, con historial de migraciones y un cliente de Prisma capaz de consultarlas.
@@ -75,24 +75,24 @@ Convenciones:
 
 ## Criterios de aceptación
 
-- [ ] `npx prisma validate` termina sin errores.
-- [ ] Ninguna columna de ID o clave foránea del esquema es `Int`.
-- [ ] `prisma7.config.ts` usa `DIRECT_URL`.
-- [ ] `package.json` declara `dotenv` y `@prisma/adapter-pg`.
-- [ ] `prisma/migrations` contiene `0_init`, `1_uuid_ids` y `migration_lock.toml`.
-- [ ] La rama de ensayo pasó todas las verificaciones antes de tocar la principal.
-- [ ] `npx prisma migrate status` indica que la base principal está al día.
-- [ ] `npx prisma migrate diff --from-config-datasource --to-schema prisma/schema.prisma --exit-code` termina con código 0 en la principal.
-- [ ] Las 13 columnas de ID y claves foráneas son `uuid` en la principal.
-- [ ] Una inserción de prueba en `rol` sin `id_rol` devuelve un UUID y su rollback deja 0 filas.
-- [ ] Una consulta `db.rol.count()` mediante `lib/db.ts` devuelve 0 sin errores.
-- [ ] Tras `npm ci`, sin ejecutar `prisma generate` a mano, `npx tsc --noEmit` pasa y el cliente generado tiene ID `String`.
-- [ ] `npx prisma generate` termina sin errores aunque `DIRECT_URL` no esté definida.
-- [ ] `app/generated/prisma` no existe y ningún archivo de código importa desde esa ruta.
-- [ ] `npx tsc --noEmit` y `npx eslint lib prisma7.config.ts` terminan sin errores.
-- [ ] `npm run build` termina sin errores.
-- [ ] `.env` y `.env.ensayo` no aparecen en `git status`.
-- [ ] La sección Prisma de `CLAUDE.md` describe el estado nuevo.
+- [x] `npx prisma validate` termina sin errores.
+- [x] Ninguna columna de ID o clave foránea del esquema es `Int`.
+- [x] `prisma7.config.ts` usa `DIRECT_URL`.
+- [x] `package.json` declara `dotenv` y `@prisma/adapter-pg`.
+- [x] `prisma/migrations` contiene `0_init`, `1_uuid_ids` y `migration_lock.toml`.
+- [x] La rama de ensayo pasó todas las verificaciones antes de tocar la principal.
+- [x] `npx prisma migrate status` indica que la base principal está al día.
+- [x] `npx prisma migrate diff --from-config-datasource --to-schema prisma/schema.prisma --exit-code` termina con código 0 en la principal.
+- [x] Las 13 columnas de ID y claves foráneas son `uuid` en la principal.
+- [x] Una inserción de prueba en `rol` sin `id_rol` devuelve un UUID y su rollback deja 0 filas.
+- [x] Una consulta `db.rol.count()` mediante `lib/db.ts` devuelve 0 sin errores.
+- [x] Tras `npm ci`, sin ejecutar `prisma generate` a mano, `npx tsc --noEmit` pasa y el cliente generado tiene ID `String`.
+- [x] `npx prisma generate` termina sin errores aunque `DIRECT_URL` no esté definida.
+- [x] `app/generated/prisma` no existe y ningún archivo de código importa desde esa ruta.
+- [x] `npx tsc --noEmit` y `npx eslint lib prisma7.config.ts` terminan sin errores.
+- [x] `npm run build` termina sin errores.
+- [x] `.env` y `.env.ensayo` no aparecen en `git status`.
+- [x] La sección Prisma de `CLAUDE.md` describe el estado nuevo.
 
 ## Decisiones
 

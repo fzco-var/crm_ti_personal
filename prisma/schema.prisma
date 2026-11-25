@@ -14,7 +14,7 @@ model client {
   number     String?    @db.VarChar(20)
   email      String     @db.VarChar(50)
   address    String?    @db.VarChar(255)
-  id_rol     Int?
+  id_rol     String? @db.Uuid
   rol        rol?       @relation(fields: [id_rol], references: [id_rol], onDelete: NoAction, onUpdate: NoAction)
   project    project[]
   services   services[]
@@ -23,7 +23,7 @@ model client {
 model project {
   id_project   String        @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   name_project String     @unique @db.VarChar(40)
-  id_client    Int?
+  id_client    String? @db.Uuid
   description  String?    @db.VarChar(255)
   state        String?    @db.VarChar(20)
   initial_date DateTime   @db.Date
@@ -46,8 +46,8 @@ model rol {
 model services {
   id_services     String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   name_services   String   @db.VarChar(100)
-  id_client       Int?
-  id_project      Int?
+  id_client       String? @db.Uuid
+  id_project      String? @db.Uuid
   charge_client   Int
   cost            Int
   date_renovation DateTime @db.Date
@@ -59,8 +59,8 @@ model services {
 model tickets {
   id_ticket    String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   name_ticket  String   @db.VarChar(20)
-  id_project   Int?
-  assignee_id  Int?
+  id_project   String? @db.Uuid
+  assignee_id  String? @db.Uuid
   priority     String?  @db.VarChar(20)
   state_ticket String?  @db.VarChar(20)
   users        users?   @relation(fields: [assignee_id], references: [id_user], onDelete: NoAction, onUpdate: NoAction)
@@ -74,7 +74,7 @@ model users {
   user_name  String    @unique @db.VarChar(20)
   email      String    @db.VarChar(50)
   password   String    @db.VarChar(255)
-  id_rol     Int?
+  id_rol     String? @db.Uuid
   created_at DateTime? @db.Timestamp(6)
   tickets    tickets[]
   rol        rol?      @relation(fields: [id_rol], references: [id_rol], onDelete: NoAction, onUpdate: NoAction)
