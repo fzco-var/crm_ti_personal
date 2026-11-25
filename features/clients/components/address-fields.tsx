@@ -1,13 +1,9 @@
 "use client";
 
 import { useId } from "react";
+import { FieldError, FieldLabel, TextField } from "@/components/form-field";
 import { CopyIcon } from "@/components/icons";
-import {
-  FieldError,
-  FieldLabel,
-  TextField,
-  type ClientFieldsProps,
-} from "@/features/clients/components/form-field";
+import type { ClientFieldsProps } from "@/features/clients/components/form-field";
 import { REGIONS } from "@/features/clients/constants";
 import { findCompany } from "@/features/clients/utils";
 

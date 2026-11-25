@@ -20,11 +20,12 @@ import { RoleFields } from "@/features/clients/components/role-fields";
 import type { Client, ClientFormValues } from "@/features/clients/types/client";
 import {
   formatPhone,
-  getInitials,
   getInvalidFields,
   getPhoneDigits,
   getPhoneLengthError,
 } from "@/features/clients/utils";
+import { getTicketsByRequester } from "@/features/tickets/utils";
+import { getInitials } from "@/lib/text";
 
 function getErrors(values: ClientFormValues): ClientFormErrors {
   const messages: ClientFormErrors = {
@@ -189,14 +190,18 @@ function EditForm({ client }: { client: Client }) {
             <NotesField {...fieldsProps} />
           </fieldset>
           <ClientDangerZone
-            ticketCount={client.tickets.length}
+            ticketCount={getTicketsByRequester(client.id).length}
             archived={archived}
             disabled={deleted}
             onToggleArchived={toggleArchived}
             onDelete={deleteClient}
           />
         </div>
-        <ClientSidebar client={client} company={original.company} />
+        <ClientSidebar
+          client={client}
+          company={original.company}
+          deleted={deleted}
+        />
       </div>
     </form>
   );

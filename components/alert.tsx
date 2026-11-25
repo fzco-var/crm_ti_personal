@@ -1,11 +1,21 @@
 import type { ReactNode } from "react";
-import { CloseIcon, ErrorIcon, SuccessIcon } from "@/components/icons";
+import {
+  CloseIcon,
+  ErrorIcon,
+  SuccessIcon,
+  WarningIcon,
+} from "@/components/icons";
 
 const VARIANTS = {
   success: {
     role: "status",
     className: "crm-alert-success items-center",
     Icon: SuccessIcon,
+  },
+  warning: {
+    role: "note",
+    className: "crm-alert-warning",
+    Icon: WarningIcon,
   },
   danger: { role: "alert", className: "crm-alert-danger", Icon: ErrorIcon },
 } as const;

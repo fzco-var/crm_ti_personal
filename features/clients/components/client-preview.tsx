@@ -5,10 +5,10 @@ import { RoleBadge } from "@/features/clients/components/role-badge";
 import type { ClientFormValues } from "@/features/clients/types/client";
 import {
   formatPhone,
-  getInitials,
   getInvalidFields,
   isValidPhone,
 } from "@/features/clients/utils";
+import { getInitials } from "@/lib/text";
 
 const TOTAL_FIELDS = 8;
 

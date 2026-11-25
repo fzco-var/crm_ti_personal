@@ -17,23 +17,6 @@ export const clients: Client[] = [
     role: "Decisor",
     notes: "Prefiere correo antes que llamadas. Disponible de 9 a 13 h.",
     since: "mar 2025",
-    tickets: [
-      {
-        id: "#T-1042",
-        title: "El mapa de rutas no carga sin conexión",
-        status: "Abierto",
-      },
-      {
-        id: "#T-1031",
-        title: "Ajustar permisos de usuarios del portal",
-        status: "En curso",
-      },
-      {
-        id: "#T-0998",
-        title: "Error al iniciar sesión con Google",
-        status: "Cerrado",
-      },
-    ],
     history: [
       "Cambiaste el teléfono · 18 oct 2026",
       "Se cerró el ticket #T-1037 · 02 oct 2026",
@@ -54,7 +37,6 @@ export const clients: Client[] = [
     region: "Metropolitana de Santiago",
     role: "Contacto técnico",
     notes: "",
-    tickets: [],
     history: [],
   },
   {
@@ -71,7 +53,6 @@ export const clients: Client[] = [
     region: "Araucanía",
     role: "Contacto técnico",
     notes: "",
-    tickets: [],
     history: [],
   },
   {
@@ -88,7 +69,6 @@ export const clients: Client[] = [
     region: "Araucanía",
     role: "Facturación",
     notes: "",
-    tickets: [],
     history: [],
   },
   {
@@ -105,7 +85,6 @@ export const clients: Client[] = [
     region: "Metropolitana de Santiago",
     role: "Decisor",
     notes: "",
-    tickets: [],
     history: [],
   },
   {
@@ -122,7 +101,6 @@ export const clients: Client[] = [
     region: "Valparaíso",
     role: "Usuario final",
     notes: "",
-    tickets: [],
     history: [],
   },
   {
@@ -139,7 +117,6 @@ export const clients: Client[] = [
     region: "Valparaíso",
     role: "Decisor",
     notes: "",
-    tickets: [],
     history: [],
   },
   {
@@ -156,7 +133,6 @@ export const clients: Client[] = [
     region: "O’Higgins",
     role: "Contacto técnico",
     notes: "",
-    tickets: [],
     history: [],
   },
 ];

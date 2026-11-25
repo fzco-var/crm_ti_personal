@@ -25,7 +25,12 @@ const NAV_GROUPS = [
         href: "/clients",
       },
       { id: "services", label: "Servicios", Icon: ServicesIcon },
-      { id: "tickets", label: "Tickets", Icon: TicketsIcon },
+      {
+        id: "tickets",
+        label: "Tickets",
+        Icon: TicketsIcon,
+        href: "/tickets",
+      },
       { id: "projects", label: "Proyectos", Icon: ProjectsIcon },
     ],
   },

@@ -2,13 +2,9 @@
 
 import Link from "next/link";
 import { useId, useRef } from "react";
+import { FieldError, FieldLabel, TextField } from "@/components/form-field";
 import { CheckIcon } from "@/components/icons";
-import {
-  FieldError,
-  FieldLabel,
-  TextField,
-  type ClientFieldsProps,
-} from "@/features/clients/components/form-field";
+import type { ClientFieldsProps } from "@/features/clients/components/form-field";
 import { PHONE_PREFIXES } from "@/features/clients/constants";
 import {
   findClientByEmail,

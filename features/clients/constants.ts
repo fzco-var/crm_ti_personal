@@ -1,7 +1,5 @@
-import type { ClientRole, TicketStatus } from "@/features/clients/types/client";
-
-// Sufijo de las clases `crm-badge-*`.
-export type Tone = "orange" | "blue" | "green" | "gray";
+import type { Tone } from "@/components/tone";
+import type { ClientRole } from "@/features/clients/types/client";
 
 export const PHONE_PREFIXES = [
   { value: "+56", label: "CL +56", digits: 9, placeholder: "9 1234 5678" },
@@ -56,9 +54,3 @@ export const CLIENT_ROLES: {
     tone: "gray",
   },
 ];
-
-export const TICKET_STATUS_TONES: Record<TicketStatus, Tone> = {
-  Abierto: "orange",
-  "En curso": "blue",
-  Cerrado: "gray",
-};

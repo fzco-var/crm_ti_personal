@@ -1,8 +1,6 @@
 export type ClientRole =
   "Decisor" | "Contacto técnico" | "Facturación" | "Usuario final";
 
-export type TicketStatus = "Abierto" | "En curso" | "Cerrado";
-
 // Valores editables; el formulario de alta admite `role` vacío.
 export interface ClientFormValues {
   firstName: string;
@@ -23,6 +21,5 @@ export interface Client extends ClientFormValues {
   id: string; // UUID
   role: ClientRole;
   since?: string; // "mar 2025"
-  tickets: { id: string; title: string; status: TicketStatus }[];
   history: string[];
 }
