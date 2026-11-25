@@ -45,7 +45,7 @@ export function RoleFields({
         {CLIENT_ROLES.map(({ value, description }) => (
           <label
             key={value}
-            className={`crm-option ${errors.role ? "border-danger" : ""}`}
+            className={`crm-option has-disabled:cursor-not-allowed ${errors.role ? "border-danger" : ""}`}
           >
             <input
               type="radio"

@@ -1,11 +1,13 @@
 "use client";
 
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Alert } from "@/components/alert";
 import { Breadcrumb } from "@/components/breadcrumb";
 import { CheckIcon, MailIcon, PhoneIcon } from "@/components/icons";
 import { AddressFields } from "@/features/clients/components/address-fields";
+import { ClientDangerZone } from "@/features/clients/components/client-danger-zone";
 import { ClientSidebar } from "@/features/clients/components/client-sidebar";
 import { ContactFields } from "@/features/clients/components/contact-fields";
 import type {
@@ -71,6 +73,8 @@ function EditForm({ client }: { client: Client }) {
   const [original, setOriginal] = useState<ClientFormValues>(client);
   const [tried, setTried] = useState(false);
   const [notice, setNotice] = useState("");
+  const [archived, setArchived] = useState(false);
+  const [deleted, setDeleted] = useState(false);
 
   const errors = tried ? getErrors(values) : {};
   const changes = getChanges(values, original);
@@ -88,6 +92,16 @@ function EditForm({ client }: { client: Client }) {
   function discard() {
     setValues(original);
     setTried(false);
+  }
+
+  function toggleArchived() {
+    setArchived(!archived);
+    setNotice(archived ? "Contacto restaurado." : "Contacto archivado.");
+  }
+
+  function deleteClient() {
+    setDeleted(true);
+    setNotice(`${original.firstName} ${original.lastName} fue eliminado.`);
   }
 
   const fieldsProps: ClientFieldsProps = {
@@ -110,7 +124,8 @@ function EditForm({ client }: { client: Client }) {
         original={original}
         initials={getInitials(values.firstName, values.lastName)}
         since={client.since}
-        canSave={changes.length > 0}
+        archived={archived}
+        canSave={changes.length > 0 && !deleted}
       />
 
       {changes.length > 0 && (
@@ -128,6 +143,7 @@ function EditForm({ client }: { client: Client }) {
           <button
             type="button"
             className="crm-btn crm-btn-sm crm-btn-secondary"
+            disabled={deleted}
             onClick={discard}
           >
             Descartar
@@ -136,7 +152,20 @@ function EditForm({ client }: { client: Client }) {
       )}
 
       {notice && (
-        <Alert variant="success" onClose={() => setNotice("")}>
+        <Alert
+          variant="success"
+          action={
+            deleted && (
+              <Link
+                href="/clients"
+                className="crm-hit font-bold text-tone-green-fg underline"
+              >
+                Ver listado
+              </Link>
+            )
+          }
+          onClose={deleted ? undefined : () => setNotice("")}
+        >
           {notice}
         </Alert>
       )}
@@ -149,10 +178,23 @@ function EditForm({ client }: { client: Client }) {
 
       <div className="flex flex-wrap items-start gap-6">
         <div className="flex min-w-0 flex-[999_1_560px] flex-col gap-6">
-          <ContactFields {...fieldsProps} />
-          <AddressFields {...fieldsProps} />
-          <RoleFields {...fieldsProps} />
-          <NotesField {...fieldsProps} />
+          <fieldset
+            role="presentation"
+            disabled={deleted}
+            className="flex min-w-0 flex-col gap-6"
+          >
+            <ContactFields {...fieldsProps} />
+            <AddressFields {...fieldsProps} />
+            <RoleFields {...fieldsProps} />
+            <NotesField {...fieldsProps} />
+          </fieldset>
+          <ClientDangerZone
+            ticketCount={client.tickets.length}
+            archived={archived}
+            disabled={deleted}
+            onToggleArchived={toggleArchived}
+            onDelete={deleteClient}
+          />
         </div>
         <ClientSidebar client={client} company={original.company} />
       </div>
@@ -164,11 +206,13 @@ function EditHeader({
   original,
   initials,
   since,
+  archived,
   canSave,
 }: {
   original: ClientFormValues;
   initials: string;
   since?: string;
+  archived: boolean;
   canSave: boolean;
 }) {
   const fullName = `${original.firstName} ${original.lastName}`;
@@ -192,6 +236,9 @@ function EditHeader({
             <div className="flex flex-wrap items-center gap-2.5">
               <h1 className="crm-title">Editar cliente</h1>
               {role && <RoleBadge role={role} />}
+              {archived && (
+                <span className="crm-badge crm-badge-gray">Archivado</span>
+              )}
             </div>
             <span className="text-sm text-ink-muted">
               {[fullName, company, since && `cliente desde ${since}`]
