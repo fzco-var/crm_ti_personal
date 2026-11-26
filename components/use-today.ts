@@ -1,7 +1,13 @@
 "use client";
 
 import { useSyncExternalStore } from "react";
-import { toDateValue } from "@/features/tickets/utils";
+
+/** Fecha local del navegador, como "2026-11-26". */
+function toDateValue(date: Date) {
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+  return `${date.getFullYear()}-${month}-${day}`;
+}
 
 // Al volver a la pestaña, la fecha puede haber cambiado de día.
 function subscribe(onChange: () => void) {
