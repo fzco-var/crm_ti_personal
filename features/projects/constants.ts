@@ -4,6 +4,14 @@ import type {
   ProjectStatus,
 } from "@/features/projects/types/project";
 
+// En el orden en que se ordenan y se filtran en el listado.
+export const PROJECT_STATUSES: ProjectStatus[] = [
+  "En curso",
+  "Planificado",
+  "En pausa",
+  "Completado",
+];
+
 export const PROJECT_STATUS_TONES: Record<ProjectStatus, Tone> = {
   Planificado: "gray",
   "En curso": "blue",
