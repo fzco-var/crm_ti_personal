@@ -69,7 +69,7 @@ export function TicketSidebar({
   );
 }
 
-function Panel({ title, children }: { title: string; children: ReactNode }) {
+function Panel({ title, children }: { title: ReactNode; children: ReactNode }) {
   const headingId = useId();
 
   return (
@@ -113,7 +113,16 @@ function RelatedPanel({
   );
 
   return (
-    <Panel title={`Otros tickets de ${projectCode}`}>
+    <Panel
+      title={
+        <>
+          Otros tickets de{" "}
+          <Link href={`/projects/${projectId}`} className="crm-link font-bold">
+            {projectCode}
+          </Link>
+        </>
+      }
+    >
       {related.length > 0 ? (
         <ul className="-mt-1 flex flex-col gap-0.5">
           {related.map(({ id, code, title, status }) => (

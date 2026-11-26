@@ -211,7 +211,12 @@ function ProjectGroup({
             <span className="rounded-md bg-ink px-2 py-0.5 font-mono text-xs font-medium text-white">
               {project.code}
             </span>
-            <span className="font-bold">{project.name}</span>
+            <Link
+              href={`/projects/${project.id}`}
+              className="font-bold text-ink underline-offset-[3px] hover:underline"
+            >
+              {project.name}
+            </Link>
             <span className="text-xs text-ink-muted">
               {activeCount === 1 ? "1 activo" : `${activeCount} activos`} de{" "}
               {projectTickets.length}
@@ -261,7 +266,12 @@ function TicketRow({
           <span className="flex-none rounded-md border border-line bg-surface-muted px-2 py-0.5 font-mono text-xs font-medium text-ink-soft">
             {project.code}
           </span>
-          {project.name}
+          <Link
+            href={`/projects/${project.id}`}
+            className="text-ink underline-offset-[3px] hover:underline"
+          >
+            {project.name}
+          </Link>
         </span>
       </td>
       <td className="py-1.5 whitespace-nowrap">
