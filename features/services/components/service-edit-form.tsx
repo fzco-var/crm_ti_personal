@@ -15,6 +15,7 @@ import {
   type ServiceChargeErrors,
 } from "@/features/services/components/service-charge-fields";
 import { ServiceCharges } from "@/features/services/components/service-charges";
+import { ServiceDangerZone } from "@/features/services/components/service-danger-zone";
 import {
   ServiceDataFields,
   type ServiceDataErrors,
@@ -158,6 +159,7 @@ function EditForm({ service, today }: { service: Service; today: string }) {
   // Los cobros no forman parte del formulario: "Marcar pagado" actúa al instante.
   const [charges, setCharges] = useState(service.charges);
   const [paidToday, setPaidToday] = useState<number[]>([]);
+  const [deleted, setDeleted] = useState(false);
 
   const changes = getChanges(values, original);
   const errors = getErrors(values, tried);
@@ -211,6 +213,12 @@ function EditForm({ service, today }: { service: Service; today: string }) {
     );
   }
 
+  /** Sin persistencia: bloquea la pantalla y enlaza al listado. */
+  function deleteService() {
+    setDeleted(true);
+    setNotice(`Servicio «${original.name}» eliminado.`);
+  }
+
   return (
     <form
       className="crm-content"
@@ -253,6 +261,7 @@ function EditForm({ service, today }: { service: Service; today: string }) {
                 key={label}
                 type="button"
                 className="crm-btn crm-btn-secondary px-3.5"
+                disabled={deleted}
                 onClick={() => changeStatus(status)}
               >
                 <span
@@ -264,7 +273,7 @@ function EditForm({ service, today }: { service: Service; today: string }) {
             <button
               type="submit"
               className="crm-btn crm-btn-primary"
-              disabled={changes.length === 0}
+              disabled={changes.length === 0 || deleted}
             >
               <CheckIcon />
               Guardar cambios
@@ -288,6 +297,7 @@ function EditForm({ service, today }: { service: Service; today: string }) {
           <button
             type="button"
             className="crm-btn crm-btn-sm crm-btn-secondary"
+            disabled={deleted}
             onClick={discard}
           >
             Descartar
@@ -296,7 +306,20 @@ function EditForm({ service, today }: { service: Service; today: string }) {
       )}
 
       {notice && (
-        <Alert variant="success" onClose={() => setNotice("")}>
+        <Alert
+          variant="success"
+          action={
+            deleted && (
+              <Link
+                href="/services"
+                className="crm-hit font-bold text-tone-green-fg underline"
+              >
+                Ver listado
+              </Link>
+            )
+          }
+          onClose={deleted ? undefined : () => setNotice("")}
+        >
           {notice}
         </Alert>
       )}
@@ -312,6 +335,7 @@ function EditForm({ service, today }: { service: Service; today: string }) {
           <StatusSection
             values={values}
             original={original}
+            disabled={deleted}
             onStatusChange={changeStatus}
             onChange={change}
           />
@@ -319,12 +343,14 @@ function EditForm({ service, today }: { service: Service; today: string }) {
             values={values}
             errors={errors}
             original={original}
+            disabled={deleted}
             onChange={change}
           />
           <ServiceChargeFields
             values={values}
             errors={errors}
             original={original}
+            disabled={deleted}
             onChange={change}
           />
           <ServiceRenewalFields
@@ -332,19 +358,23 @@ function EditForm({ service, today }: { service: Service; today: string }) {
             errors={{}}
             today={today}
             original={original}
+            disabled={deleted}
             onChange={change}
           />
           <ServiceNotesField
             notes={values.notes}
             original={original.notes}
+            disabled={deleted}
             onChange={(notes) => change({ notes })}
           />
           <ServiceCharges
             charges={charges}
             paidToday={paidToday}
             today={today}
+            disabled={deleted}
             onMarkPaid={markPaid}
           />
+          <ServiceDangerZone disabled={deleted} onDelete={deleteService} />
         </div>
         <ServiceSidebar
           service={service}
@@ -361,11 +391,13 @@ function EditForm({ service, today }: { service: Service; today: string }) {
 function StatusSection({
   values,
   original,
+  disabled,
   onStatusChange,
   onChange,
 }: {
   values: ServiceFormValues;
   original: ServiceFormValues;
+  disabled: boolean;
   onStatusChange: (status: ServiceStatus) => void;
   onChange: (changes: Partial<ServiceFormValues>) => void;
 }) {
@@ -394,6 +426,7 @@ function StatusSection({
         hideLabel
         options={STATUS_OPTIONS}
         value={values.status}
+        disabled={disabled}
         onChange={onStatusChange}
       />
 
@@ -426,6 +459,7 @@ function StatusSection({
                 type="date"
                 className="crm-field h-[42px] px-3 font-mono text-compact"
                 value={values.endDate}
+                disabled={disabled}
                 onChange={(event) => onChange({ endDate: event.target.value })}
               />
             </div>
@@ -444,6 +478,7 @@ function StatusSection({
                 className="crm-field h-[42px] px-3 text-compact"
                 placeholder="Ej. El cliente migró a su propio servidor"
                 value={values.cancelReason}
+                disabled={disabled}
                 onChange={(event) =>
                   onChange({ cancelReason: event.target.value })
                 }
