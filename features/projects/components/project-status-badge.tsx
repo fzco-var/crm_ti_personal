@@ -11,7 +11,7 @@ export function ProjectStatusBadge({
 }) {
   return (
     <span
-      className={`crm-badge ${TONE_CLASSES[PROJECT_STATUS_TONES[status]]} ${className}`}
+      className={`crm-badge whitespace-nowrap ${TONE_CLASSES[PROJECT_STATUS_TONES[status]]} ${className}`}
     >
       <span className="size-1.5 rounded-full bg-current" />
       {status}

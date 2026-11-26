@@ -16,6 +16,7 @@ import {
   type ProjectDateErrors,
 } from "@/features/projects/components/project-date-fields";
 import { ProjectMilestones } from "@/features/projects/components/project-milestones";
+import { ProjectSidebar } from "@/features/projects/components/project-sidebar";
 import { ProjectStatusBadge } from "@/features/projects/components/project-status-badge";
 import { ProjectStatusFields } from "@/features/projects/components/project-status-fields";
 import type {
@@ -307,6 +308,12 @@ function EditForm({ project, today }: { project: Project; today: string }) {
             onChange={(milestones) => change({ milestones })}
           />
         </div>
+        <ProjectSidebar
+          projectId={project.id}
+          values={values}
+          history={history}
+          today={today}
+        />
       </div>
     </form>
   );
