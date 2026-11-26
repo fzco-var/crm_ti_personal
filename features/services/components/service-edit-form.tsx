@@ -14,6 +14,7 @@ import {
   ServiceChargeFields,
   type ServiceChargeErrors,
 } from "@/features/services/components/service-charge-fields";
+import { ServiceCharges } from "@/features/services/components/service-charges";
 import {
   ServiceDataFields,
   type ServiceDataErrors,
@@ -27,11 +28,13 @@ import {
 } from "@/features/services/constants";
 import type {
   Service,
+  ServiceCharge,
   ServiceFormValues,
   ServiceStatus,
 } from "@/features/services/types/service";
 import {
   formatCLP,
+  getChargePeriod,
   getInvalidEditFields,
   getServiceCompany,
   getSinceText,
@@ -151,6 +154,9 @@ function EditForm({ service, today }: { service: Service; today: string }) {
   const [values, setValues] = useState(original);
   const [tried, setTried] = useState(false);
   const [notice, setNotice] = useState("");
+  // Los cobros no forman parte del formulario: "Marcar pagado" actúa al instante.
+  const [charges, setCharges] = useState(service.charges);
+  const [paidToday, setPaidToday] = useState<number[]>([]);
 
   const changes = getChanges(values, original);
   const errors = getErrors(values, tried);
@@ -189,6 +195,19 @@ function EditForm({ service, today }: { service: Service; today: string }) {
   function discard() {
     setValues(original);
     setTried(false);
+  }
+
+  function markPaid(charge: ServiceCharge) {
+    const paidDay = Number(today.slice(8));
+    setCharges(
+      charges.map((other) =>
+        other.monthsAgo === charge.monthsAgo ? { ...other, paidDay } : other,
+      ),
+    );
+    setPaidToday([...paidToday, charge.monthsAgo]);
+    setNotice(
+      `Cobro de ${getChargePeriod(today, charge.monthsAgo)} marcado como pagado.`,
+    );
   }
 
   return (
@@ -318,6 +337,12 @@ function EditForm({ service, today }: { service: Service; today: string }) {
             notes={values.notes}
             original={original.notes}
             onChange={(notes) => change({ notes })}
+          />
+          <ServiceCharges
+            charges={charges}
+            paidToday={paidToday}
+            today={today}
+            onMarkPaid={markPaid}
           />
         </div>
       </div>
