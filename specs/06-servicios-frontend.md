@@ -1,6 +1,6 @@
 # SPEC 06 — Frontend de servicios
 
-> **Estado:** Aprobado
+> **Estado:** Implementado
 > **Depende de:** SPEC 02, SPEC 03, SPEC 05
 > **Fecha:** 2026-11-26
 > **Objetivo:** Que el listado, el alta y la edición de servicios recurrentes se puedan usar en `/services`, enlazados a clientes y proyectos, con datos de ejemplo y sin backend.
@@ -211,7 +211,7 @@ Se resolverán en el spec que conecte la base.
 - Los botones rápidos son los de la plantilla según el estado elegido: Pausar, Cancelar servicio o Reactivar. Solo eligen el estado; hay que guardar.
 - "Guardar cambios" está `disabled` si no hay cambios. Al guardar, los valores pasan a ser la referencia.
 - Los cambios cuentan por nombre, proveedor, proyecto, estado, periodicidad, cobro, costo, renovación, aviso, renovación automática y notas. El estado se muestra como "estado (Activo → Cancelado)".
-- Los campos cambiados muestran "· modificado" o "· modificada".
+- Los campos cambiados muestran "· modificado" o "· modificada", según el género de la etiqueta. Notas muestra "· modificadas".
 - Nombre y cobro mayor que 0 son obligatorios.
 - En Mantención, el proveedor sigue siendo "Tú", de solo lectura.
 - El proyecto ofrece "Sin proyecto" y los proyectos de la empresa.
@@ -266,58 +266,58 @@ Antes de escribir código de Next.js, leer la guía correspondiente en `node_mod
 18. **Actualizar `CLAUDE.md`.** Añadir `/services`, `features/services`, `data/services.ts` y la regla de dependencias. Es un archivo local, sin rastrear en git.
 
 Los componentes de los pasos 5 a 17 sin carpeta indicada van en `features/services/components/`.
-`features/services` puede importar de `features/projects` y de `data/`. Desde `features/clients` solo importa tipos. Ningún otro dominio importa de `features/services`.
+`features/services` puede importar de `features/projects`, de las utilidades de fechas de `features/tickets/utils` y de `data/`. Desde `features/clients` solo importa tipos. Ningún otro dominio importa de `features/services`; `data/services.ts` solo importa sus tipos.
 Los pasos 3, 4, 8, 12 y 14 superan 50 líneas por los datos o el marcado; se aceptan porque dividirlos dejaría piezas a medias.
 
 ## Criterios de aceptación
 
-- [ ] `npm run build`, `npm run lint` y `npx tsc --noEmit` terminan sin errores.
-- [ ] `npx prettier --check app components data features lib` termina sin errores.
-- [ ] Ningún archivo de `app`, `components`, `data` o `features` importa `lib/db` o `@prisma/client`, ni contiene `"use server"`.
-- [ ] `prisma/` no cambia.
-- [ ] Ningún archivo `.tsx` nuevo contiene colores hexadecimales ni estilos `dark:`.
-- [ ] Ningún archivo de `features/services` importa de `features/clients`, salvo tipos. Ningún archivo fuera de `features/services` y `app/services` importa de `features/services`.
-- [ ] Los títulos son "Servicios — CRM TI", "Nuevo servicio — CRM TI", "Editar servicio — CRM TI" y, en un ID inexistente, "Servicio no encontrado — CRM TI".
-- [ ] El menú muestra 8 elementos y solo "Clientes", "Servicios", "Tickets" y "Proyectos" tienen `href`.
-- [ ] `/services` muestra $718.250, "9 servicios activos · 4 clientes", $101.579, $616.671, "86% de lo que cobras", 8 y "4 necesitan que las renueves tú".
-- [ ] Próximas renovaciones muestra 8 servicios; el primero es "Soporte evolutivo app de agenda · bolsa 20 h" con "3 d".
-- [ ] El listado muestra 10 filas y el pie "Mostrando 10 de 10 servicios". Las pestañas muestran 10, 3, 3, 2 y 2.
-- [ ] La primera fila es "Soporte evolutivo app de agenda · bolsa 20 h" y la última "Mantención de la tienda online", con "Pausado, no se cobra".
-- [ ] "Mostrar cancelados" muestra 11 filas y "Hosting compartido antiguo" tachado, con "Cancelado".
-- [ ] "VPS 4 GB para el sitio" muestra "Margen $3.000 · 12%" en `amber`. "Plan de mantención web · 8 h/mes" muestra "$0 (tu tiempo)".
-- [ ] Buscar "quillayes" deja 3 filas, buscar "andrea" deja 3, buscar "prj-021" deja 2 y buscar "zzz" muestra "Sin resultados".
-- [ ] La pestaña "Dominios y SSL" deja 2 filas y tiene `aria-selected="true"`. El filtro "Viña Los Quillayes" deja 3.
-- [ ] Pulsar "Servicio" ordena por nombre y `aria-sort` pasa a `ascending`; otra pulsación, a `descending`.
-- [ ] "Registrar renovación" del soporte evolutivo muestra el aviso con la nueva fecha, lo quita de las próximas y deja 7 y "3 necesitan que las renueves tú". "Deshacer" lo restaura.
-- [ ] Con `services` vacío temporalmente se muestra "Aún no hay servicios" y se oculta la sección de próximas renovaciones.
-- [ ] La empresa de cada fila enlaza a `/clients/<uuid>` y el código del proyecto a `/projects/<uuid>`.
-- [ ] El alta muestra "Hosting e infraestructura", "Mensual", la renovación en un mes, "7 días antes", la renovación automática marcada y "Activo".
-- [ ] Guardar el alta vacía muestra 4 errores y "Revisa los campos marcados antes de guardar.".
-- [ ] Una renovación de ayer muestra "La fecha ya pasó: usa la próxima renovación." sin intentar guardar.
-- [ ] Elegir "Mantención" deja el proveedor en "Tú", de solo lectura, y el costo en 0.
-- [ ] Elegir a Andrea Valdés habilita el proyecto con PRJ-021 y PRJ-024. Cambiar a Javiera Contreras lo vacía y ofrece PRJ-018 y PRJ-025.
-- [ ] Un cobro de 25.000 y un costo de 22.000 muestran "Margen: $3.000 / mes" y el aviso de margen bajo.
-- [ ] Un cobro mensual de 45.000 muestra "$718.250 → $763.250" y "+$45.000 al mes". Uno anual de 120.000 muestra "+$10.000 al mes" y la nota de 1/12.
-- [ ] Escribir "password: abc" en las notas muestra el aviso de contraseña y no impide guardar.
-- [ ] Guardar un servicio completo muestra el aviso; `/services` sigue mostrando 10 filas.
-- [ ] "Guardar y agregar otro" conserva cliente y proyecto, vacía el resto y la vista previa parte de $763.250.
-- [ ] Los 11 servicios abren su edición; `/services/not-found` muestra la página de servicio no encontrado.
-- [ ] "Hosting del portal de clientes" muestra "Activo", "Vercel Pro", "Andes Logística SpA" con enlace, "Pausar" y "Cancelar servicio".
-- [ ] Sus cobros muestran 4 filas y "1 cobro pendiente · $35.000". El resumen muestra $100.000, $76.000 y $24.000.
-- [ ] "Marcar pagado" muestra "Pagado hoy", "Todo al día", $135.000 y $59.000, y "Guardar cambios" sigue `disabled`.
-- [ ] "Otros servicios de Andes Logística SpA" muestra "Base de datos del portal" y "SSL comodín \*.andeslogistica.example", con enlace.
-- [ ] "Cancelar servicio" muestra "1 cambio sin guardar: estado (Activo → Cancelado)", la caja de baja con Vercel Pro, $19.000 y $35.000, y "−$35.000 al mes". "Descartar" lo revierte.
-- [ ] Guardar la cancelación muestra "Servicio cancelado. No olvides darlo de baja en Vercel Pro." y la sección Estado muestra el último día.
-- [ ] Un cobro de 40.000 muestra "(+14%)" y "+$5.000 al mes". Guardarlo muestra "Nuevo cobro de $40.000 guardado; se aplica desde el <fecha>.".
-- [ ] Vaciar el nombre y guardar muestra "El nombre no puede quedar vacío." y "Revisa los campos marcados antes de guardar.".
-- [ ] "Hosting compartido antiguo" muestra solo "Reactivar" y "Último día: <fecha> · Motivo: El cliente migró a su propio servidor".
-- [ ] "Correo transaccional" muestra "Aún no hay cobros registrados." y "Todo al día".
-- [ ] Eliminar requiere dos pulsaciones; después todo queda deshabilitado y el aviso enlaza a `/services`.
-- [ ] Un borrador de alta o edición desaparece al volver por un enlace y se conserva al volver con atrás.
-- [ ] El listado conserva búsqueda, pestaña, filtro, "Mostrar cancelados", orden y renovaciones al volver; el aviso no.
-- [ ] Las flechas del teclado cambian tipo, periodicidad y estado.
-- [ ] Los campos con error tienen `aria-invalid="true"` y `aria-describedby` apunta a su mensaje.
-- [ ] Con Playwright, las pantallas de `/services`, `/projects`, `/tickets` y `/clients` no tienen errores en consola ni desbordan en horizontal a 1440 px y 390 px.
+- [x] `npm run build`, `npm run lint` y `npx tsc --noEmit` terminan sin errores.
+- [x] `npx prettier --check app components data features lib` termina sin errores.
+- [x] Ningún archivo de `app`, `components`, `data` o `features` importa `lib/db` o `@prisma/client`, ni contiene `"use server"`.
+- [x] `prisma/` no cambia.
+- [x] Ningún archivo `.tsx` nuevo contiene colores hexadecimales ni estilos `dark:`.
+- [x] Ningún archivo de `features/services` importa de `features/clients`, salvo tipos. Ningún archivo fuera de `features/services` y `app/services` importa de `features/services`, salvo los tipos que importa `data/services.ts`.
+- [x] Los títulos son "Servicios — CRM TI", "Nuevo servicio — CRM TI", "Editar servicio — CRM TI" y, en un ID inexistente, "Servicio no encontrado — CRM TI".
+- [x] El menú muestra 8 elementos y solo "Clientes", "Servicios", "Tickets" y "Proyectos" tienen `href`.
+- [x] `/services` muestra $718.250, "9 servicios activos · 4 clientes", $101.579, $616.671, "86% de lo que cobras", 8 y "4 necesitan que las renueves tú".
+- [x] Próximas renovaciones muestra 8 servicios; el primero es "Soporte evolutivo app de agenda · bolsa 20 h" con "3 d".
+- [x] El listado muestra 10 filas y el pie "Mostrando 10 de 10 servicios". Las pestañas muestran 10, 3, 3, 2 y 2.
+- [x] La primera fila es "Soporte evolutivo app de agenda · bolsa 20 h" y la última "Mantención de la tienda online", con "Pausado, no se cobra".
+- [x] "Mostrar cancelados" muestra 11 filas y "Hosting compartido antiguo" tachado, con "Cancelado".
+- [x] "VPS 4 GB para el sitio" muestra "Margen $3.000 · 12%" en `amber`. "Plan de mantención web · 8 h/mes" muestra "$0 (tu tiempo)".
+- [x] Buscar "quillayes" deja 3 filas, buscar "andrea" deja 3, buscar "prj-021" deja 2 y buscar "zzz" muestra "Sin resultados".
+- [x] La pestaña "Dominios y SSL" deja 2 filas y tiene `aria-selected="true"`. El filtro "Viña Los Quillayes" deja 3.
+- [x] Pulsar "Servicio" ordena por nombre y `aria-sort` pasa a `ascending`; otra pulsación, a `descending`.
+- [x] "Registrar renovación" del soporte evolutivo muestra el aviso con la nueva fecha, lo quita de las próximas y deja 7 y "3 necesitan que las renueves tú". "Deshacer" lo restaura.
+- [x] Con `services` vacío temporalmente se muestra "Aún no hay servicios" y se oculta la sección de próximas renovaciones.
+- [x] La empresa de cada fila enlaza a `/clients/<uuid>` y el código del proyecto a `/projects/<uuid>`.
+- [x] El alta muestra "Hosting e infraestructura", "Mensual", la renovación en un mes, "7 días antes", la renovación automática marcada y "Activo".
+- [x] Guardar el alta vacía muestra 4 errores y "Revisa los campos marcados antes de guardar.".
+- [x] Una renovación de ayer muestra "La fecha ya pasó: usa la próxima renovación." sin intentar guardar.
+- [x] Elegir "Mantención" deja el proveedor en "Tú", de solo lectura, y el costo en 0.
+- [x] Elegir a Andrea Valdés habilita el proyecto con PRJ-021 y PRJ-024. Cambiar a Javiera Contreras lo vacía y ofrece PRJ-018 y PRJ-025.
+- [x] Un cobro de 25.000 y un costo de 22.000 muestran "Margen: $3.000 / mes" y el aviso de margen bajo.
+- [x] Un cobro mensual de 45.000 muestra "$718.250 → $763.250" y "+$45.000 al mes". Uno anual de 120.000 muestra "+$10.000 al mes" y la nota de 1/12.
+- [x] Escribir "password: abc" en las notas muestra el aviso de contraseña y no impide guardar.
+- [x] Guardar un servicio completo muestra el aviso; `/services` sigue mostrando 10 filas.
+- [x] "Guardar y agregar otro" conserva cliente y proyecto, vacía el resto y la vista previa parte de $763.250.
+- [x] Los 11 servicios abren su edición; `/services/not-found` muestra la página de servicio no encontrado.
+- [x] "Hosting del portal de clientes" muestra "Activo", "Vercel Pro", "Andes Logística SpA" con enlace, "Pausar" y "Cancelar servicio".
+- [x] Sus cobros muestran 4 filas y "1 cobro pendiente · $35.000". El resumen muestra $100.000, $76.000 y $24.000.
+- [x] "Marcar pagado" muestra "Pagado hoy", "Todo al día", $135.000 y $59.000, y "Guardar cambios" sigue `disabled`.
+- [x] "Otros servicios de Andes Logística SpA" muestra "Base de datos del portal" y "SSL comodín \*.andeslogistica.example", con enlace.
+- [x] "Cancelar servicio" muestra "1 cambio sin guardar: estado (Activo → Cancelado)", la caja de baja con Vercel Pro, $19.000 y $35.000, y "−$35.000 al mes". "Descartar" lo revierte.
+- [x] Guardar la cancelación muestra "Servicio cancelado. No olvides darlo de baja en Vercel Pro." y la sección Estado muestra el último día.
+- [x] Un cobro de 40.000 muestra "(+14%)" y "+$5.000 al mes". Guardarlo muestra "Nuevo cobro de $40.000 guardado; se aplica desde el <fecha>.".
+- [x] Vaciar el nombre y guardar muestra "El nombre no puede quedar vacío." y "Revisa los campos marcados antes de guardar.".
+- [x] "Hosting compartido antiguo" muestra solo "Reactivar" y "Último día: <fecha> · Motivo: El cliente migró a su propio servidor".
+- [x] "Correo transaccional" muestra "Aún no hay cobros registrados." y "Todo al día".
+- [x] Eliminar requiere dos pulsaciones; después todo queda deshabilitado y el aviso enlaza a `/services`.
+- [x] Un borrador de alta o edición desaparece al volver por un enlace y se conserva al volver con atrás.
+- [x] El listado conserva búsqueda, pestaña, filtro, "Mostrar cancelados", orden y renovaciones al volver; el aviso no.
+- [x] Las flechas del teclado cambian tipo, periodicidad y estado.
+- [x] Los campos con error tienen `aria-invalid="true"` y `aria-describedby` apunta a su mensaje.
+- [x] Con Playwright, las pantallas de `/services`, `/projects`, `/tickets` y `/clients` no tienen errores en consola ni desbordan en horizontal a 1440 px y 390 px.
 
 ## Decisiones
 
