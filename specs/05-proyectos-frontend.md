@@ -1,6 +1,6 @@
 # SPEC 05 — Frontend de proyectos
 
-> **Estado:** Aprobado
+> **Estado:** Implementado
 > **Depende de:** SPEC 02, SPEC 03, SPEC 04
 > **Fecha:** 2026-11-26
 > **Objetivo:** Que el listado, el alta y la edición de proyectos se puedan usar en `/projects`, enlazados desde los tickets, con datos de ejemplo y sin backend.
@@ -253,48 +253,48 @@ Los pasos 3, 7, 10, 12 y 14 superan 50 líneas por los datos o el marcado; se ac
 
 ## Criterios de aceptación
 
-- [ ] `npm run build`, `npm run lint` y `npx tsc --noEmit` terminan sin errores.
-- [ ] `npx prettier --check app components data features lib` termina sin errores.
-- [ ] Ningún archivo de `app`, `components`, `data` o `features` importa `lib/db` o `@prisma/client`, ni contiene `"use server"`.
-- [ ] `prisma/` no cambia.
-- [ ] Ningún archivo `.tsx` nuevo contiene colores hexadecimales ni estilos `dark:`.
-- [ ] Ningún archivo de `features/projects` o `features/tickets` importa de `features/clients`, salvo tipos.
-- [ ] Ningún archivo importa de `features/tickets/components/pill-radio-group` ni de `features/tickets/components/use-today`.
-- [ ] Los títulos son "Proyectos — CRM TI", "Nuevo proyecto — CRM TI", "Editar proyecto — CRM TI" y, en un ID inexistente, "Proyecto no encontrado — CRM TI".
-- [ ] El menú muestra 8 elementos y solo "Clientes", "Tickets" y "Proyectos" tienen `href`.
-- [ ] `/projects` muestra 8 filas, "8 proyectos · 6 activos" y los totales 3, 1, 1 y 2.
-- [ ] La primera fila es PRJ-012 y la última PRJ-025. El pie dice "Mostrando 8 de 8 proyectos · ordenados por fecha de término".
-- [ ] PRJ-018 muestra "Atrasado 3 días" y PRJ-022 "En 4 días", ambos con icono; PRJ-015 muestra "Terminado".
-- [ ] Buscar "clinica" deja PRJ-018 y PRJ-025; buscar "zzz" muestra "Sin resultados".
-- [ ] "Solo atrasados" deja solo PRJ-018. El chip "En pausa" deja solo PRJ-019 y tiene `aria-pressed="true"`.
-- [ ] Pulsar "Nombre del proyecto" ordena por nombre y `aria-sort` pasa a `ascending`; otra pulsación, a `descending`.
-- [ ] Con `projects` vacío temporalmente se muestra "Aún no hay proyectos" y "Todavía no hay proyectos.".
-- [ ] "⋯" tiene `disabled`. Nombre y lápiz abren la edición; el contacto abre `/clients/<uuid>`.
-- [ ] El alta muestra `PRJ-026`, el inicio en hoy, "Planificado" y "Media".
-- [ ] Crear el alta vacía muestra 3 errores y "Revisa los campos marcados antes de crear el proyecto.".
-- [ ] Un término anterior al inicio muestra "Termina antes de empezar: revisa las fechas." sin intentar crear.
-- [ ] Elegir a Andrea Valdés muestra "Andes Logística SpA · Decisor · 1 proyecto con este contacto".
-- [ ] "+1 mes" rellena el término y muestra la duración y la línea de tiempo.
-- [ ] Un hito fuera del rango muestra su error e impide crear.
-- [ ] Crear un proyecto completo muestra el aviso con PRJ-026; `/projects` sigue mostrando 8 filas.
-- [ ] Los 8 proyectos abren su edición; `/projects/not-found` muestra la página de proyecto no encontrado.
-- [ ] PRJ-021 muestra "2 de 4 hechos · 2 pendientes", "Vencido hace 2 días" en el tercer hito, "2/4", "Quedan 12 d" y "71%".
-- [ ] El panel de PRJ-021 muestra #T-1048, #T-1044 y #T-1037 con enlace; el de PRJ-012, "Sin tickets.".
-- [ ] Elegir "Completado" en PRJ-021 muestra "1 cambio sin guardar: estado (En curso → Completado)" y el aviso de 2 hitos pendientes; "Descartar" lo revierte.
-- [ ] Elegir a Catalina Morales en PRJ-021 muestra "Pasará de Andes Logística SpA a Pacífico Abogados.".
-- [ ] "+1 semana" en PRJ-021 muestra la caja con "(+7 días)". Guardar con motivo muestra "Cambios guardados (1)." y añade "Término movido +7 días · motivo: … · ahora" al historial.
-- [ ] Vaciar el nombre y guardar muestra "El nombre no puede quedar vacío." y "Revisa los campos marcados antes de guardar.".
-- [ ] Archivar muestra la etiqueta "Archivado" y restaurar la quita.
-- [ ] Eliminar PRJ-021 requiere dos pulsaciones y menciona 3 tickets; en PRJ-012 omite esa frase. Después todo queda deshabilitado y el aviso enlaza a `/projects`.
-- [ ] "Ver todos" de PRJ-021 abre `/tickets?project=<uuid>` con 3 filas, "Todos" y PRJ-021 elegidos.
-- [ ] `/tickets?project=x` muestra el listado normal con 9 filas.
-- [ ] En `/tickets`, la tabla, los grupos de "Por proyecto", el alta, la edición y el panel lateral enlazan al proyecto.
-- [ ] Un borrador de alta o edición desaparece al volver por un enlace y se conserva al volver con atrás.
-- [ ] El listado conserva búsqueda, filtro, "Solo atrasados" y orden al volver.
-- [ ] Las flechas del teclado cambian estado y prioridad.
-- [ ] Los campos con error tienen `aria-invalid="true"` y `aria-describedby` apunta a su mensaje.
-- [ ] Con Playwright, las pantallas de `/projects`, `/tickets` y `/clients` no tienen errores en consola ni desbordan en horizontal a 1440 px y 390 px.
-- [ ] Los criterios de `/tickets` del SPEC 04 siguen cumpliéndose.
+- [x] `npm run build`, `npm run lint` y `npx tsc --noEmit` terminan sin errores.
+- [x] `npx prettier --check app components data features lib` termina sin errores.
+- [x] Ningún archivo de `app`, `components`, `data` o `features` importa `lib/db` o `@prisma/client`, ni contiene `"use server"`.
+- [x] `prisma/` no cambia.
+- [x] Ningún archivo `.tsx` nuevo contiene colores hexadecimales ni estilos `dark:`.
+- [x] Ningún archivo de `features/projects` o `features/tickets` importa de `features/clients`, salvo tipos.
+- [x] Ningún archivo importa de `features/tickets/components/pill-radio-group` ni de `features/tickets/components/use-today`.
+- [x] Los títulos son "Proyectos — CRM TI", "Nuevo proyecto — CRM TI", "Editar proyecto — CRM TI" y, en un ID inexistente, "Proyecto no encontrado — CRM TI".
+- [x] El menú muestra 8 elementos y solo "Clientes", "Tickets" y "Proyectos" tienen `href`.
+- [x] `/projects` muestra 8 filas, "8 proyectos · 6 activos" y los totales 3, 1, 1 y 2.
+- [x] La primera fila es PRJ-012 y la última PRJ-025. El pie dice "Mostrando 8 de 8 proyectos · ordenados por fecha de término".
+- [x] PRJ-018 muestra "Atrasado 3 días" y PRJ-022 "En 4 días", ambos con icono; PRJ-015 muestra "Terminado".
+- [x] Buscar "clinica" deja PRJ-018 y PRJ-025; buscar "zzz" muestra "Sin resultados".
+- [x] "Solo atrasados" deja solo PRJ-018. El chip "En pausa" deja solo PRJ-019 y tiene `aria-pressed="true"`.
+- [x] Pulsar "Nombre del proyecto" ordena por nombre y `aria-sort` pasa a `ascending`; otra pulsación, a `descending`.
+- [x] Con `projects` vacío temporalmente se muestra "Aún no hay proyectos" y "Todavía no hay proyectos.".
+- [x] "⋯" tiene `disabled`. Nombre y lápiz abren la edición; el contacto abre `/clients/<uuid>`.
+- [x] El alta muestra `PRJ-026`, el inicio en hoy, "Planificado" y "Media".
+- [x] Crear el alta vacía muestra 3 errores y "Revisa los campos marcados antes de crear el proyecto.".
+- [x] Un término anterior al inicio muestra "Termina antes de empezar: revisa las fechas." sin intentar crear.
+- [x] Elegir a Andrea Valdés muestra "Andes Logística SpA · Decisor · 1 proyecto con este contacto".
+- [x] "+1 mes" rellena el término y muestra la duración y la línea de tiempo.
+- [x] Un hito fuera del rango muestra su error e impide crear.
+- [x] Crear un proyecto completo muestra el aviso con PRJ-026; `/projects` sigue mostrando 8 filas.
+- [x] Los 8 proyectos abren su edición; `/projects/not-found` muestra la página de proyecto no encontrado.
+- [x] PRJ-021 muestra "2 de 4 hechos · 2 pendientes", "Vencido hace 2 días" en el tercer hito, "2/4", "Quedan 12 d" y "71%".
+- [x] El panel de PRJ-021 muestra #T-1048, #T-1044 y #T-1037 con enlace; el de PRJ-012, "Sin tickets.".
+- [x] Elegir "Completado" en PRJ-021 muestra "1 cambio sin guardar: estado (En curso → Completado)" y el aviso de 2 hitos pendientes; "Descartar" lo revierte.
+- [x] Elegir a Catalina Morales en PRJ-021 muestra "Pasará de Andes Logística SpA a Pacífico Abogados.".
+- [x] "+1 semana" en PRJ-021 muestra la caja con "(+7 días)". Guardar con motivo muestra "Cambios guardados (1)." y añade "Término movido +7 días · motivo: … · ahora" al historial.
+- [x] Vaciar el nombre y guardar muestra "El nombre no puede quedar vacío." y "Revisa los campos marcados antes de guardar.".
+- [x] Archivar muestra la etiqueta "Archivado" y restaurar la quita.
+- [x] Eliminar PRJ-021 requiere dos pulsaciones y menciona 3 tickets; en PRJ-012 omite esa frase. Después todo queda deshabilitado y el aviso enlaza a `/projects`.
+- [x] "Ver todos" de PRJ-021 abre `/tickets?project=<uuid>` con 3 filas, "Todos" y PRJ-021 elegidos.
+- [x] `/tickets?project=x` muestra el listado normal con 9 filas.
+- [x] En `/tickets`, la tabla, los grupos de "Por proyecto", el alta, la edición y el panel lateral enlazan al proyecto.
+- [x] Un borrador de alta o edición desaparece al volver por un enlace y se conserva al volver con atrás.
+- [x] El listado conserva búsqueda, filtro, "Solo atrasados" y orden al volver.
+- [x] Las flechas del teclado cambian estado y prioridad.
+- [x] Los campos con error tienen `aria-invalid="true"` y `aria-describedby` apunta a su mensaje.
+- [x] Con Playwright, las pantallas de `/projects`, `/tickets` y `/clients` no tienen errores en consola ni desbordan en horizontal a 1440 px y 390 px.
+- [x] Los criterios de `/tickets` del SPEC 04 siguen cumpliéndose.
 
 ## Decisiones
 
