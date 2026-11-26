@@ -3,7 +3,10 @@
 import Link from "next/link";
 import { useState } from "react";
 import { Breadcrumb } from "@/components/breadcrumb";
+import { useToday } from "@/components/use-today";
 import { ProjectDataFields } from "@/features/projects/components/project-data-fields";
+import { ProjectDateFields } from "@/features/projects/components/project-date-fields";
+import { ProjectStatusFields } from "@/features/projects/components/project-status-fields";
 import type { ProjectFormValues } from "@/features/projects/types/project";
 
 const NEXT_CODE = "PRJ-026";
@@ -21,6 +24,7 @@ const EMPTY_VALUES: ProjectFormValues = {
 
 // Se completa en el paso 12 del SPEC 05: validación, aviso y reinicio.
 export function ProjectCreateForm() {
+  const today = useToday();
   const [values, setValues] = useState(EMPTY_VALUES);
 
   function change(changes: Partial<ProjectFormValues>) {
@@ -50,6 +54,13 @@ export function ProjectCreateForm() {
           values={values}
           errors={{}}
           code={NEXT_CODE}
+          onChange={change}
+        />
+        <ProjectStatusFields values={values} onChange={change} />
+        <ProjectDateFields
+          values={values}
+          errors={{}}
+          today={today}
           onChange={change}
         />
       </div>

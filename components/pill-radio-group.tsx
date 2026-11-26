@@ -14,12 +14,14 @@ export function PillRadioGroup<T extends string>({
   options,
   value,
   modified,
+  disabled,
   onChange,
 }: {
   label: string;
   options: PillOption<T>[];
   value: T;
   modified?: boolean;
+  disabled?: boolean;
   onChange: (value: T) => void;
 }) {
   const name = useId();
@@ -43,6 +45,7 @@ export function PillRadioGroup<T extends string>({
               name={name}
               value={option.value}
               checked={option.value === value}
+              disabled={disabled}
               onChange={() => onChange(option.value)}
               className="sr-only"
             />
