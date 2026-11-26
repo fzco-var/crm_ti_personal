@@ -6,6 +6,7 @@ import { Breadcrumb } from "@/components/breadcrumb";
 import { useToday } from "@/components/use-today";
 import { ProjectDataFields } from "@/features/projects/components/project-data-fields";
 import { ProjectDateFields } from "@/features/projects/components/project-date-fields";
+import { ProjectMilestones } from "@/features/projects/components/project-milestones";
 import { ProjectStatusFields } from "@/features/projects/components/project-status-fields";
 import type { ProjectFormValues } from "@/features/projects/types/project";
 
@@ -62,6 +63,12 @@ export function ProjectCreateForm() {
           errors={{}}
           today={today}
           onChange={change}
+        />
+        <ProjectMilestones
+          milestones={values.milestones}
+          startDate={values.startDate}
+          endDate={values.endDate}
+          onChange={(milestones) => change({ milestones })}
         />
       </div>
     </form>
