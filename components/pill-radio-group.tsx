@@ -4,6 +4,8 @@ import { useId } from "react";
 
 export interface PillOption<T extends string> {
   value: T;
+  /** Texto visible; por defecto, `value`. */
+  label?: string;
   /** Clase del punto de color, si lo lleva. */
   dotClassName?: string;
 }
@@ -14,6 +16,7 @@ export function PillRadioGroup<T extends string>({
   options,
   value,
   modified,
+  modifiedText = "modificado",
   disabled,
   onChange,
 }: {
@@ -21,6 +24,8 @@ export function PillRadioGroup<T extends string>({
   options: PillOption<T>[];
   value: T;
   modified?: boolean;
+  /** "modificada" si la etiqueta es femenina. */
+  modifiedText?: string;
   disabled?: boolean;
   onChange: (value: T) => void;
 }) {
@@ -31,7 +36,10 @@ export function PillRadioGroup<T extends string>({
       <legend className="crm-label mb-2">
         {label}
         {modified && (
-          <span className="text-xs font-bold text-accent"> · modificado</span>
+          <span className="text-xs font-bold text-accent">
+            {" "}
+            · {modifiedText}
+          </span>
         )}
       </legend>
       <div className="flex flex-wrap gap-1.5">
@@ -52,7 +60,7 @@ export function PillRadioGroup<T extends string>({
             {option.dotClassName && (
               <span className={`size-2 rounded-full ${option.dotClassName}`} />
             )}
-            {option.value}
+            {option.label ?? option.value}
           </label>
         ))}
       </div>

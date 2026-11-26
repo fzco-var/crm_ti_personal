@@ -4,14 +4,19 @@ import { useId, type ComponentProps, type ReactNode } from "react";
 
 export function FieldLabel({
   modified,
+  modifiedText = "modificado",
   children,
   ...props
-}: ComponentProps<"label"> & { modified?: boolean }) {
+}: ComponentProps<"label"> & {
+  modified?: boolean;
+  /** "modificada" si la etiqueta es femenina. */
+  modifiedText?: string;
+}) {
   return (
     <label className="crm-label" {...props}>
       {children}
       {modified && (
-        <span className="text-xs font-bold text-accent"> · modificado</span>
+        <span className="text-xs font-bold text-accent"> · {modifiedText}</span>
       )}
     </label>
   );

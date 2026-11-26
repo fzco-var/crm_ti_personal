@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Breadcrumb } from "@/components/breadcrumb";
 import { useToday } from "@/components/use-today";
+import { ServiceChargeFields } from "@/features/services/components/service-charge-fields";
 import { ServiceDataFields } from "@/features/services/components/service-data-fields";
 import { ServiceTypeFields } from "@/features/services/components/service-type-fields";
 import type { ServiceFormValues } from "@/features/services/types/service";
@@ -29,7 +30,7 @@ export function ServiceCreateForm() {
   return <CreateForm key={bfcacheId} today={today} />;
 }
 
-// Cobro, renovación, notas, vista previa y guardado llegan en los pasos 10 a 12.
+// Renovación, notas, vista previa y guardado llegan en los pasos 11 y 12.
 function CreateForm({ today }: { today: string }) {
   const [values, setValues] = useState<ServiceFormValues>(() =>
     getNewServiceValues(today),
@@ -56,6 +57,7 @@ function CreateForm({ today }: { today: string }) {
         <div className="flex min-w-0 flex-[999_1_560px] flex-col gap-6">
           <ServiceTypeFields values={values} onChange={change} />
           <ServiceDataFields values={values} errors={{}} onChange={change} />
+          <ServiceChargeFields values={values} errors={{}} onChange={change} />
         </div>
       </div>
     </form>
