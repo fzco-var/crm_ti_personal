@@ -104,7 +104,7 @@ export function ServiceCharges({
                       ) : (
                         <button
                           type="button"
-                          className="crm-btn crm-btn-sm crm-btn-secondary"
+                          className="crm-btn crm-btn-sm crm-btn-secondary whitespace-nowrap"
                           aria-label={`Marcar como pagado el cobro de ${period}`}
                           disabled={disabled}
                           onClick={() => onMarkPaid(charge)}

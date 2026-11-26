@@ -21,6 +21,7 @@ import {
 } from "@/features/services/components/service-data-fields";
 import { ServiceNotesField } from "@/features/services/components/service-notes-field";
 import { ServiceRenewalFields } from "@/features/services/components/service-renewal-fields";
+import { ServiceSidebar } from "@/features/services/components/service-sidebar";
 import { ServiceStatusBadge } from "@/features/services/components/service-status-badge";
 import {
   SERVICE_STATUSES,
@@ -345,6 +346,12 @@ function EditForm({ service, today }: { service: Service; today: string }) {
             onMarkPaid={markPaid}
           />
         </div>
+        <ServiceSidebar
+          service={service}
+          values={values}
+          original={original}
+          charges={charges}
+        />
       </div>
     </form>
   );
