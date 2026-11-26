@@ -6,9 +6,11 @@ import { Breadcrumb } from "@/components/breadcrumb";
 import { useToday } from "@/components/use-today";
 import { ServiceChargeFields } from "@/features/services/components/service-charge-fields";
 import { ServiceDataFields } from "@/features/services/components/service-data-fields";
+import { ServiceNotesField } from "@/features/services/components/service-notes-field";
+import { ServiceRenewalFields } from "@/features/services/components/service-renewal-fields";
 import { ServiceTypeFields } from "@/features/services/components/service-type-fields";
 import type { ServiceFormValues } from "@/features/services/types/service";
-import { getNewServiceValues } from "@/features/services/utils";
+import { getNewServiceValues, isPastRenewal } from "@/features/services/utils";
 
 /**
  * `bfcacheId` reinicia el alta al entrar por un enlace, no con atrás. La
@@ -30,7 +32,7 @@ export function ServiceCreateForm() {
   return <CreateForm key={bfcacheId} today={today} />;
 }
 
-// Renovación, notas, vista previa y guardado llegan en los pasos 11 y 12.
+// Validación, vista previa y guardado llegan en el paso 12.
 function CreateForm({ today }: { today: string }) {
   const [values, setValues] = useState<ServiceFormValues>(() =>
     getNewServiceValues(today),
@@ -58,6 +60,20 @@ function CreateForm({ today }: { today: string }) {
           <ServiceTypeFields values={values} onChange={change} />
           <ServiceDataFields values={values} errors={{}} onChange={change} />
           <ServiceChargeFields values={values} errors={{}} onChange={change} />
+          <ServiceRenewalFields
+            values={values}
+            errors={
+              isPastRenewal(values.renewDate, today)
+                ? { renewDate: "La fecha ya pasó: usa la próxima renovación." }
+                : {}
+            }
+            today={today}
+            onChange={change}
+          />
+          <ServiceNotesField
+            notes={values.notes}
+            onChange={(notes) => change({ notes })}
+          />
         </div>
       </div>
     </form>
