@@ -6,7 +6,9 @@ import { useState } from "react";
 import { Alert } from "@/components/alert";
 import { Breadcrumb } from "@/components/breadcrumb";
 import { CheckIcon, WarningIcon } from "@/components/icons";
+import { TONE_CLASSES } from "@/components/tone";
 import { useToday } from "@/components/use-today";
+import { ProjectDangerZone } from "@/features/projects/components/project-danger-zone";
 import {
   ProjectDataFields,
   type ProjectDataErrors,
@@ -31,7 +33,12 @@ import {
   isValidProject,
   toProjectFormValues,
 } from "@/features/projects/utils";
-import { addDays, formatDate, getDaysUntil } from "@/features/tickets/utils";
+import {
+  addDays,
+  formatDate,
+  getDaysUntil,
+  getTicketsByProject,
+} from "@/features/tickets/utils";
 
 type ChangeKey =
   | "name"
@@ -152,6 +159,8 @@ function EditForm({ project, today }: { project: Project; today: string }) {
   const [history, setHistory] = useState(project.history);
   const [tried, setTried] = useState(false);
   const [notice, setNotice] = useState("");
+  const [archived, setArchived] = useState(false);
+  const [deleted, setDeleted] = useState(false);
 
   const changes = getChanges(values, original);
   const errors = getErrors(values, tried);
@@ -180,6 +189,16 @@ function EditForm({ project, today }: { project: Project; today: string }) {
     setTried(false);
   }
 
+  function toggleArchive() {
+    setNotice(archived ? "Proyecto restaurado." : "Proyecto archivado.");
+    setArchived(!archived);
+  }
+
+  function deleteProject() {
+    setDeleted(true);
+    setNotice(`Proyecto ${project.code} eliminado.`);
+  }
+
   return (
     <form
       className="crm-content"
@@ -204,6 +223,11 @@ function EditForm({ project, today }: { project: Project; today: string }) {
                 Editar proyecto
               </h1>
               <ProjectStatusBadge status={original.status} />
+              {archived && (
+                <span className={`crm-badge ${TONE_CLASSES.gray}`}>
+                  Archivado
+                </span>
+              )}
             </div>
             <span className="text-sm text-ink-muted">
               <span className="font-mono">{project.code}</span> ·{" "}
@@ -218,7 +242,7 @@ function EditForm({ project, today }: { project: Project; today: string }) {
             <button
               type="submit"
               className="crm-btn crm-btn-primary"
-              disabled={changes.length === 0}
+              disabled={changes.length === 0 || deleted}
             >
               <CheckIcon />
               Guardar cambios
@@ -242,6 +266,7 @@ function EditForm({ project, today }: { project: Project; today: string }) {
           <button
             type="button"
             className="crm-btn crm-btn-sm crm-btn-secondary"
+            disabled={deleted}
             onClick={discard}
           >
             Descartar
@@ -250,7 +275,20 @@ function EditForm({ project, today }: { project: Project; today: string }) {
       )}
 
       {notice && (
-        <Alert variant="success" onClose={() => setNotice("")}>
+        <Alert
+          variant="success"
+          action={
+            deleted && (
+              <Link
+                href="/projects"
+                className="crm-hit font-bold text-tone-green-fg underline"
+              >
+                Ver listado
+              </Link>
+            )
+          }
+          onClose={deleted ? undefined : () => setNotice("")}
+        >
           {notice}
         </Alert>
       )}
@@ -267,17 +305,20 @@ function EditForm({ project, today }: { project: Project; today: string }) {
             values={values}
             errors={errors}
             original={original}
+            disabled={deleted}
             onChange={change}
           />
           <ProjectStatusFields
             values={values}
             original={original}
+            disabled={deleted}
             onChange={change}
             notice={
               values.status === "Completado" &&
               pending > 0 && (
                 <PendingNotice
                   pending={pending}
+                  disabled={deleted}
                   onCompleteAll={() =>
                     change({
                       milestones: values.milestones.map((milestone) => ({
@@ -297,6 +338,7 @@ function EditForm({ project, today }: { project: Project; today: string }) {
             original={original}
             reason={reason}
             onReasonChange={setReason}
+            disabled={deleted}
             onChange={change}
           />
           <ProjectMilestones
@@ -305,7 +347,15 @@ function EditForm({ project, today }: { project: Project; today: string }) {
             endDate={values.endDate}
             today={today}
             original={original.milestones}
+            disabled={deleted}
             onChange={(milestones) => change({ milestones })}
+          />
+          <ProjectDangerZone
+            archived={archived}
+            ticketCount={getTicketsByProject(project.id).length}
+            disabled={deleted}
+            onToggleArchive={toggleArchive}
+            onDelete={deleteProject}
           />
         </div>
         <ProjectSidebar
@@ -321,9 +371,11 @@ function EditForm({ project, today }: { project: Project; today: string }) {
 
 function PendingNotice({
   pending,
+  disabled,
   onCompleteAll,
 }: {
   pending: number;
+  disabled: boolean;
   onCompleteAll: () => void;
 }) {
   return (
@@ -340,6 +392,7 @@ function PendingNotice({
       <button
         type="button"
         className="crm-btn crm-btn-sm crm-btn-secondary border-tone-amber-line text-tone-amber-fg"
+        disabled={disabled}
         onClick={onCompleteAll}
       >
         Marcar todos como hechos
