@@ -17,6 +17,7 @@ export function PillRadioGroup<T extends string>({
   value,
   modified,
   modifiedText = "modificado",
+  hideLabel,
   disabled,
   onChange,
 }: {
@@ -26,6 +27,8 @@ export function PillRadioGroup<T extends string>({
   modified?: boolean;
   /** "modificada" si la etiqueta es femenina. */
   modifiedText?: string;
+  /** Solo para lectores de pantalla, si un título visible ya lo nombra. */
+  hideLabel?: boolean;
   disabled?: boolean;
   onChange: (value: T) => void;
 }) {
@@ -33,7 +36,7 @@ export function PillRadioGroup<T extends string>({
 
   return (
     <fieldset className="flex min-w-0 flex-col gap-2">
-      <legend className="crm-label mb-2">
+      <legend className={hideLabel ? "sr-only" : "crm-label mb-2"}>
         {label}
         {modified && (
           <span className="text-xs font-bold text-accent">

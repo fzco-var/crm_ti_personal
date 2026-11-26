@@ -7,10 +7,13 @@ import { SERVICE_PERIODS } from "@/features/services/constants";
 import type { ServiceFormValues } from "@/features/services/types/service";
 import {
   formatCLP,
+  formatPercentDelta,
   getMargin,
   getMarginPercent,
+  getServiceCompany,
   isLowMargin,
 } from "@/features/services/utils";
+import { formatDate } from "@/features/tickets/utils";
 
 export type ServiceChargeErrors = Partial<Record<"charge", string>>;
 
@@ -76,8 +79,43 @@ export function ServiceChargeFields({
         </MoneyField>
       </div>
 
+      {original && values.charge > 0 && values.charge !== original.charge && (
+        <PriceChangeBox values={values} original={original} />
+      )}
+
       <MarginBox values={values} />
     </section>
+  );
+}
+
+/** Solo en la edición: cobro anterior, nuevo y variación. */
+function PriceChangeBox({
+  values,
+  original,
+}: {
+  values: ServiceFormValues;
+  original: ServiceFormValues;
+}) {
+  const rises = values.charge >= original.charge;
+
+  return (
+    <div className="flex flex-col gap-1.5 rounded-xl border border-line bg-surface-muted px-4 py-3.5 text-sm">
+      <span>
+        Cobro:{" "}
+        <span className="font-mono text-ink-muted line-through">
+          {formatCLP(original.charge)}
+        </span>{" "}
+        → <strong className="font-mono">{formatCLP(values.charge)}</strong>{" "}
+        <strong className={rises ? "text-tone-green-fg" : "text-danger"}>
+          ({formatPercentDelta(original.charge, values.charge)})
+        </strong>
+      </span>
+      <span className="text-compact text-ink-muted">
+        Se aplicará desde la próxima renovación (
+        {values.renewDate ? formatDate(values.renewDate) : "—"}). Avísale a{" "}
+        {getServiceCompany(values)} antes de esa fecha.
+      </span>
+    </div>
   );
 }
 
