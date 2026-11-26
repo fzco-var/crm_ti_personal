@@ -80,7 +80,14 @@ function getSummary(tickets: Ticket[]) {
   return `${open.length} sin cerrar en ${plural(projectCount, "proyecto", "proyectos")} · ${tickets.length} en total`;
 }
 
-export function TicketsList({ tickets }: { tickets: Ticket[] }) {
+/** Con `projectId` (de `?project=`), abre filtrado por ese proyecto y "Todos". */
+export function TicketsList({
+  tickets,
+  projectId: initialProjectId,
+}: {
+  tickets: Ticket[];
+  projectId?: string;
+}) {
   const [list, setList] = useState<ListState>({
     tickets,
     updatedIds: new Set(),
@@ -88,8 +95,10 @@ export function TicketsList({ tickets }: { tickets: Ticket[] }) {
   const [undoState, setUndoState] = useState<ListState | null>(null);
   const [notice, setNotice] = useState("");
   const [search, setSearch] = useState("");
-  const [projectId, setProjectId] = useState("");
-  const [statusFilter, setStatusFilter] = useState<StatusFilter>("Sin cerrar");
+  const [projectId, setProjectId] = useState(initialProjectId ?? "");
+  const [statusFilter, setStatusFilter] = useState<StatusFilter>(
+    initialProjectId ? "Todos" : "Sin cerrar",
+  );
   const [view, setView] = useState<TicketsView>("list");
   const [sort, setSort] = useState<TicketsSort>({
     key: "status",

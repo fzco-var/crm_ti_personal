@@ -9,7 +9,7 @@ import { FieldLabel, TextField } from "@/components/form-field";
 import { CheckIcon } from "@/components/icons";
 import { TONE_DOT_CLASSES } from "@/components/tone";
 import { findProjectById } from "@/features/projects/utils";
-import { PillRadioGroup } from "@/features/tickets/components/pill-radio-group";
+import { PillRadioGroup } from "@/components/pill-radio-group";
 import { ProjectFields } from "@/features/tickets/components/project-fields";
 import { StatusFields } from "@/features/tickets/components/status-fields";
 import { TicketStatusBadge } from "@/features/tickets/components/ticket-status-badge";
@@ -20,7 +20,7 @@ import {
 } from "@/features/tickets/components/ticket-activity";
 import { TicketDangerZone } from "@/features/tickets/components/ticket-danger-zone";
 import { TicketSidebar } from "@/features/tickets/components/ticket-sidebar";
-import { useToday } from "@/features/tickets/components/use-today";
+import { useToday } from "@/components/use-today";
 import {
   TICKET_PRIORITIES,
   TICKET_STATUS_TONES,

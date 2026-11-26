@@ -4,7 +4,7 @@ import { useId } from "react";
 import { FieldError, FieldLabel, TextField } from "@/components/form-field";
 import { TONE_DOT_CLASSES } from "@/components/tone";
 import type { Project } from "@/features/projects/types/project";
-import { PillRadioGroup } from "@/features/tickets/components/pill-radio-group";
+import { PillRadioGroup } from "@/components/pill-radio-group";
 import { TicketStatusBadge } from "@/features/tickets/components/ticket-status-badge";
 import {
   TICKET_PRIORITIES,

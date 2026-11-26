@@ -265,3 +265,15 @@ export function CopyIcon(props: IconProps) {
     </Icon>
   );
 }
+
+export function TrashIcon(props: IconProps) {
+  return (
+    <Icon size={18} strokeWidth={1.8} {...props}>
+      <path d="M4 7h16" />
+      <path d="M10 11v6" />
+      <path d="M14 11v6" />
+      <path d="M6 7l1 13h10l1-13" />
+      <path d="M9 7V4h6v3" />
+    </Icon>
+  );
+}

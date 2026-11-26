@@ -50,13 +50,6 @@ export function formatDuration(totalHours: number) {
  * usan UTC para que el cambio de hora no altere la cantidad de días.
  */
 
-/** Fecha local del navegador. */
-export function toDateValue(date: Date) {
-  const month = String(date.getMonth() + 1).padStart(2, "0");
-  const day = String(date.getDate()).padStart(2, "0");
-  return `${date.getFullYear()}-${month}-${day}`;
-}
-
 export function addDays(date: string, days: number) {
   return new Date(Date.parse(date) + days * DAY_MS).toISOString().slice(0, 10);
 }

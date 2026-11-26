@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useId, type ReactNode } from "react";
 import { Alert } from "@/components/alert";
 import { FieldError, FieldLabel } from "@/components/form-field";
@@ -119,6 +120,7 @@ function NewProjectFields({
           )}
         </select>
         <FieldError id={`${id}-error`}>{errors.projectId}</FieldError>
+        {project && <ProjectLink project={project} />}
       </div>
 
       {project && <ProjectSummary project={project} />}
@@ -195,6 +197,7 @@ function EditProjectFields({
             {getMoveText()}
           </span>
         )}
+        {project && <ProjectLink project={project} />}
       </div>
       {project && (
         <RequesterField
@@ -231,6 +234,17 @@ function ClientProjectOptions({ company }: { company: string }) {
         <ProjectOptions projects={others} />
       </optgroup>
     </>
+  );
+}
+
+function ProjectLink({ project }: { project: Project }) {
+  return (
+    <Link
+      href={`/projects/${project.id}`}
+      className="crm-link self-start text-compact font-bold"
+    >
+      Ver proyecto {project.code}
+    </Link>
   );
 }
 
