@@ -22,7 +22,11 @@ import { normalizeText } from "@/lib/text";
  */
 
 export type ProjectSortKey = "name" | "client" | "status" | "end";
-export type SortDirection = 1 | -1;
+
+export interface ProjectsSort {
+  key: ProjectSortKey;
+  direction: "ascending" | "descending";
+}
 
 function getStatusOrder(status: ProjectStatus) {
   return PROJECT_STATUSES.indexOf(status);
@@ -98,8 +102,7 @@ export function matchesProjectSearch(project: Project, query: string) {
 
 export function sortProjects(
   list: Project[],
-  key: ProjectSortKey,
-  direction: SortDirection,
+  { key, direction }: ProjectsSort,
 ) {
   const compare: Record<ProjectSortKey, (a: Project, b: Project) => number> = {
     name: (a, b) => a.name.localeCompare(b.name, "es"),
@@ -108,7 +111,8 @@ export function sortProjects(
     status: (a, b) => getStatusOrder(a.status) - getStatusOrder(b.status),
     end: (a, b) => a.endInDays - b.endInDays,
   };
-  return [...list].sort((a, b) => compare[key](a, b) * direction);
+  const sign = direction === "ascending" ? 1 : -1;
+  return [...list].sort((a, b) => compare[key](a, b) * sign);
 }
 
 // Fechas
