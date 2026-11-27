@@ -79,7 +79,7 @@ function UserRow({
         <span className="flex items-center gap-3">
           <span
             className={`flex size-9 flex-none items-center justify-center rounded-full font-mono text-xs font-medium ${
-              isCurrent ? "bg-ink text-white" : "bg-canvas text-ink-soft"
+              isCurrent ? "bg-ink text-ink-inverse" : "bg-canvas text-ink-soft"
             }`}
           >
             {getInitials(user.firstName, user.lastName)}

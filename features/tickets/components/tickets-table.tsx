@@ -208,7 +208,7 @@ function ProjectGroup({
           className="bg-surface-muted px-5 py-3 font-normal"
         >
           <span className="flex flex-wrap items-center gap-2.5">
-            <span className="rounded-md bg-ink px-2 py-0.5 font-mono text-xs font-medium text-white">
+            <span className="rounded-md bg-ink px-2 py-0.5 font-mono text-xs font-medium text-ink-inverse">
               {project.code}
             </span>
             <Link
