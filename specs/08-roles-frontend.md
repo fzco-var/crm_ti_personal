@@ -1,6 +1,6 @@
 # SPEC 08 — Frontend de roles y permisos
 
-> **Estado:** Aprobado
+> **Estado:** Implementado
 > **Depende de:** SPEC 02, SPEC 04, SPEC 07
 > **Fecha:** 2026-11-27
 > **Objetivo:** Que el listado, el alta y la edición de roles con su matriz de permisos se puedan usar en `/roles`, con datos de ejemplo y sin backend.
@@ -260,48 +260,48 @@ Los pasos 3, 8, 11 y 13 superan 50 líneas por los datos o el marcado; se acepta
 
 ## Criterios de aceptación
 
-- [ ] `npm run build`, `npm run lint` y `npx tsc --noEmit` terminan sin errores.
-- [ ] `npx prettier --check app components data features lib` termina sin errores.
-- [ ] Ningún archivo de `app`, `components`, `data` o `features` importa `lib/db` o `@prisma/client`, ni contiene `"use server"`.
-- [ ] `prisma/` no cambia.
-- [ ] Ningún archivo `.tsx` nuevo contiene colores hexadecimales ni estilos `dark:`.
-- [ ] `features/users/types/role.ts` no existe y nada contiene `permissionCount`.
-- [ ] Ningún archivo fuera de `features/roles`, `features/users` y `app/roles` importa de `features/roles`, salvo el tipo que importa `data/roles.ts`. `features/roles` solo importa de `features/users/utils` y `features/users/constants`.
-- [ ] Los títulos son "Roles y permisos — CRM TI", "Crear rol — CRM TI", "Editar rol — CRM TI" y, en un ID inexistente, "Rol no encontrado — CRM TI".
-- [ ] El menú muestra 8 elementos y solo "Clientes", "Servicios", "Tickets", "Proyectos", "Usuarios" y "Roles y permisos" tienen `href`.
-- [ ] `/roles` muestra "4 roles · 2 del sistema, 2 personalizados", 4 filas y "Mostrando 4 de 4 roles".
-- [ ] Las filas muestran 30/30, 10/30, 6/30 y 4/30, y "1 usuario", "3 usuarios", "2 usuarios" y "Sin usuarios".
-- [ ] Administrador y Solo lectura llevan "Sistema"; Técnico y Soporte externo no.
-- [ ] Técnico empieza abierta, con "Ocultar permisos", `aria-expanded="true"`, Clientes "1/5", Tickets "4/5", Reportes "sin acceso" y el aviso de reasignar.
-- [ ] Abrir Administrador cierra Técnico y muestra "total" en los 6 módulos.
-- [ ] Buscar "lectura" deja 1 fila, buscar "soporte_externo" deja 1, buscar "TECNICO" deja 1 y buscar "zzz" muestra "Sin resultados".
-- [ ] Eliminar está `disabled` en Administrador, Técnico y Solo lectura, y habilitado en Soporte externo.
-- [ ] Eliminar Soporte externo deja 3 filas y "Rol «Soporte externo» eliminado."; "Deshacer" lo restaura y muestra "Cambio deshecho.".
-- [ ] "Duplicar" en Técnico inserta "Copia de Técnico" debajo, con `tecnico_copia`, 10/30, "Sin usuarios", sin lápiz y con eliminar habilitado. El resumen pasa a "5 roles · 2 del sistema, 3 personalizados".
-- [ ] El alta muestra "En blanco" con `aria-pressed="true"`, "0 / 30", "se_genera_del_nombre" y "Rol sin nombre".
-- [ ] Guardar el alta vacía muestra "Ponle un nombre al rol.".
-- [ ] "Técnico de soporte" genera `tecnico_de_soporte`. "Técnico" muestra "Ya existe un rol con ese nombre." y "Tecnico!" muestra "Ya existe un rol con la clave tecnico." al guardar.
-- [ ] Un nombre de 21 caracteres muestra "Usa 20 caracteres o menos.". "!!!" muestra "El nombre necesita al menos una letra o un número.".
-- [ ] La plantilla Técnico deja "10 / 30". Marcar "Eliminar en Clientes" deja "Ver en Clientes" marcado y ninguna plantilla pulsada.
-- [ ] Quitar "Ver en Tickets" deja Tickets en "sin acceso". "Todos los permisos de Proyectos" marca sus 5 casillas y otra pulsación las quita.
-- [ ] Marcar "Editar en Usuarios y roles" muestra el aviso de permisos críticos.
-- [ ] Guardar un rol válido muestra "Rol <nombre> creado con N permisos." y "Ver listado"; `/roles` sigue mostrando 4 filas.
-- [ ] Los 4 roles abren su edición; `/roles/not-found` muestra la página de rol no encontrado.
-- [ ] Técnico muestra "Creado el <fecha> · última modificación <fecha> por Martín Vidal", la clave `tecnico` con candado y 3 usuarios con enlace a `/users/<uuid>`.
-- [ ] Quitar "Crear en Servicios" muestra el borde `red`, "Cambios sin guardar: 0 permisos añadidos, 1 quitado", "10 → 9 / 30", "− Crear en Servicios" y "Afecta a 3 usuarios.…".
-- [ ] "Restaurar permisos" lo revierte y queda `disabled`. "Descartar" revierte nombre, descripción y permisos.
-- [ ] Guardar un cambio de permisos en Técnico muestra "Rol «Técnico» actualizado. Afecta a 3 usuarios.", "última modificación hoy" y "Guardar cambios" `disabled`.
-- [ ] Renombrar Técnico a "Solo lectura" y guardar muestra "Ya existe un rol con ese nombre.". Vaciarlo muestra "El nombre no puede quedar vacío.".
-- [ ] Administrador muestra la nota de acceso total, las 36 casillas `disabled`, sin "Restaurar permisos", el nombre de solo lectura y "Es un rol del sistema y no se puede eliminar.".
-- [ ] Solo lectura tiene el nombre de solo lectura y la matriz editable.
-- [ ] Soporte externo muestra "Nadie tiene este rol todavía." y "Nadie lo usa, así que puedes eliminarlo sin afectar a nadie.".
-- [ ] Eliminar Soporte externo requiere dos pulsaciones; después todo queda deshabilitado salvo "Volver" y el aviso enlaza a `/roles`.
-- [ ] En `/users/new` el selector muestra 4 roles, "4 de 30 permisos" en Soporte externo y "Crear un rol nuevo" lleva a `/roles/new`.
-- [ ] Los filtros de `/users` muestran Todos 6, Administrador 1, Técnico 3, Solo lectura 2 y Soporte externo 0.
-- [ ] Un borrador de alta o edición desaparece al volver por un enlace y se conserva al volver con atrás.
-- [ ] El listado conserva búsqueda, fila abierta y copias al volver; el aviso no.
-- [ ] Los campos con error tienen `aria-invalid="true"` y `aria-describedby` apunta a su mensaje.
-- [ ] Con Playwright, las pantallas de `/roles`, `/users`, `/services`, `/projects`, `/tickets` y `/clients` no tienen errores en consola ni desbordan en horizontal a 1440 px y 390 px.
+- [x] `npm run build`, `npm run lint` y `npx tsc --noEmit` terminan sin errores.
+- [x] `npx prettier --check app components data features lib` termina sin errores.
+- [x] Ningún archivo de `app`, `components`, `data` o `features` importa `lib/db` o `@prisma/client`, ni contiene `"use server"`.
+- [x] `prisma/` no cambia.
+- [x] Ningún archivo `.tsx` nuevo contiene colores hexadecimales ni estilos `dark:`.
+- [x] `features/users/types/role.ts` no existe y nada contiene `permissionCount`.
+- [x] Ningún archivo fuera de `features/roles`, `features/users` y `app/roles` importa de `features/roles`, salvo el tipo que importa `data/roles.ts`. `features/roles` solo importa de `features/users/utils` y `features/users/constants`.
+- [x] Los títulos son "Roles y permisos — CRM TI", "Crear rol — CRM TI", "Editar rol — CRM TI" y, en un ID inexistente, "Rol no encontrado — CRM TI".
+- [x] El menú muestra 8 elementos y solo "Clientes", "Servicios", "Tickets", "Proyectos", "Usuarios" y "Roles y permisos" tienen `href`.
+- [x] `/roles` muestra "4 roles · 2 del sistema, 2 personalizados", 4 filas y "Mostrando 4 de 4 roles".
+- [x] Las filas muestran 30/30, 10/30, 6/30 y 4/30, y "1 usuario", "3 usuarios", "2 usuarios" y "Sin usuarios".
+- [x] Administrador y Solo lectura llevan "Sistema"; Técnico y Soporte externo no.
+- [x] Técnico empieza abierta, con "Ocultar permisos", `aria-expanded="true"`, Clientes "1/5", Tickets "4/5", Reportes "sin acceso" y el aviso de reasignar.
+- [x] Abrir Administrador cierra Técnico y muestra "total" en los 6 módulos.
+- [x] Buscar "lectura" deja 1 fila, buscar "soporte_externo" deja 1, buscar "TECNICO" deja 1 y buscar "zzz" muestra "Sin resultados".
+- [x] Eliminar está `disabled` en Administrador, Técnico y Solo lectura, y habilitado en Soporte externo.
+- [x] Eliminar Soporte externo deja 3 filas y "Rol «Soporte externo» eliminado."; "Deshacer" lo restaura y muestra "Cambio deshecho.".
+- [x] "Duplicar" en Técnico inserta "Copia de Técnico" debajo, con `tecnico_copia`, 10/30, "Sin usuarios", sin lápiz y con eliminar habilitado. El resumen pasa a "5 roles · 2 del sistema, 3 personalizados".
+- [x] El alta muestra "En blanco" con `aria-pressed="true"`, "0 / 30", "se_genera_del_nombre" y "Rol sin nombre".
+- [x] Guardar el alta vacía muestra "Ponle un nombre al rol.".
+- [x] "Técnico de soporte" genera `tecnico_de_soporte`. "Técnico" muestra "Ya existe un rol con ese nombre." y "Tecnico!" muestra "Ya existe un rol con la clave tecnico." al guardar.
+- [x] Un nombre de 21 caracteres muestra "Usa 20 caracteres o menos.". "!!!" muestra "El nombre necesita al menos una letra o un número.".
+- [x] La plantilla Técnico deja "10 / 30". Marcar "Eliminar en Clientes" deja "Ver en Clientes" marcado y ninguna plantilla pulsada.
+- [x] Quitar "Ver en Tickets" deja Tickets en "sin acceso". "Todos los permisos de Proyectos" marca sus 5 casillas y otra pulsación las quita.
+- [x] Marcar "Editar en Usuarios y roles" muestra el aviso de permisos críticos.
+- [x] Guardar un rol válido muestra "Rol <nombre> creado con N permisos." y "Ver listado"; `/roles` sigue mostrando 4 filas.
+- [x] Los 4 roles abren su edición; `/roles/not-found` muestra la página de rol no encontrado.
+- [x] Técnico muestra "Creado el <fecha> · última modificación <fecha> por Martín Vidal", la clave `tecnico` con candado y 3 usuarios con enlace a `/users/<uuid>`.
+- [x] Quitar "Crear en Servicios" muestra el borde `red`, "Cambios sin guardar: 0 permisos añadidos, 1 quitado", "10 → 9 / 30", "− Crear en Servicios" y "Afecta a 3 usuarios.…".
+- [x] "Restaurar permisos" lo revierte y queda `disabled`. "Descartar" revierte nombre, descripción y permisos.
+- [x] Guardar un cambio de permisos en Técnico muestra "Rol «Técnico» actualizado. Afecta a 3 usuarios.", "última modificación hoy" y "Guardar cambios" `disabled`.
+- [x] Renombrar Técnico a "Solo lectura" y guardar muestra "Ya existe un rol con ese nombre.". Vaciarlo muestra "El nombre no puede quedar vacío.".
+- [x] Administrador muestra la nota de acceso total, las 36 casillas `disabled`, sin "Restaurar permisos", el nombre de solo lectura y "Es un rol del sistema y no se puede eliminar.".
+- [x] Solo lectura tiene el nombre de solo lectura y la matriz editable.
+- [x] Soporte externo muestra "Nadie tiene este rol todavía." y "Nadie lo usa, así que puedes eliminarlo sin afectar a nadie.".
+- [x] Eliminar Soporte externo requiere dos pulsaciones; después todo queda deshabilitado salvo "Volver" y el aviso enlaza a `/roles`.
+- [x] En `/users/new` el selector muestra 4 roles, "4 de 30 permisos" en Soporte externo y "Crear un rol nuevo" lleva a `/roles/new`.
+- [x] Los filtros de `/users` muestran Todos 6, Administrador 1, Técnico 3, Solo lectura 2 y Soporte externo 0.
+- [x] Un borrador de alta o edición desaparece al volver por un enlace y se conserva al volver con atrás.
+- [x] El listado conserva búsqueda, fila abierta y copias al volver; el aviso no.
+- [x] Los campos con error tienen `aria-invalid="true"` y `aria-describedby` apunta a su mensaje.
+- [x] Con Playwright, las pantallas de `/roles`, `/users`, `/services`, `/projects`, `/tickets` y `/clients` no tienen errores en consola ni desbordan en horizontal a 1440 px y 390 px.
 
 ## Decisiones
 
