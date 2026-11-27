@@ -10,6 +10,7 @@ import { CheckIcon, KeyIcon, MailIcon } from "@/components/icons";
 import { useToday } from "@/components/use-today";
 import { PasswordField } from "@/features/users/components/password-field";
 import { RolePicker } from "@/features/users/components/role-picker";
+import { UserSecurity } from "@/features/users/components/user-security";
 import { UserStatusBadge } from "@/features/users/components/user-status-badge";
 import { UsernameField } from "@/features/users/components/username-field";
 import { CURRENT_USER_ID } from "@/features/users/constants";
@@ -427,7 +428,23 @@ function EditForm({
 
           {/* Paso 15: zona de peligro. */}
         </div>
-        {/* Paso 14: panel de seguridad. */}
+        <UserSecurity
+          account={account}
+          today={today}
+          disabled={deleted}
+          onResetTwoFactor={() => {
+            setAccount({ ...account, twoFactorActive: false });
+            setNotice(
+              "2FA restablecida. Tendrá que configurarla de nuevo al entrar.",
+            );
+          }}
+          onCloseSessions={() => {
+            setAccount({ ...account, sessions: [] });
+            setNotice(
+              `Se cerraron todas las sesiones de @${account.username}.`,
+            );
+          }}
+        />
       </div>
     </form>
   );
