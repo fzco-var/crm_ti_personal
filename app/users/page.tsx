@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
+import { roles } from "@/data/roles";
+import { users } from "@/data/users";
+import { UsersList } from "@/features/users/components/users-list";
 
 export const metadata: Metadata = { title: "Usuarios" };
 
-// El listado se conecta en el paso 8 del SPEC 07.
 export default function UsersPage() {
-  return <h1 className="crm-title">Usuarios</h1>;
+  return <UsersList users={users} roles={roles} />;
 }
