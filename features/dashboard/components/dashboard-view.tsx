@@ -4,8 +4,12 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useToday } from "@/components/use-today";
 import { DashboardHeader } from "@/features/dashboard/components/dashboard-header";
+import { DashboardKpis } from "@/features/dashboard/components/dashboard-kpis";
 import { useCurrentHour } from "@/features/dashboard/use-current-hour";
-import { getAttentionItems } from "@/features/dashboard/utils";
+import {
+  getAttentionItems,
+  getDashboardKpis,
+} from "@/features/dashboard/utils";
 
 function Dashboard() {
   const today = useToday();
@@ -31,6 +35,7 @@ function Dashboard() {
   return (
     <div className="crm-content">
       <DashboardHeader today={today} hour={hour} pendingCount={pendingCount} />
+      <DashboardKpis kpis={getDashboardKpis()} />
     </div>
   );
 }
