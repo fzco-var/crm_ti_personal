@@ -1,12 +1,13 @@
 "use client";
 
+import Link from "next/link";
 import { useId, type ReactNode } from "react";
 import { Alert } from "@/components/alert";
 import { FieldError } from "@/components/form-field";
-import { RoleBadge } from "@/features/users/components/role-badge";
-import { PERMISSION_TOTAL } from "@/features/users/constants";
-import type { Role } from "@/features/users/types/role";
-import { getRoleName } from "@/features/users/utils";
+import { RoleBadge } from "@/features/roles/components/role-badge";
+import { PERMISSION_TOTAL } from "@/features/roles/constants";
+import type { Role } from "@/features/roles/types/role";
+import { getRoleName } from "@/features/roles/utils";
 
 /**
  * Sección "Rol" con radios nativos: las flechas del teclado cambian el rol.
@@ -44,15 +45,20 @@ export function RolePicker({
 
   return (
     <section aria-labelledby={headingId} className="crm-card gap-4">
-      <div className="flex flex-col gap-1">
-        <h2 id={headingId} className="crm-heading">
-          Rol
-        </h2>
-        <p className="text-sm text-ink-muted">
-          {changed && savedRoleId
-            ? `Cambiará de ${getRoleName(savedRoleId)} a ${getRoleName(value)} al guardar.`
-            : "Define qué podrá ver y hacer."}
-        </p>
+      <div className="flex flex-wrap items-end justify-between gap-3">
+        <div className="flex flex-col gap-1">
+          <h2 id={headingId} className="crm-heading">
+            Rol
+          </h2>
+          <p className="text-sm text-ink-muted">
+            {changed && savedRoleId
+              ? `Cambiará de ${getRoleName(savedRoleId)} a ${getRoleName(value)} al guardar.`
+              : "Define qué podrá ver y hacer."}
+          </p>
+        </div>
+        <Link href="/roles/new" className="crm-link text-sm font-bold">
+          Crear un rol nuevo
+        </Link>
       </div>
       {/* `radiogroup` admite `aria-invalid`; el rol nativo de `fieldset`, no. */}
       <fieldset
@@ -91,7 +97,7 @@ export function RolePicker({
                 {role.description}
               </span>
               <span className="font-mono text-xs text-ink-muted">
-                {role.permissionCount} de {PERMISSION_TOTAL} permisos
+                {role.permissions.length} de {PERMISSION_TOTAL} permisos
               </span>
             </span>
           </label>

@@ -1,15 +1,5 @@
 import type { Tone } from "@/components/tone";
 
-// Permisos que existen en el CRM; cada rol tiene una parte.
-export const PERMISSION_TOTAL = 30;
-
-// Por `Role.key`; un rol sin tono usa `gray`.
-export const ROLE_TONES: Record<string, Tone> = {
-  administrador: "orange",
-  tecnico: "blue",
-  lectura: "gray",
-};
-
 // Por fuerza, de 0 a 4. El nivel 0 es una contraseña vacía y no lleva tono.
 export const PASSWORD_STRENGTH_LEVELS: { label: string; tone: Tone | null }[] =
   [

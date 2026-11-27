@@ -7,7 +7,7 @@ import { Breadcrumb } from "@/components/breadcrumb";
 import { PlusIcon, SearchIcon } from "@/components/icons";
 import { useToday } from "@/components/use-today";
 import { UsersTable } from "@/features/users/components/users-table";
-import type { Role } from "@/features/users/types/role";
+import type { Role } from "@/features/roles/types/role";
 import type { User } from "@/features/users/types/user";
 import {
   countUsersByRole,

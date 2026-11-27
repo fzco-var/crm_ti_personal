@@ -15,7 +15,8 @@ import { UserSecurity } from "@/features/users/components/user-security";
 import { UserStatusBadge } from "@/features/users/components/user-status-badge";
 import { UsernameField } from "@/features/users/components/username-field";
 import { CURRENT_USER_ID } from "@/features/users/constants";
-import type { Role } from "@/features/users/types/role";
+import type { Role } from "@/features/roles/types/role";
+import { getRoleName } from "@/features/roles/utils";
 import type { User, UserFormValues } from "@/features/users/types/user";
 import {
   type UserField,
@@ -23,7 +24,6 @@ import {
   formatLastAccess,
   formatPasswordAge,
   getFullName,
-  getRoleName,
   getUserFieldErrors,
   isValidPassword,
 } from "@/features/users/utils";
