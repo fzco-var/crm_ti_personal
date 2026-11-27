@@ -109,7 +109,8 @@ function UserRow({
       <td className="py-2.5">
         <span className="flex items-center gap-3">
           <span className="flex flex-col gap-0.5">
-            <span className="font-mono tracking-[0.1em] text-ink">
+            {/* `relative` evita que el texto oculto desborde la página. */}
+            <span className="relative font-mono tracking-[0.1em] text-ink">
               <span aria-hidden="true">••••••••</span>
               <span className="sr-only">Contraseña oculta</span>
             </span>

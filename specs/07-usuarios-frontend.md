@@ -1,6 +1,6 @@
 # SPEC 07 — Frontend de usuarios
 
-> **Estado:** Aprobado
+> **Estado:** Implementado
 > **Depende de:** SPEC 02, SPEC 04
 > **Fecha:** 2026-11-27
 > **Objetivo:** Que el listado, el alta y la edición de usuarios del CRM se puedan usar en `/users`, con roles fijos de ejemplo y sin backend.
