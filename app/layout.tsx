@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { JetBrains_Mono, Manrope } from "next/font/google";
+import { APPEARANCE_SCRIPT } from "@/features/settings/appearance";
 import "./globals.css";
 
 const manrope = Manrope({
@@ -22,7 +23,12 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     <html
       lang="es"
       className={`${manrope.variable} ${jetbrainsMono.variable} h-full antialiased`}
+      // El script de `<head>` fija `data-theme-mode`, `data-theme` y `data-accent` antes de hidratar.
+      suppressHydrationWarning
     >
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: APPEARANCE_SCRIPT }} />
+      </head>
       <body className="min-h-full flex flex-col">{children}</body>
     </html>
   );
