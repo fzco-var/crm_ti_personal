@@ -1,6 +1,6 @@
 # SPEC 10 — Frontend del dashboard
 
-> **Estado:** Aprobado
+> **Estado:** Implementado
 > **Depende de:** SPEC 02, SPEC 03, SPEC 04, SPEC 05, SPEC 06, SPEC 09
 > **Fecha:** 2026-11-27
 > **Objetivo:** Que `/dashboard` sea la portada del CRM y resuma lo urgente, los indicadores, los proyectos, el ingreso por cliente, los tickets y las renovaciones, calculados de los datos de ejemplo y sin backend.
@@ -222,29 +222,29 @@ Ningún dominio importa de `features/dashboard`; solo lo hace `app/dashboard`.
 
 ## Criterios de aceptación
 
-- [ ] `npm run build`, `npm run lint` y `npx tsc --noEmit` terminan sin errores.
-- [ ] `npx prettier --check app components data features lib` termina sin errores.
-- [ ] Ningún archivo de `app`, `components`, `data` o `features` importa `lib/db` o `@prisma/client`, ni contiene `"use server"`.
-- [ ] `prisma/` y `data/` no cambian.
-- [ ] Ningún archivo `.tsx` contiene colores hexadecimales, `text-white`, `bg-white` ni estilos `dark:`.
-- [ ] Ningún archivo fuera de `features/dashboard` y `app/dashboard` importa de `features/dashboard`.
-- [ ] Entrar en `/` lleva a `/dashboard`.
-- [ ] El título es "Dashboard — CRM TI" y "Dashboard" tiene `href` y `aria-current="page"` en el menú.
-- [ ] Antes de hidratar se ve "Cargando dashboard…", sin errores de hidratación en consola.
-- [ ] La cabecera muestra la fecha larga de hoy y el saludo correcto según la hora del navegador.
-- [ ] Los indicadores muestran $718.250 con "Margen $616.671 · 86%", $35.000 con "1 cobro pendiente", 9 con "4 abiertos · 4 de prioridad alta" y 6 con "1 atrasado".
-- [ ] Cada indicador y acceso rápido lleva a su ruta.
-- [ ] "Necesita tu atención" muestra PRJ-018, #T-1042, #T-1046, el cobro de $35.000, #T-1048 y #T-1050 en ese orden, y "y 3 avisos más".
-- [ ] Marcar una casilla tacha el aviso, cambia "6 pendientes de 6" a "5 pendientes de 6" y el resumen de la cabecera a "Tienes 5 cosas…".
-- [ ] Marcar los 6 muestra "Todo resuelto" y "Todo al día. Buen momento para avanzar en los proyectos.".
-- [ ] Ir a `/tickets` por el menú y volver por el enlace "Dashboard" desmarca las casillas; con atrás se conservan.
-- [ ] "Proyectos activos" lista PRJ-018, PRJ-022, PRJ-021, PRJ-019, PRJ-024 y PRJ-025 en ese orden, y PRJ-018 dice "Atrasado 3 días" en rojo.
-- [ ] "Ingreso recurrente por cliente" suma $718.250 entre sus filas, y el aviso de concentración aparece solo si la primera empresa aporta el 50 % o más.
-- [ ] "Tickets sin cerrar" muestra la leyenda Abierto 4, En curso 3 y En espera 2, y 5 tickets.
-- [ ] "Próximas renovaciones" muestra 8 servicios y "8 renovaciones en 30 días · 4 manuales". Con "7 días" muestra 3.
-- [ ] El selector de rango son dos botones con `aria-pressed`, y Enter y Espacio cambian el rango.
-- [ ] Con Playwright, `/dashboard` no tiene errores en consola ni desborda en horizontal a 1440 px y 390 px, en claro y en oscuro.
-- [ ] En oscuro, el indicador de ingreso, los botones primarios y las barras se leen bien.
+- [x] `npm run build`, `npm run lint` y `npx tsc --noEmit` terminan sin errores.
+- [x] `npx prettier --check app components data features lib` termina sin errores.
+- [x] Ningún archivo de `app`, `components`, `data` o `features` importa `lib/db` o `@prisma/client`, ni contiene `"use server"`.
+- [x] `prisma/` y `data/` no cambian.
+- [x] Ningún archivo `.tsx` contiene colores hexadecimales, `text-white`, `bg-white` ni estilos `dark:`.
+- [x] Ningún archivo fuera de `features/dashboard` y `app/dashboard` importa de `features/dashboard`.
+- [x] Entrar en `/` lleva a `/dashboard`.
+- [x] El título es "Dashboard — CRM TI" y "Dashboard" tiene `href` y `aria-current="page"` en el menú.
+- [x] Antes de hidratar se ve "Cargando dashboard…", sin errores de hidratación en consola.
+- [x] La cabecera muestra la fecha larga de hoy y el saludo correcto según la hora del navegador.
+- [x] Los indicadores muestran $718.250 con "Margen $616.671 · 86%", $35.000 con "1 cobro pendiente", 9 con "4 abiertos · 4 de prioridad alta" y 6 con "1 atrasado".
+- [x] Cada indicador y acceso rápido lleva a su ruta.
+- [x] "Necesita tu atención" muestra PRJ-018, #T-1042, #T-1046, el cobro de $35.000, #T-1048 y #T-1050 en ese orden, y "y 3 avisos más".
+- [x] Marcar una casilla tacha el aviso, cambia "6 pendientes de 6" a "5 pendientes de 6" y el resumen de la cabecera a "Tienes 5 cosas…".
+- [x] Marcar los 6 muestra "Todo resuelto" y "Todo al día. Buen momento para avanzar en los proyectos.".
+- [x] Ir a `/tickets` por el menú y volver por el enlace "Dashboard" desmarca las casillas; con atrás se conservan.
+- [x] "Proyectos activos" lista PRJ-018, PRJ-022, PRJ-021, PRJ-019, PRJ-024 y PRJ-025 en ese orden, y PRJ-018 dice "Atrasado 3 días" en rojo.
+- [x] "Ingreso recurrente por cliente" suma $718.250 entre sus filas, y el aviso de concentración aparece solo si la primera empresa aporta el 50 % o más.
+- [x] "Tickets sin cerrar" muestra la leyenda Abierto 4, En curso 3 y En espera 2, y 5 tickets.
+- [x] "Próximas renovaciones" muestra 8 servicios y "8 renovaciones en 30 días · 4 manuales". Con "7 días" muestra 3.
+- [x] El selector de rango son dos botones con `aria-pressed`, y Enter y Espacio cambian el rango.
+- [x] Con Playwright, `/dashboard` no tiene errores en consola ni desborda en horizontal a 1440 px y 390 px, en claro y en oscuro.
+- [x] En oscuro, el indicador de ingreso, los botones primarios y las barras se leen bien.
 
 ## Decisiones
 

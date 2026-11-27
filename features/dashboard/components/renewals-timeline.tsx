@@ -79,10 +79,10 @@ export function RenewalsTimeline() {
                   className="-mx-2 flex min-w-0 flex-1 justify-between gap-3 rounded-lg px-2 pt-1 pb-3.5 hover:bg-surface-hover"
                 >
                   <span className="flex min-w-0 flex-col gap-0.5">
-                    <span className="text-compact font-bold">
+                    <span className="text-compact font-bold wrap-anywhere">
                       {service.name}
                     </span>
-                    <span className="text-xs text-ink-muted">
+                    <span className="text-xs text-ink-muted wrap-anywhere">
                       {company} · {service.type}
                     </span>
                   </span>
