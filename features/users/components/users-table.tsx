@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { PencilIcon, ResetIcon } from "@/components/icons";
-import { RoleBadge } from "@/features/users/components/role-badge";
+import { RoleBadge } from "@/features/roles/components/role-badge";
 import { UserStatusBadge } from "@/features/users/components/user-status-badge";
 import { CURRENT_USER_ID } from "@/features/users/constants";
 import type { User } from "@/features/users/types/user";
