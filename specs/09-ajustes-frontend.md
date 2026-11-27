@@ -1,6 +1,6 @@
 # SPEC 09 — Frontend de ajustes y modo oscuro
 
-> **Estado:** Aprobado
+> **Estado:** Implementado
 > **Depende de:** SPEC 02, SPEC 04, SPEC 08
 > **Fecha:** 2026-11-27
 > **Objetivo:** Que `/settings` permita elegir tema claro, oscuro o del sistema y color de acento con efecto real en toda la app, y editar ajustes regionales y de seguridad de ejemplo, sin backend.
@@ -249,35 +249,35 @@ Los pasos 2 y 11 superan 50 líneas por la paleta y el marcado; se aceptan porqu
 
 ## Criterios de aceptación
 
-- [ ] `npm run build`, `npm run lint` y `npx tsc --noEmit` terminan sin errores.
-- [ ] `npx prettier --check app components data features lib` termina sin errores.
-- [ ] Ningún archivo de `app`, `components`, `data` o `features` importa `lib/db` o `@prisma/client`, ni contiene `"use server"`.
-- [ ] `prisma/` no cambia.
-- [ ] Ningún archivo `.tsx` contiene colores hexadecimales, `text-white`, `bg-white` ni estilos `dark:`. `globals.css` no contiene `--color-white`.
-- [ ] Ningún archivo fuera de `features/settings`, `app/settings` y `app/layout.tsx` importa de `features/settings`, salvo el tipo que importa `data/settings.ts`. `features/settings` solo importa de otro dominio `features/tickets/utils`.
-- [ ] El título es "Ajustes — CRM TI".
-- [ ] El menú muestra 8 elementos y todos tienen `href` salvo "Dashboard".
-- [ ] Sin clave guardada y con el sistema en claro, `<html>` tiene `data-theme-mode="system"`, `data-theme="light"` y `data-accent="orange"`, y "Sistema" muestra "Ahora: claro, según tu sistema.".
-- [ ] Emular `prefers-color-scheme: dark` con "Sistema" pasa `data-theme` a `dark` sin recargar, en `/settings` y en `/clients`.
-- [ ] Elegir "Oscuro" y "Azul" cambia la app al instante y muestra "Cambios sin guardar: tema · acento"; `localStorage` no cambia.
-- [ ] "Descartar" vuelve a `data-theme="light"` y `data-accent="orange"`.
-- [ ] Guardar "Oscuro" y "Verde" muestra "Ajustes guardados." y deja `{"theme":"dark","accent":"green"}` en `crm:appearance:v1`.
-- [ ] Al recargar con esa clave, `<html>` tiene `data-theme="dark"` y `data-accent="green"` en el primer pintado, sin errores de hidratación en consola.
-- [ ] Elegir "Morado" sin guardar e ir a `/tickets` por el menú deja `data-accent="green"`.
-- [ ] Con `crm:appearance:v1` igual a `"{roto"` o `{"theme":"x","accent":"rosa"}`, la app usa Sistema y naranja sin errores.
-- [ ] En oscuro, `/clients`, `/tickets`, `/projects`, `/services`, `/users`, `/roles` y `/settings` muestran fondo `canvas` oscuro y ningún texto, avatar o botón primario queda ilegible.
-- [ ] En oscuro, el avatar de Martín Vidal y el logo del menú muestran fondo claro con texto oscuro.
-- [ ] "Formato de fecha" muestra el ejemplo de hoy en los tres formatos.
-- [ ] "Moneda" muestra "CLP · peso chileno" y no es editable.
-- [ ] Cambiar la zona horaria a "UTC" muestra "· modificada" y "Cambios sin guardar: zona horaria".
-- [ ] Desmarcar "Exigir 2FA a todos los usuarios" muestra el aviso `amber`.
-- [ ] Guardar con largo mínimo "7", "16" o "8.5" muestra "Usa un número entre 8 y 15." y "Revisa los campos marcados antes de guardar."; vacío muestra "Indica el largo mínimo.".
-- [ ] Guardar con largo "15" y "1 h" muestra "Ajustes guardados." y "Guardar cambios" queda `disabled`.
-- [ ] Al volver a `/settings` por un enlace, el largo mínimo es "8" y el cierre "30 min"; con atrás se conserva el borrador.
-- [ ] Las flechas del teclado cambian tema, acento, formato y cierre.
-- [ ] El campo con error tiene `aria-invalid="true"` y `aria-describedby` apunta a su mensaje.
-- [ ] La regla de 12 caracteres de `/users/new` no cambia.
-- [ ] Con Playwright, `/settings`, `/roles`, `/users`, `/services`, `/projects`, `/tickets` y `/clients` no tienen errores en consola ni desbordan en horizontal a 1440 px y 390 px, en claro y en oscuro.
+- [x] `npm run build`, `npm run lint` y `npx tsc --noEmit` terminan sin errores.
+- [x] `npx prettier --check app components data features lib` termina sin errores.
+- [x] Ningún archivo de `app`, `components`, `data` o `features` importa `lib/db` o `@prisma/client`, ni contiene `"use server"`.
+- [x] `prisma/` no cambia.
+- [x] Ningún archivo `.tsx` contiene colores hexadecimales, `text-white`, `bg-white` ni estilos `dark:`. `globals.css` no contiene `--color-white`.
+- [x] Ningún archivo fuera de `features/settings`, `app/settings` y `app/layout.tsx` importa de `features/settings`, salvo el tipo que importa `data/settings.ts`. `features/settings` solo importa de otro dominio `features/tickets/utils`.
+- [x] El título es "Ajustes — CRM TI".
+- [x] El menú muestra 8 elementos y todos tienen `href` salvo "Dashboard".
+- [x] Sin clave guardada y con el sistema en claro, `<html>` tiene `data-theme-mode="system"`, `data-theme="light"` y `data-accent="orange"`, y "Sistema" muestra "Ahora: claro, según tu sistema.".
+- [x] Emular `prefers-color-scheme: dark` con "Sistema" pasa `data-theme` a `dark` sin recargar, en `/settings` y en `/clients`.
+- [x] Elegir "Oscuro" y "Azul" cambia la app al instante y muestra "Cambios sin guardar: tema · acento"; `localStorage` no cambia.
+- [x] "Descartar" vuelve a `data-theme="light"` y `data-accent="orange"`.
+- [x] Guardar "Oscuro" y "Verde" muestra "Ajustes guardados." y deja `{"theme":"dark","accent":"green"}` en `crm:appearance:v1`.
+- [x] Al recargar con esa clave, `<html>` tiene `data-theme="dark"` y `data-accent="green"` en el primer pintado, sin errores de hidratación en consola.
+- [x] Elegir "Morado" sin guardar e ir a `/tickets` por el menú deja `data-accent="green"`.
+- [x] Con `crm:appearance:v1` igual a `"{roto"` o `{"theme":"x","accent":"rosa"}`, la app usa Sistema y naranja sin errores.
+- [x] En oscuro, `/clients`, `/tickets`, `/projects`, `/services`, `/users`, `/roles` y `/settings` muestran fondo `canvas` oscuro y ningún texto, avatar o botón primario queda ilegible.
+- [x] En oscuro, el avatar de Martín Vidal y el logo del menú muestran fondo claro con texto oscuro.
+- [x] "Formato de fecha" muestra el ejemplo de hoy en los tres formatos.
+- [x] "Moneda" muestra "CLP · peso chileno" y no es editable.
+- [x] Cambiar la zona horaria a "UTC" muestra "· modificada" y "Cambios sin guardar: zona horaria".
+- [x] Desmarcar "Exigir 2FA a todos los usuarios" muestra el aviso `amber`.
+- [x] Guardar con largo mínimo "7", "16" o "8.5" muestra "Usa un número entre 8 y 15." y "Revisa los campos marcados antes de guardar."; vacío muestra "Indica el largo mínimo.".
+- [x] Guardar con largo "15" y "1 h" muestra "Ajustes guardados." y "Guardar cambios" queda `disabled`.
+- [x] Al volver a `/settings` por un enlace, el largo mínimo es "8" y el cierre "30 min"; con atrás se conserva el borrador.
+- [x] Las flechas del teclado cambian tema, acento, formato y cierre.
+- [x] El campo con error tiene `aria-invalid="true"` y `aria-describedby` apunta a su mensaje.
+- [x] La regla de 12 caracteres de `/users/new` no cambia.
+- [x] Con Playwright, `/settings`, `/roles`, `/users`, `/services`, `/projects`, `/tickets` y `/clients` no tienen errores en consola ni desbordan en horizontal a 1440 px y 390 px, en claro y en oscuro.
 
 ## Decisiones
 
