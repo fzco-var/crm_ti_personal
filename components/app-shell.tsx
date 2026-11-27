@@ -48,7 +48,12 @@ const NAV_GROUPS = [
     label: "Configuración",
     items: [
       { id: "users", label: "Usuarios", Icon: UsersIcon, href: "/users" },
-      { id: "roles", label: "Roles y permisos", Icon: RolesIcon },
+      {
+        id: "roles",
+        label: "Roles y permisos",
+        Icon: RolesIcon,
+        href: "/roles",
+      },
       { id: "settings", label: "Ajustes", Icon: SettingsIcon },
     ],
   },
