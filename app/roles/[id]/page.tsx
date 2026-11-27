@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { roles } from "@/data/roles";
+import { RoleEditForm } from "@/features/roles/components/role-edit-form";
 import { findRoleById } from "@/features/roles/utils";
 
 export function generateStaticParams() {
@@ -14,7 +15,6 @@ export async function generateMetadata({
   return { title: findRoleById(id) ? "Editar rol" : "Rol no encontrado" };
 }
 
-// El formulario de edición se conecta en el paso 13 del SPEC 08.
 export default async function EditRolePage({
   params,
 }: PageProps<"/roles/[id]">) {
@@ -22,5 +22,5 @@ export default async function EditRolePage({
   const role = findRoleById(id);
   if (!role) notFound();
 
-  return null;
+  return <RoleEditForm role={role} />;
 }
