@@ -316,6 +316,15 @@ export function ClockIcon(props: IconProps) {
   );
 }
 
+export function MoneyIcon(props: IconProps) {
+  return (
+    <Icon size={18} {...props}>
+      <rect x="2" y="6" width="20" height="12" rx="2" />
+      <circle cx="12" cy="12" r="2.5" />
+    </Icon>
+  );
+}
+
 export function LockIcon(props: IconProps) {
   return (
     <Icon size={14} {...props}>
