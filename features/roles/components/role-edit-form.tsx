@@ -11,6 +11,7 @@ import { useToday } from "@/components/use-today";
 import { PermissionMatrix } from "@/features/roles/components/permission-matrix";
 import { RoleBadge } from "@/features/roles/components/role-badge";
 import { RoleChanges } from "@/features/roles/components/role-changes";
+import { RoleDangerZone } from "@/features/roles/components/role-danger-zone";
 import { RoleUsers } from "@/features/roles/components/role-users";
 import type { Role, RoleFormValues } from "@/features/roles/types/role";
 import {
@@ -90,6 +91,7 @@ function EditForm({ role, today }: { role: Role; today: string }) {
   const [values, setValues] = useState(original);
   const [tried, setTried] = useState(false);
   const [notice, setNotice] = useState("");
+  const [deleted, setDeleted] = useState(false);
 
   const locked = isAdminRole(saved);
   const users = getRoleUsers(saved.id);
@@ -124,6 +126,12 @@ function EditForm({ role, today }: { role: Role; today: string }) {
   function discard() {
     setValues(original);
     setTried(false);
+  }
+
+  /** Sin persistencia: bloquea la pantalla y enlaza al listado. */
+  function remove() {
+    setDeleted(true);
+    setNotice(`Rol «${saved.name}» eliminado.`);
   }
 
   return (
@@ -167,7 +175,7 @@ function EditForm({ role, today }: { role: Role; today: string }) {
           <button
             type="submit"
             className="crm-btn crm-btn-primary"
-            disabled={!dirty}
+            disabled={!dirty || deleted}
           >
             <CheckIcon />
             Guardar cambios
@@ -187,6 +195,7 @@ function EditForm({ role, today }: { role: Role; today: string }) {
           <button
             type="button"
             className="crm-btn crm-btn-sm crm-btn-secondary"
+            disabled={deleted}
             onClick={discard}
           >
             Descartar
@@ -195,7 +204,20 @@ function EditForm({ role, today }: { role: Role; today: string }) {
       )}
 
       {notice && (
-        <Alert variant="success" onClose={() => setNotice("")}>
+        <Alert
+          variant="success"
+          action={
+            deleted && (
+              <Link
+                href="/roles"
+                className="crm-hit font-bold text-tone-green-fg underline"
+              >
+                Ver listado
+              </Link>
+            )
+          }
+          onClose={deleted ? undefined : () => setNotice("")}
+        >
           {notice}
         </Alert>
       )}
@@ -213,6 +235,7 @@ function EditForm({ role, today }: { role: Role; today: string }) {
                 error={nameError}
                 modified={changes.name}
                 readOnly={saved.system}
+                disabled={deleted}
                 className={`crm-field ${
                   saved.system ? "border-line bg-surface-muted" : ""
                 }`}
@@ -247,6 +270,7 @@ function EditForm({ role, today }: { role: Role; today: string }) {
                 id={`${id}-description`}
                 rows={2}
                 className="crm-textarea"
+                disabled={deleted}
                 value={values.description}
                 onChange={(event) =>
                   change({ description: event.target.value })
@@ -273,7 +297,7 @@ function EditForm({ role, today }: { role: Role; today: string }) {
                 <button
                   type="button"
                   className="crm-btn crm-btn-sm crm-btn-secondary"
-                  disabled={!permissionsChanged}
+                  disabled={!permissionsChanged || deleted}
                   onClick={() => change({ permissions: original.permissions })}
                 >
                   Restaurar permisos
@@ -295,10 +319,17 @@ function EditForm({ role, today }: { role: Role; today: string }) {
             <PermissionMatrix
               permissions={values.permissions}
               savedPermissions={original.permissions}
-              disabled={locked}
+              disabled={locked || deleted}
               onChange={(permissions) => change({ permissions })}
             />
           </section>
+
+          <RoleDangerZone
+            system={saved.system}
+            userCount={users.length}
+            disabled={deleted}
+            onDelete={remove}
+          />
         </div>
         <aside className="flex min-w-0 flex-[1_1_280px] flex-col gap-4">
           <RoleChanges
