@@ -5,8 +5,12 @@ import {
   ATTENTION_KIND_ORDER,
   ATTENTION_LIMIT,
   ATTENTION_SOON_DAYS,
+  RECENT_TICKETS_LIMIT,
 } from "@/features/dashboard/constants";
-import type { AttentionItem } from "@/features/dashboard/types/dashboard";
+import type {
+  AttentionItem,
+  RenewalRange,
+} from "@/features/dashboard/types/dashboard";
 import {
   findProjectById,
   getProjectCompany,
@@ -16,11 +20,17 @@ import type { Project } from "@/features/projects/types/project";
 import type { Service } from "@/features/services/types/service";
 import {
   formatCLP,
+  getMonthlyContribution,
   getServiceCompany,
   getServicesSummary,
 } from "@/features/services/utils";
+import { TICKET_STATUSES } from "@/features/tickets/constants";
 import type { Ticket } from "@/features/tickets/types/ticket";
-import { formatHoursAgo, getTicketsByProject } from "@/features/tickets/utils";
+import {
+  formatDays,
+  formatHoursAgo,
+  getTicketsByProject,
+} from "@/features/tickets/utils";
 
 /*
  * El dashboard solo lee: todo sale de `data/` con las utilidades de proyectos,
@@ -35,6 +45,11 @@ export function isOpenTicket({ status }: Pick<Ticket, "status">) {
 
 export function isHighPriority({ priority }: Pick<Ticket, "priority">) {
   return priority === "Alta" || priority === "Urgente";
+}
+
+/** "hace 1 día": la actividad más antigua es la apertura. */
+export function getTicketOpenedText({ activity }: Pick<Ticket, "activity">) {
+  return formatHoursAgo(activity.at(-1)?.hoursAgo ?? 0);
 }
 
 export function isActiveProject({ status }: Pick<Project, "status">) {
@@ -144,29 +159,24 @@ function getOverdueProjectItems(): AttentionItem[] {
 function getHighPriorityTicketItems(): AttentionItem[] {
   return tickets
     .filter((ticket) => isOpenTicket(ticket) && isHighPriority(ticket))
-    .map((ticket) => {
-      const openedHoursAgo = ticket.activity.at(-1)?.hoursAgo ?? 0;
-      return {
-        id: `ticket-${ticket.id}`,
-        kind: "critical",
-        title: `${ticket.code} · ${ticket.title}`,
-        detail: [
-          ticket.priority === "Urgente"
-            ? "Prioridad urgente"
-            : "Prioridad alta",
-          findProjectById(ticket.projectId)?.code,
-          `abierto ${formatHoursAgo(openedHoursAgo)}`,
-        ]
-          .filter(Boolean)
-          .join(" · "),
-        href: `/tickets/${ticket.id}`,
-        whenText:
-          ticket.dueInDays === null
-            ? "sin fecha"
-            : formatRelativeDays(ticket.dueInDays),
-        sortDays: ticket.dueInDays,
-      };
-    });
+    .map((ticket) => ({
+      id: `ticket-${ticket.id}`,
+      kind: "critical",
+      title: `${ticket.code} · ${ticket.title}`,
+      detail: [
+        ticket.priority === "Urgente" ? "Prioridad urgente" : "Prioridad alta",
+        findProjectById(ticket.projectId)?.code,
+        `abierto ${getTicketOpenedText(ticket)}`,
+      ]
+        .filter(Boolean)
+        .join(" · "),
+      href: `/tickets/${ticket.id}`,
+      whenText:
+        ticket.dueInDays === null
+          ? "sin fecha"
+          : formatRelativeDays(ticket.dueInDays),
+      sortDays: ticket.dueInDays,
+    }));
 }
 
 function getPendingChargeItems(): AttentionItem[] {
@@ -249,5 +259,131 @@ export function getAttentionItems() {
   return {
     items: all.slice(0, ATTENTION_LIMIT),
     moreCount: Math.max(0, all.length - ATTENTION_LIMIT),
+  };
+}
+
+// Proyectos activos
+
+/** "En pausa", "Atrasado 3 días", "Planificado · termina en 12 d", "Termina hoy" o "Termina en 4 d". */
+function getProjectDeadline(project: Project): {
+  text: string;
+  tone: "danger" | "warning" | null;
+} {
+  const { status, endInDays } = project;
+  if (status === "En pausa") return { text: "En pausa", tone: null };
+  if (isOverdue(project)) {
+    return { text: `Atrasado ${formatDays(-endInDays)}`, tone: "danger" };
+  }
+  if (status === "Planificado") {
+    return { text: `Planificado · termina en ${endInDays} d`, tone: null };
+  }
+  return {
+    text: endInDays === 0 ? "Termina hoy" : `Termina en ${endInDays} d`,
+    tone: endInDays <= ATTENTION_SOON_DAYS ? "warning" : null,
+  };
+}
+
+/** Proyectos no completados por término ascendente, con plazo y avance. */
+export function getActiveProjects() {
+  return projects
+    .filter(isActiveProject)
+    .sort((a, b) => a.endInDays - b.endInDays)
+    .map((project) => {
+      const total = project.milestones.length;
+      const done = project.milestones.filter(
+        (milestone) => milestone.done,
+      ).length;
+      return {
+        project,
+        company: getProjectCompany(project),
+        deadline: getProjectDeadline(project),
+        // El atraso pesa más que la pausa.
+        barTone: isOverdue(project)
+          ? ("danger" as const)
+          : project.status === "En pausa"
+            ? ("paused" as const)
+            : ("default" as const),
+        doneMilestones: done,
+        totalMilestones: total,
+        progressPercent: total ? Math.round((done / total) * 100) : 0,
+      };
+    });
+}
+
+// Ingreso recurrente por cliente
+
+/** Empresas con ingreso mensual mayor que 0, de mayor a menor. */
+export function getRevenueByCompany() {
+  const byCompany = new Map<string, { amount: number; serviceCount: number }>();
+  for (const service of services) {
+    const amount = getMonthlyContribution(service);
+    if (amount <= 0) continue;
+    const company = getServiceCompany(service);
+    const row = byCompany.get(company) ?? { amount: 0, serviceCount: 0 };
+    byCompany.set(company, {
+      amount: row.amount + amount,
+      serviceCount: row.serviceCount + 1,
+    });
+  }
+
+  const total = [...byCompany.values()].reduce(
+    (sum, { amount }) => sum + amount,
+    0,
+  );
+  const rows = [...byCompany]
+    .map(([company, row]) => ({
+      company,
+      ...row,
+      share: total ? row.amount / total : 0,
+      percent: total ? Math.round((row.amount / total) * 100) : 0,
+    }))
+    .sort((a, b) => b.amount - a.amount);
+
+  return { rows, total };
+}
+
+// Tickets sin cerrar
+
+/** Cantidad por estado: Abierto, En curso y En espera. */
+export function getTicketStatusCounts() {
+  return TICKET_STATUSES.filter((status) => status !== "Cerrado").map(
+    (status) => ({
+      status,
+      count: tickets.filter((ticket) => ticket.status === status).length,
+    }),
+  );
+}
+
+/** Los 5 tickets sin cerrar con la actividad más reciente. */
+export function getRecentTickets() {
+  return tickets
+    .filter(isOpenTicket)
+    .sort(
+      (a, b) =>
+        (a.activity[0]?.hoursAgo ?? Infinity) -
+        (b.activity[0]?.hoursAgo ?? Infinity),
+    )
+    .slice(0, RECENT_TICKETS_LIMIT)
+    .map((ticket) => ({
+      ticket,
+      projectCode: findProjectById(ticket.projectId)?.code ?? "",
+      openedText: getTicketOpenedText(ticket),
+    }));
+}
+
+// Próximas renovaciones
+
+/** Servicios activos que renuevan dentro del rango, vencidos incluidos, por fecha ascendente. */
+export function getRenewals(range: RenewalRange) {
+  const list = services
+    .filter(
+      ({ status, renewInDays }) => status === "Activo" && renewInDays <= range,
+    )
+    .sort((a, b) => a.renewInDays - b.renewInDays)
+    .map((service) => ({ service, company: getServiceCompany(service) }));
+
+  return {
+    list,
+    manualCount: list.filter(({ service }) => !service.autoRenew).length,
   };
 }
