@@ -10,6 +10,8 @@ import { CheckIcon, LockIcon } from "@/components/icons";
 import { useToday } from "@/components/use-today";
 import { PermissionMatrix } from "@/features/roles/components/permission-matrix";
 import { RoleBadge } from "@/features/roles/components/role-badge";
+import { RoleChanges } from "@/features/roles/components/role-changes";
+import { RoleUsers } from "@/features/roles/components/role-users";
 import type { Role, RoleFormValues } from "@/features/roles/types/role";
 import {
   type RoleNameError,
@@ -298,6 +300,14 @@ function EditForm({ role, today }: { role: Role; today: string }) {
             />
           </section>
         </div>
+        <aside className="flex min-w-0 flex-[1_1_280px] flex-col gap-4">
+          <RoleChanges
+            savedPermissions={original.permissions}
+            permissions={values.permissions}
+            userCount={users.length}
+          />
+          <RoleUsers users={users} />
+        </aside>
       </div>
     </form>
   );
