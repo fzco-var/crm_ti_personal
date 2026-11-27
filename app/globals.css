@@ -117,6 +117,96 @@
     --color-accent: #6d28d9;
   }
 
+  /* Modo oscuro: va en `<html>`, que lo fija el script de `<head>`. */
+  [data-theme="dark"] {
+    color-scheme: dark;
+
+    /* Superficies */
+    --color-canvas: #0f1114;
+    --color-surface: #171a1e;
+    --color-surface-muted: #1c1f24;
+    --color-surface-hover: #22262c;
+    --color-nav-hover: #262a31;
+    --color-row-hover: #1b1e23;
+
+    /* Texto */
+    --color-ink: #eceef1;
+    --color-ink-soft: #c3c8cf;
+    --color-ink-muted: #9aa1ab;
+    --color-ink-inverse: #15181c;
+    --color-ink-inverse-muted: #4a515b;
+
+    /* Líneas */
+    --color-line: #2c3036;
+    --color-line-soft: #24282d;
+    --color-line-strong: #3d424a;
+    --color-line-field: #6b727c;
+
+    /* Estados */
+    --color-danger: #f97066;
+    --color-danger-line: #7a2e27;
+    --color-warning: #f5a524;
+    --color-success: #34d399;
+
+    /* Tonos */
+    --color-tone-orange-bg: #3a1f12;
+    --color-tone-orange-fg: #fdba8c;
+    --color-tone-orange-line: #6b3518;
+    --color-tone-orange-dot: #fb923c;
+
+    --color-tone-blue-bg: #172340;
+    --color-tone-blue-fg: #a9c1fb;
+    --color-tone-blue-line: #2b3f6e;
+    --color-tone-blue-dot: #7aa2f7;
+
+    --color-tone-amber-bg: #35260d;
+    --color-tone-amber-fg: #f6cf8a;
+    --color-tone-amber-line: #634616;
+    --color-tone-amber-dot: #f5a524;
+
+    --color-tone-green-bg: #0f2e22;
+    --color-tone-green-fg: #8fe0b8;
+    --color-tone-green-line: #1d5440;
+    --color-tone-green-dot: #34d399;
+
+    --color-tone-gray-bg: #262a30;
+    --color-tone-gray-fg: #c3c8cf;
+    --color-tone-gray-line: #3d424a;
+    --color-tone-gray-dot: #8c9199;
+
+    --color-tone-red-bg: #3a1714;
+    --color-tone-red-fg: #f9b0a7;
+    --color-tone-red-line: #6e2a24;
+    --color-tone-red-dot: #f97066;
+
+    --color-tone-purple-bg: #2a1f47;
+    --color-tone-purple-fg: #cdb9fd;
+    --color-tone-purple-dot: #b197fc;
+
+    /* Sombras */
+    --shadow-focus: 0 0 0 3px rgba(236, 238, 241, 0.18);
+    --shadow-card:
+      0 1px 2px rgba(0, 0, 0, 0.3), 0 12px 32px -12px rgba(0, 0, 0, 0.5);
+    --shadow-popover: 0 8px 24px -12px rgba(0, 0, 0, 0.6);
+  }
+
+  /* Acentos más claros en oscuro; más específicos que `[data-accent]`. */
+  [data-theme="dark"][data-accent="orange"] {
+    --color-accent: #fb923c;
+  }
+
+  [data-theme="dark"][data-accent="blue"] {
+    --color-accent: #7aa2f7;
+  }
+
+  [data-theme="dark"][data-accent="green"] {
+    --color-accent: #34d399;
+  }
+
+  [data-theme="dark"][data-accent="purple"] {
+    --color-accent: #b197fc;
+  }
+
   body {
     background: var(--color-canvas);
     color: var(--color-ink);
