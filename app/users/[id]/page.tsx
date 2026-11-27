@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { roles } from "@/data/roles";
 import { users } from "@/data/users";
-import { findUserById, getFullName } from "@/features/users/utils";
+import { UserEditForm } from "@/features/users/components/user-edit-form";
+import { findUserById } from "@/features/users/utils";
 
 export function generateStaticParams() {
   return users.map(({ id }) => ({ id }));
@@ -23,6 +25,5 @@ export default async function EditUserPage({
   const user = findUserById(id);
   if (!user) notFound();
 
-  // La edición se conecta en el paso 13 del SPEC 07.
-  return <h1 className="crm-title">{getFullName(user)}</h1>;
+  return <UserEditForm user={user} roles={roles} />;
 }
