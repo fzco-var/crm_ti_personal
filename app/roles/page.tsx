@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
+import { roles } from "@/data/roles";
+import { RolesList } from "@/features/roles/components/roles-list";
 
 export const metadata: Metadata = { title: "Roles y permisos" };
 
-// El listado se conecta en el paso 8 del SPEC 08.
 export default function RolesPage() {
-  return null;
+  return <RolesList roles={roles} />;
 }
