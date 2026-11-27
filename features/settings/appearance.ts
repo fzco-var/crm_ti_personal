@@ -11,7 +11,7 @@ import type {
   ThemeMode,
 } from "@/features/settings/types/settings";
 
-const DARK_QUERY = "(prefers-color-scheme: dark)";
+export const DARK_QUERY = "(prefers-color-scheme: dark)";
 const THEMES = THEME_OPTIONS.map((option) => option.value);
 const ACCENTS = ACCENT_OPTIONS.map((option) => option.value);
 
