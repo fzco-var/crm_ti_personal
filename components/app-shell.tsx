@@ -17,7 +17,12 @@ const NAV_GROUPS = [
   {
     label: "Operación",
     items: [
-      { id: "dashboard", label: "Dashboard", Icon: DashboardIcon },
+      {
+        id: "dashboard",
+        label: "Dashboard",
+        Icon: DashboardIcon,
+        href: "/dashboard",
+      },
       {
         id: "clients",
         label: "Clientes",
