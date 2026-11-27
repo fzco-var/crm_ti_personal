@@ -10,6 +10,7 @@ const TONE_TEXT_CLASSES: Record<Tone, string> = {
   green: "text-tone-green-dot",
   gray: "text-tone-gray-dot",
   red: "text-tone-red-dot",
+  purple: "text-tone-purple-dot",
 };
 
 const SEGMENTS = [1, 2, 3, 4];
