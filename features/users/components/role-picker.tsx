@@ -6,7 +6,7 @@ import { FieldError } from "@/components/form-field";
 import { RoleBadge } from "@/features/users/components/role-badge";
 import { PERMISSION_TOTAL } from "@/features/roles/constants";
 import type { Role } from "@/features/roles/types/role";
-import { getRoleName } from "@/features/users/utils";
+import { getRoleName } from "@/features/roles/utils";
 
 /**
  * Sección "Rol" con radios nativos: las flechas del teclado cambian el rol.

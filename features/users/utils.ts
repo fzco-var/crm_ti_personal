@@ -1,8 +1,6 @@
-import { roles } from "@/data/roles";
 import { users } from "@/data/users";
-import { ROLE_TONES } from "@/features/roles/constants";
+import { findRoleById } from "@/features/roles/utils";
 import { PASSWORD_MIN_LENGTH } from "@/features/users/constants";
-import type { Role } from "@/features/roles/types/role";
 import type { User, UserFormValues } from "@/features/users/types/user";
 import { addDays, formatDate } from "@/features/tickets/utils";
 import { normalizeText } from "@/lib/text";
@@ -20,21 +18,8 @@ export function getFullName({
 
 // Roles
 
-export function findRoleById(id: string) {
-  return roles.find((role) => role.id === id);
-}
-
 export function getUserRole({ roleId }: Pick<User, "roleId">) {
   return findRoleById(roleId);
-}
-
-export function getRoleTone({ key }: Pick<Role, "key">) {
-  return ROLE_TONES[key] ?? "gray";
-}
-
-/** "Técnico", o "" si el rol no existe. */
-export function getRoleName(roleId: string) {
-  return findRoleById(roleId)?.name ?? "";
 }
 
 export function countUsersByRole(list: User[], roleId: string) {

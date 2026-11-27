@@ -12,11 +12,11 @@ import { RolePicker } from "@/features/users/components/role-picker";
 import { UserPreview } from "@/features/users/components/user-preview";
 import { UsernameField } from "@/features/users/components/username-field";
 import type { Role } from "@/features/roles/types/role";
+import { getRoleName } from "@/features/roles/utils";
 import type { UserCreateValues } from "@/features/users/types/user";
 import {
   type UserField,
   type UserFieldError,
-  getRoleName,
   getUserFieldErrors,
   isValidPassword,
   suggestUsername,

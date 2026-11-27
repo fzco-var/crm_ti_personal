@@ -1,8 +1,8 @@
 "use client";
 
 import { useId, type ReactNode } from "react";
+import { getRoleName } from "@/features/roles/utils";
 import type { UserCreateValues } from "@/features/users/types/user";
-import { getRoleName } from "@/features/users/utils";
 import { getInitials } from "@/lib/text";
 
 /** `username` es el efectivo: el sugerido mientras no se edite el campo. */
