@@ -36,6 +36,9 @@ export function isAdminRole({ key }: Pick<Role, "key">) {
 }
 
 /** Usuarios de `data/users.ts` con ese rol, en su orden, activos o no. */
+/** Usuario de `data/users.ts`; el tipo sale de los datos para no importar `features/users/types`. */
+export type RoleUser = (typeof users)[number];
+
 export function getRoleUsers(roleId: string) {
   return users.filter((user) => user.roleId === roleId);
 }

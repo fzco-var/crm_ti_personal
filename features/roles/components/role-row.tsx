@@ -16,13 +16,13 @@ import {
 } from "@/features/roles/constants";
 import type { Role } from "@/features/roles/types/role";
 import {
+  type RoleUser,
   canDeleteRole,
   countModulePermissions,
   getModuleSummary,
   toPermissionKey,
 } from "@/features/roles/utils";
 import { CURRENT_USER_ID } from "@/features/users/constants";
-import type { User } from "@/features/users/types/user";
 import { getInitials } from "@/lib/text";
 
 const MAX_AVATARS = 4;
@@ -51,7 +51,7 @@ export function RoleRow({
   onDelete,
 }: {
   role: Role;
-  users: User[];
+  users: RoleUser[];
   editable: boolean;
   open: boolean;
   onToggle: () => void;

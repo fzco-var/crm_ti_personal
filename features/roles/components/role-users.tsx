@@ -1,12 +1,12 @@
 import Link from "next/link";
 import { ChevronRightIcon } from "@/components/icons";
 import { CURRENT_USER_ID } from "@/features/users/constants";
-import type { User } from "@/features/users/types/user";
 import { getFullName } from "@/features/users/utils";
+import type { RoleUser } from "@/features/roles/utils";
 import { getInitials } from "@/lib/text";
 
 /** Usuarios con el rol, enlazados a su edición. */
-export function RoleUsers({ users }: { users: User[] }) {
+export function RoleUsers({ users }: { users: RoleUser[] }) {
   return (
     <section aria-label="Usuarios con este rol" className="crm-card gap-3 p-6">
       <div className="flex items-baseline justify-between gap-2">
