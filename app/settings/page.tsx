@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Breadcrumb } from "@/components/breadcrumb";
+import { SettingsForm } from "@/features/settings/components/settings-form";
 
 export const metadata: Metadata = { title: "Ajustes" };
 
@@ -15,6 +16,7 @@ export default function SettingsPage() {
           Preferencias del CRM. La apariencia se guarda en este navegador.
         </p>
       </div>
+      <SettingsForm />
     </div>
   );
 }
