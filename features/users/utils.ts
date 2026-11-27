@@ -1,7 +1,8 @@
 import { roles } from "@/data/roles";
 import { users } from "@/data/users";
-import { PASSWORD_MIN_LENGTH, ROLE_TONES } from "@/features/users/constants";
-import type { Role } from "@/features/users/types/role";
+import { ROLE_TONES } from "@/features/roles/constants";
+import { PASSWORD_MIN_LENGTH } from "@/features/users/constants";
+import type { Role } from "@/features/roles/types/role";
 import type { User, UserFormValues } from "@/features/users/types/user";
 import { addDays, formatDate } from "@/features/tickets/utils";
 import { normalizeText } from "@/lib/text";

@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -11,7 +11,7 @@ import { PasswordField } from "@/features/users/components/password-field";
 import { RolePicker } from "@/features/users/components/role-picker";
 import { UserPreview } from "@/features/users/components/user-preview";
 import { UsernameField } from "@/features/users/components/username-field";
-import type { Role } from "@/features/users/types/role";
+import type { Role } from "@/features/roles/types/role";
 import type { UserCreateValues } from "@/features/users/types/user";
 import {
   type UserField,

@@ -1,4 +1,4 @@
-import type { Role } from "@/features/users/types/role";
+import type { Role } from "@/features/roles/types/role";
 
 export const roles: Role[] = [
   {

@@ -4,8 +4,8 @@ import { useId, type ReactNode } from "react";
 import { Alert } from "@/components/alert";
 import { FieldError } from "@/components/form-field";
 import { RoleBadge } from "@/features/users/components/role-badge";
-import { PERMISSION_TOTAL } from "@/features/users/constants";
-import type { Role } from "@/features/users/types/role";
+import { PERMISSION_TOTAL } from "@/features/roles/constants";
+import type { Role } from "@/features/roles/types/role";
 import { getRoleName } from "@/features/users/utils";
 
 /**
@@ -91,7 +91,7 @@ export function RolePicker({
                 {role.description}
               </span>
               <span className="font-mono text-xs text-ink-muted">
-                {role.permissionCount} de {PERMISSION_TOTAL} permisos
+                {role.permissions.length} de {PERMISSION_TOTAL} permisos
               </span>
             </span>
           </label>

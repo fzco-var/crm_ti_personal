@@ -1,5 +1,5 @@
 import { TONE_CLASSES } from "@/components/tone";
-import type { Role } from "@/features/users/types/role";
+import type { Role } from "@/features/roles/types/role";
 import { getRoleTone } from "@/features/users/utils";
 
 export function RoleBadge({
