@@ -10,6 +10,7 @@ import { CheckIcon, KeyIcon, MailIcon } from "@/components/icons";
 import { useToday } from "@/components/use-today";
 import { PasswordField } from "@/features/users/components/password-field";
 import { RolePicker } from "@/features/users/components/role-picker";
+import { UserDangerZone } from "@/features/users/components/user-danger-zone";
 import { UserSecurity } from "@/features/users/components/user-security";
 import { UserStatusBadge } from "@/features/users/components/user-status-badge";
 import { UsernameField } from "@/features/users/components/username-field";
@@ -426,7 +427,30 @@ function EditForm({
             )}
           </RolePicker>
 
-          {/* Paso 15: zona de peligro. */}
+          <UserDangerZone
+            active={account.active}
+            username={account.username}
+            isCurrentUser={isCurrentUser}
+            disabled={deleted}
+            onToggleActive={() => {
+              // Desactivar cierra las sesiones; reactivar no las recupera.
+              setAccount(
+                account.active
+                  ? { ...account, active: false, sessions: [] }
+                  : { ...account, active: true },
+              );
+              setNotice(
+                account.active
+                  ? "Cuenta desactivada y sesiones cerradas."
+                  : "Cuenta reactivada.",
+              );
+            }}
+            onDelete={() => {
+              // Sin persistencia: bloquea la pantalla y enlaza al listado.
+              setDeleted(true);
+              setNotice(`Usuario @${account.username} eliminado.`);
+            }}
+          />
         </div>
         <UserSecurity
           account={account}
