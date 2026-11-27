@@ -8,6 +8,7 @@ import { AttentionList } from "@/features/dashboard/components/attention-list";
 import { DashboardHeader } from "@/features/dashboard/components/dashboard-header";
 import { DashboardKpis } from "@/features/dashboard/components/dashboard-kpis";
 import { OpenTickets } from "@/features/dashboard/components/open-tickets";
+import { RenewalsTimeline } from "@/features/dashboard/components/renewals-timeline";
 import { RevenueByCompany } from "@/features/dashboard/components/revenue-by-company";
 import { useCurrentHour } from "@/features/dashboard/use-current-hour";
 import {
@@ -63,6 +64,7 @@ function Dashboard() {
           statusCounts={getTicketStatusCounts()}
           recentTickets={getRecentTickets()}
         />
+        <RenewalsTimeline />
       </div>
     </div>
   );
