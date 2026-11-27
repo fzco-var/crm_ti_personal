@@ -7,13 +7,16 @@ import { ActiveProjects } from "@/features/dashboard/components/active-projects"
 import { AttentionList } from "@/features/dashboard/components/attention-list";
 import { DashboardHeader } from "@/features/dashboard/components/dashboard-header";
 import { DashboardKpis } from "@/features/dashboard/components/dashboard-kpis";
+import { OpenTickets } from "@/features/dashboard/components/open-tickets";
 import { RevenueByCompany } from "@/features/dashboard/components/revenue-by-company";
 import { useCurrentHour } from "@/features/dashboard/use-current-hour";
 import {
   getActiveProjects,
   getAttentionItems,
   getDashboardKpis,
+  getRecentTickets,
   getRevenueByCompany,
+  getTicketStatusCounts,
 } from "@/features/dashboard/utils";
 
 function Dashboard() {
@@ -56,6 +59,10 @@ function Dashboard() {
       <div className="grid grid-cols-[repeat(auto-fit,minmax(min(420px,100%),1fr))] gap-6">
         <ActiveProjects projects={getActiveProjects()} />
         <RevenueByCompany rows={getRevenueByCompany().rows} />
+        <OpenTickets
+          statusCounts={getTicketStatusCounts()}
+          recentTickets={getRecentTickets()}
+        />
       </div>
     </div>
   );
