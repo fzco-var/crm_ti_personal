@@ -114,7 +114,7 @@ export function RoleRow({
                     key={user.id}
                     className={`-mr-2 flex size-7 items-center justify-center rounded-full border-2 border-surface font-mono text-[10px] font-medium ${
                       user.id === CURRENT_USER_ID
-                        ? "bg-ink text-white"
+                        ? "bg-ink text-ink-inverse"
                         : "bg-canvas text-ink-soft"
                     }`}
                   >
@@ -203,7 +203,7 @@ export function RoleRow({
                           key={action.id}
                           className={`inline-flex h-5.5 items-center rounded-md px-2 text-2xs font-bold ${
                             granted
-                              ? "bg-ink text-white"
+                              ? "bg-ink text-ink-inverse"
                               : "bg-canvas text-ink-muted line-through"
                           }`}
                         >

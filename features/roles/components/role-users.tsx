@@ -36,7 +36,7 @@ export function RoleUsers({ users }: { users: RoleUser[] }) {
                   aria-hidden="true"
                   className={`flex size-8 flex-none items-center justify-center rounded-full font-mono text-2xs ${
                     user.id === CURRENT_USER_ID
-                      ? "bg-ink text-white"
+                      ? "bg-ink text-ink-inverse"
                       : "bg-canvas text-ink-soft"
                   }`}
                 >

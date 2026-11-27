@@ -72,7 +72,7 @@ export function AppShell({
     <div className="crm-shell">
       <nav aria-label="Principal" className="crm-sidebar">
         <span className="flex items-center gap-2.5 px-2 text-brand font-bold tracking-[-0.01em]">
-          <span className="flex size-[30px] items-center justify-center rounded-lg bg-ink text-white">
+          <span className="flex size-[30px] items-center justify-center rounded-lg bg-ink text-ink-inverse">
             <LogoIcon />
           </span>
           CRM TI
@@ -108,7 +108,7 @@ export function AppShell({
         ))}
 
         <div className="mt-auto flex items-center gap-2.5 rounded-control border border-line bg-surface p-2.5">
-          <span className="flex size-[34px] flex-none items-center justify-center rounded-full bg-ink font-mono text-xs text-white">
+          <span className="flex size-[34px] flex-none items-center justify-center rounded-full bg-ink font-mono text-xs text-ink-inverse">
             MV
           </span>
           <span className="flex min-w-0 flex-col">

@@ -146,7 +146,7 @@ function ActivityItem({ entry }: { entry: ActivityEntry }) {
         className="flex w-7 flex-none flex-col items-center"
       >
         <span
-          className={`flex size-7 items-center justify-center rounded-full font-mono text-2xs font-medium ${entry.isOwn ? "bg-ink text-white" : "bg-canvas text-ink-soft"}`}
+          className={`flex size-7 items-center justify-center rounded-full font-mono text-2xs font-medium ${entry.isOwn ? "bg-ink text-ink-inverse" : "bg-canvas text-ink-soft"}`}
         >
           {entry.initials}
         </span>

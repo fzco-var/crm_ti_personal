@@ -329,7 +329,7 @@ function EditHeader({
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div className="flex min-w-0 flex-[1_1_420px] flex-col gap-2">
           <div className="flex flex-wrap items-center gap-2.5">
-            <span className="rounded-md bg-ink px-2 py-[3px] font-mono text-compact font-medium text-white">
+            <span className="rounded-md bg-ink px-2 py-[3px] font-mono text-compact font-medium text-ink-inverse">
               {ticket.code}
             </span>
             <TicketStatusBadge status={original.status} />

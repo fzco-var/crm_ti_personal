@@ -14,6 +14,8 @@
   --color-ink: #15181c;
   --color-ink-soft: #3f4650;
   --color-ink-muted: #5c636d;
+  /* Texto sobre fondos sólidos (`bg-ink`, acento, peligro) */
+  --color-ink-inverse: #ffffff;
   /* Texto secundario sobre fondo `ink` (`.crm-tile-dark`) */
   --color-ink-inverse-muted: #c9cdd2;
 
@@ -274,7 +276,7 @@
   .crm-tile-dark {
     border-color: var(--color-ink);
     background: var(--color-ink);
-    color: var(--color-white);
+    color: var(--color-ink-inverse);
   }
 
   /* Botones */
@@ -312,7 +314,7 @@
 
   .crm-btn-primary {
     background: var(--color-accent);
-    color: var(--color-white);
+    color: var(--color-ink-inverse);
   }
 
   .crm-btn-primary:hover:not(:disabled) {
@@ -341,7 +343,7 @@
 
   .crm-btn-danger-solid {
     background: var(--color-danger);
-    color: var(--color-white);
+    color: var(--color-ink-inverse);
   }
 
   .crm-btn-danger-solid:hover:not(:disabled) {
@@ -608,7 +610,7 @@
   .crm-pill:has(input:checked) {
     border-color: var(--color-ink);
     background: var(--color-ink);
-    color: var(--color-white);
+    color: var(--color-ink-inverse);
   }
 
   /* El radio nativo está oculto: la pill muestra su foco. */
