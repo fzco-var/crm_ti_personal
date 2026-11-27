@@ -1,11 +1,26 @@
 import { projects } from "@/data/projects";
 import { services } from "@/data/services";
 import { tickets } from "@/data/tickets";
-import { isOverdue } from "@/features/projects/utils";
+import {
+  ATTENTION_KIND_ORDER,
+  ATTENTION_LIMIT,
+  ATTENTION_SOON_DAYS,
+} from "@/features/dashboard/constants";
+import type { AttentionItem } from "@/features/dashboard/types/dashboard";
+import {
+  findProjectById,
+  getProjectCompany,
+  isOverdue,
+} from "@/features/projects/utils";
 import type { Project } from "@/features/projects/types/project";
 import type { Service } from "@/features/services/types/service";
-import { getServicesSummary } from "@/features/services/utils";
+import {
+  formatCLP,
+  getServiceCompany,
+  getServicesSummary,
+} from "@/features/services/utils";
 import type { Ticket } from "@/features/tickets/types/ticket";
+import { formatHoursAgo, getTicketsByProject } from "@/features/tickets/utils";
 
 /*
  * El dashboard solo lee: todo sale de `data/` con las utilidades de proyectos,
@@ -86,5 +101,153 @@ export function getDashboardKpis() {
     highPriorityCount: openTickets.filter(isHighPriority).length,
     activeProjectCount: activeProjects.length,
     overdueProjectCount: activeProjects.filter(isOverdue).length,
+  };
+}
+
+// Necesita tu atención
+
+/** "sin tickets abiertos", "1 ticket abierto" o "3 tickets abiertos". */
+function formatOpenTickets(count: number) {
+  if (count === 0) return "sin tickets abiertos";
+  return count === 1 ? "1 ticket abierto" : `${count} tickets abiertos`;
+}
+
+/** "1 hito pendiente" o "3 hitos pendientes". */
+function formatPendingMilestones(count: number) {
+  return count === 1 ? "1 hito pendiente" : `${count} hitos pendientes`;
+}
+
+/** "este mes", "hace 1 mes" o "hace 3 meses". */
+function formatChargeMonth(monthsAgo: number) {
+  if (monthsAgo === 0) return "este mes";
+  return monthsAgo === 1 ? "hace 1 mes" : `hace ${monthsAgo} meses`;
+}
+
+function getOverdueProjectItems(): AttentionItem[] {
+  return projects.filter(isOverdue).map((project) => ({
+    id: `project-${project.id}`,
+    kind: "critical",
+    title: `${project.code} · ${project.name}`,
+    detail: [
+      "Proyecto atrasado",
+      getProjectCompany(project),
+      formatOpenTickets(
+        getTicketsByProject(project.id).filter(isOpenTicket).length,
+      ),
+    ].join(" · "),
+    href: `/projects/${project.id}`,
+    whenText: formatRelativeDays(project.endInDays),
+    sortDays: project.endInDays,
+  }));
+}
+
+function getHighPriorityTicketItems(): AttentionItem[] {
+  return tickets
+    .filter((ticket) => isOpenTicket(ticket) && isHighPriority(ticket))
+    .map((ticket) => {
+      const openedHoursAgo = ticket.activity.at(-1)?.hoursAgo ?? 0;
+      return {
+        id: `ticket-${ticket.id}`,
+        kind: "critical",
+        title: `${ticket.code} · ${ticket.title}`,
+        detail: [
+          ticket.priority === "Urgente"
+            ? "Prioridad urgente"
+            : "Prioridad alta",
+          findProjectById(ticket.projectId)?.code,
+          `abierto ${formatHoursAgo(openedHoursAgo)}`,
+        ]
+          .filter(Boolean)
+          .join(" · "),
+        href: `/tickets/${ticket.id}`,
+        whenText:
+          ticket.dueInDays === null
+            ? "sin fecha"
+            : formatRelativeDays(ticket.dueInDays),
+        sortDays: ticket.dueInDays,
+      };
+    });
+}
+
+function getPendingChargeItems(): AttentionItem[] {
+  return getPendingCharges().map(({ service, charge }) => ({
+    id: `charge-${service.id}-${charge.monthsAgo}`,
+    kind: "money",
+    title: `Cobro pendiente de ${formatCLP(charge.amount)}`,
+    detail: `${service.name} · ${getServiceCompany(service)}`,
+    href: `/services/${service.id}`,
+    whenText: formatChargeMonth(charge.monthsAgo),
+    // Un cargo solo conoce su mes.
+    sortDays: 0 - 30 * charge.monthsAgo, // `0 -` evita el −0 del mes en curso.
+  }));
+}
+
+function getManualRenewalItems(): AttentionItem[] {
+  return services
+    .filter(
+      ({ status, autoRenew, renewInDays }) =>
+        status === "Activo" && !autoRenew && renewInDays <= ATTENTION_SOON_DAYS,
+    )
+    .map((service) => ({
+      id: `renewal-${service.id}`,
+      kind: "clock",
+      title: "Renovar servicio (manual)",
+      detail: `${formatCLP(service.charge)} / ${service.period} · ${getServiceCompany(service)}`,
+      href: `/services/${service.id}`,
+      whenText: formatRelativeDays(service.renewInDays),
+      sortDays: service.renewInDays,
+    }));
+}
+
+function getEndingProjectItems(): AttentionItem[] {
+  return projects
+    .filter(
+      ({ status, endInDays }) =>
+        status === "En curso" &&
+        endInDays >= 0 &&
+        endInDays <= ATTENTION_SOON_DAYS,
+    )
+    .map((project) => ({
+      id: `project-${project.id}`,
+      kind: "clock",
+      title: `${project.code} · ${project.name}`,
+      detail: [
+        "Termina pronto",
+        getProjectCompany(project),
+        formatPendingMilestones(
+          project.milestones.filter(({ done }) => !done).length,
+        ),
+      ].join(" · "),
+      href: `/projects/${project.id}`,
+      whenText: formatRelativeDays(project.endInDays),
+      sortDays: project.endInDays,
+    }));
+}
+
+/** `sortDays` ascendente con los `null` al final, luego el tipo; el orden de los datos lo da `sort`, que es estable. */
+function compareAttentionItems(a: AttentionItem, b: AttentionItem) {
+  if (a.sortDays !== b.sortDays) {
+    if (a.sortDays === null) return 1;
+    if (b.sortDays === null) return -1;
+    return a.sortDays - b.sortDays;
+  }
+  return (
+    ATTENTION_KIND_ORDER.indexOf(a.kind) - ATTENTION_KIND_ORDER.indexOf(b.kind)
+  );
+}
+
+/** Los 6 avisos más urgentes y cuántos quedan fuera. */
+export function getAttentionItems() {
+  const all = [
+    ...getOverdueProjectItems(),
+    ...getHighPriorityTicketItems(),
+    ...getPendingChargeItems(),
+    ...getManualRenewalItems(),
+    ...getEndingProjectItems(),
+  ].sort(compareAttentionItems);
+
+  return {
+    items: all.slice(0, ATTENTION_LIMIT),
+    moreCount: Math.max(0, all.length - ATTENTION_LIMIT),
   };
 }
