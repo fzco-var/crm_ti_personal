@@ -54,7 +54,12 @@ const NAV_GROUPS = [
         Icon: RolesIcon,
         href: "/roles",
       },
-      { id: "settings", label: "Ajustes", Icon: SettingsIcon },
+      {
+        id: "settings",
+        label: "Ajustes",
+        Icon: SettingsIcon,
+        href: "/settings",
+      },
     ],
   },
 ] as const;
